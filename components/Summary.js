@@ -44,7 +44,7 @@ export default function Summary({ balance, cash, income, target, automaticPaymen
         Bütçe Özeti
       </div>
 
-      <div className="summary-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }} className="summary-top-grid">
+      <div className="summary-top-grid">
         <div className="summary-item">
           <div className="summary-item-label">Banka + Nakit</div>
           <div className="summary-item-value income">{formatNumber(totalBalance)} ₺</div>
@@ -63,7 +63,7 @@ export default function Summary({ balance, cash, income, target, automaticPaymen
         </div>
       </div>
 
-      <div style={{ display: 'flex', gap: '16px', marginBottom: '24px' }} className="summary-middle-flex">
+      <div className="summary-middle-flex">
         <div style={{ flex: 1, padding: '16px', background: 'var(--bg-secondary)', borderRadius: '12px', minWidth: 0 }}>
           <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '4px' }}>Otomatik Ödemeler</div>
           <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--warning)' }}>{formatNumber(totalAutomatic)} ₺</div>

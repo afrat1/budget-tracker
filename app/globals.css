@@ -392,6 +392,19 @@ body {
   margin-bottom: 24px;
 }
 
+.summary-top-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 1200px) {
+  .summary-top-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 768px) {
   .summary-grid {
     grid-template-columns: 1fr;
@@ -433,6 +446,29 @@ body {
   .summary-target-grid {
     grid-template-columns: 1fr !important;
     gap: 12px !important;
+  }
+}
+
+.summary-middle-flex {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.summary-target-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .summary-middle-flex {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .summary-target-grid {
+    grid-template-columns: 1fr;
   }
 
   .summary-target-grid > div {
