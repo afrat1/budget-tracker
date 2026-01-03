@@ -396,6 +396,35 @@ body {
   .summary-grid {
     grid-template-columns: 1fr;
   }
+
+  .summary-top-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px;
+  }
+
+  .summary-middle-flex {
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+
+  .summary-target-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  .summary-item-value {
+    font-size: 1.25rem !important;
+  }
+
+  .summary-item-label {
+    font-size: 0.75rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .summary-top-grid {
+    grid-template-columns: 1fr !important;
+  }
 }
 
 .summary-item {
