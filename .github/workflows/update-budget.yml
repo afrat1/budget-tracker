@@ -44,6 +44,8 @@ jobs:
             git commit -m "Update budget data"
             git push
             echo "Changes committed successfully"
+            # Trigger deploy workflow
+            echo "Deploy will be triggered by push event"
           fi
 
       - name: Setup Node.js
@@ -77,22 +79,11 @@ jobs:
         with:
           path: './out'
 
-  deploy:
-    if: needs.update.result == 'success' && needs.update.outputs.has_changes == 'true'
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: update
-    permissions:
-      contents: write
-      pages: write
-      id-token: write
-    concurrency:
-      group: "pages"
-      cancel-in-progress: false
-    steps:
       - name: Deploy to GitHub Pages
-        id: deployment
+        if: steps.commit.outputs.has_changes == 'true'
+        environment:
+          name: github-pages
+          url: ${{ steps.deployment.outputs.page_url }}
         uses: actions/deploy-pages@v4
+        id: deployment
 
