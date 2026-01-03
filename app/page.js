@@ -20,8 +20,13 @@ export default function Home() {
   const [isSaving, setIsSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState(null); // 'saving', 'success', 'error'
   const [showTokenInput, setShowTokenInput] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const skipSaveRef = useRef(true); // Initial load skip
   const allDataRef = useRef({}); // Cache all data
+
+  const CORRECT_PASSWORD = 'afkaya48';
 
   const months = [
     'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
@@ -163,11 +168,48 @@ export default function Home() {
     }
   }, [loadAllData]);
 
+  // Check authentication on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const authStatus = localStorage.getItem('budget_authenticated');
+      if (authStatus === 'true') {
+        setIsAuthenticated(true);
+      }
+    }
+  }, []);
+
+  // Check authentication on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const authStatus = localStorage.getItem('budget_authenticated');
+      if (authStatus === 'true') {
+        setIsAuthenticated(true);
+      }
+    }
+  }, []);
+
   // Load data when month changes (including initial load)
   useEffect(() => {
-    console.log('useEffect triggered, currentMonth:', getMonthKey(currentMonth));
-    loadMonthData(currentMonth);
-  }, [currentMonth, loadMonthData]);
+    if (isAuthenticated) {
+      console.log('useEffect triggered, currentMonth:', getMonthKey(currentMonth));
+      loadMonthData(currentMonth);
+    }
+  }, [currentMonth, loadMonthData, isAuthenticated]);
+
+  // Handle password submission
+  const handlePasswordSubmit = (e) => {
+    e.preventDefault();
+    if (password === CORRECT_PASSWORD) {
+      setIsAuthenticated(true);
+      setPasswordError('');
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('budget_authenticated', 'true');
+      }
+    } else {
+      setPasswordError('Yanlış şifre!');
+      setPassword('');
+    }
+  };
 
   // Save data - update local cache and save to GitHub
   const saveData = useCallback(async (data) => {
@@ -452,6 +494,88 @@ export default function Home() {
       setCreditPayments([]);
     }
   };
+
+  // Show password screen if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <div style={{ 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        minHeight: '100vh',
+        background: 'var(--bg-primary)',
+        padding: '24px'
+      }}>
+        <div style={{
+          background: 'var(--bg-card)',
+          padding: '32px',
+          borderRadius: '16px',
+          border: '1px solid var(--border-color)',
+          maxWidth: '400px',
+          width: '100%',
+          boxShadow: '0 4px 24px rgba(0,0,0,0.1)'
+        }}>
+          <h1 style={{ 
+            marginTop: 0, 
+            marginBottom: '24px',
+            textAlign: 'center',
+            fontSize: '1.5rem',
+            fontWeight: 700
+          }}>
+            Bütçe Yönetimi
+          </h1>
+          <p style={{ 
+            color: 'var(--text-muted)', 
+            textAlign: 'center',
+            marginBottom: '24px',
+            fontSize: '0.875rem'
+          }}>
+            Devam etmek için şifre girin
+          </p>
+          <form onSubmit={handlePasswordSubmit}>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setPasswordError('');
+              }}
+              placeholder="Şifre"
+              style={{
+                width: '100%',
+                padding: '12px 16px',
+                borderRadius: '8px',
+                border: passwordError ? '2px solid var(--error)' : '1px solid var(--border-color)',
+                fontSize: '1rem',
+                marginBottom: passwordError ? '8px' : '16px',
+                background: 'var(--bg-secondary)',
+                color: 'var(--text-primary)',
+                boxSizing: 'border-box'
+              }}
+              autoFocus
+            />
+            {passwordError && (
+              <p style={{ 
+                color: 'var(--error)', 
+                fontSize: '0.875rem',
+                marginTop: 0,
+                marginBottom: '16px'
+              }}>
+                {passwordError}
+              </p>
+            )}
+            <button
+              type="submit"
+              className="btn btn-primary"
+              style={{ width: '100%' }}
+            >
+              Giriş Yap
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
 
   if (!isLoaded) {
     return (
