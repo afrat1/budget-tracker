@@ -27,8 +27,14 @@ jobs:
       - name: Update budget.json
         run: |
           DATA='${{ github.event.inputs.data || github.event.client_payload.data }}'
+          if [ -z "$DATA" ] || [ "$DATA" == "null" ] || [ "$DATA" == "" ]; then
+            echo "No data provided, skipping update"
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
           echo "$DATA" > public/budget.json
           echo "$DATA" > data/budget.json
+          echo "Budget files updated"
 
       - name: Commit changes
         id: commit
@@ -41,11 +47,9 @@ jobs:
             echo "No changes to commit"
           else
             echo "has_changes=true" >> $GITHUB_OUTPUT
-            git commit -m "Update budget data"
+            git commit -m "Update budget data [skip ci]"
             git push
             echo "Changes committed successfully"
-            # Trigger deploy workflow
-            echo "Deploy will be triggered by push event"
           fi
 
       - name: Setup Node.js
