@@ -22,8 +22,9 @@ jobs:
 
       - name: Update budget.json
         run: |
-          echo '${{ github.event.inputs.data || github.event.client_payload.data }}' > public/budget.json
-          echo '${{ github.event.inputs.data || github.event.client_payload.data }}' > data/budget.json
+          DATA='${{ github.event.inputs.data || github.event.client_payload.data }}'
+          echo "$DATA" > public/budget.json
+          echo "$DATA" > data/budget.json
 
       - name: Commit changes
         run: |

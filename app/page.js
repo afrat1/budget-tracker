@@ -60,44 +60,63 @@ export default function Home() {
     }
   }, []);
 
-  // Save data using GitHub API - direkt commit
+  // Save data - GitHub Actions ile otomatik commit
+  // CORS nedeniyle browser'dan direkt GitHub API çağrısı çalışmaz
+  // Bu yüzden GitHub Actions workflow'unu tetikliyoruz
   const saveDataToGitHub = useCallback(async (allData) => {
     try {
-      const repo = 'afrat1/budget-tracker';
-      const owner = 'afrat1';
-      const path = 'public/budget.json';
-      const branch = 'main';
-      
-      // GitHub token - environment variable'dan al
-      // Not: NEXT_PUBLIC_ prefix'i client-side'da görünür yapar (güvenlik riski)
-      // Production'da GitHub Secrets kullanılmalı veya serverless function
-      const token = typeof window !== 'undefined' 
-        ? (window.GITHUB_TOKEN || localStorage.getItem('github_token') || '')
-        : '';
-      
       if (typeof window !== 'undefined') {
         // localStorage'a kaydet (backup)
         localStorage.setItem('budget_data', JSON.stringify(allData));
         localStorage.setItem('budget_data_updated', new Date().toISOString());
         
-        // Token yoksa sadece localStorage'a kaydet
+        const token = localStorage.getItem('github_token');
+        
         if (!token) {
           console.log('GitHub token not found. Data saved to localStorage only.');
-          console.log('To enable auto-commit, set GITHUB_TOKEN in localStorage or environment variable.');
           return { success: true, savedToLocalStorage: true };
         }
         
         try {
-          // 1. Mevcut dosyanın SHA'sını al (update için gerekli)
-          const getFileResponse = await fetch(
-            `https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}`,
-            {
-              headers: {
-                'Authorization': `token ${token}`,
-                'Accept': 'application/vnd.github.v3+json',
+          // GitHub Actions workflow'unu tetikle (repository_dispatch)
+          const repo = 'afrat1/budget-tracker';
+          const response = await fetch(`https://api.github.com/repos/${repo}/dispatches`, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Accept': 'application/vnd.github.v3+json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              event_type: 'update-budget',
+              client_payload: {
+                data: JSON.stringify(allData, null, 2),
               },
-            }
-          );
+            }),
+          });
+          
+          if (response.ok) {
+            console.log('✅ GitHub Actions workflow tetiklendi! Commit yakında yapılacak.');
+            return { success: true, workflowTriggered: true };
+          } else {
+            const error = await response.json();
+            console.error('GitHub API error:', error);
+            // Hata olsa bile localStorage'a kaydedildi
+            return { success: true, savedToLocalStorage: true, error: error.message };
+          }
+        } catch (apiErr) {
+          console.error('GitHub API call failed:', apiErr);
+          // Hata olsa bile localStorage'a kaydedildi
+          return { success: true, savedToLocalStorage: true, error: apiErr.message };
+        }
+      }
+      
+      return { success: true };
+    } catch (err) {
+      console.error('Error saving data:', err);
+      throw err;
+    }
+  }, []);
           
           let sha = null;
           if (getFileResponse.ok) {
@@ -694,8 +713,25 @@ export default function Home() {
             boxShadow: '0 4px 24px rgba(0,0,0,0.2)'
           }}>
             <h3 style={{ marginTop: 0, marginBottom: '16px' }}>GitHub Token Ayarla</h3>
+            <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '12px' }}>
+              Otomatik commit için GitHub Personal Access Token gerekli.
+            </p>
             <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '16px' }}>
-              Otomatik commit için GitHub Personal Access Token gerekli. Token&apos;ı buraya girin:
+              <a 
+                href="https://github.com/settings/tokens/new" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                style={{ color: 'var(--primary)', textDecoration: 'underline' }}
+              >
+                🔗 Token oluştur (GitHub&apos;a gider)
+              </a>
+              <br />
+              <span style={{ fontSize: '0.75rem', display: 'block', marginTop: '8px' }}>
+                Note: &quot;Budget Tracker&quot; | Expiration: İstediğiniz süre | Scopes: <strong>repo</strong> (tümünü seçin)
+              </span>
+            </p>
+            <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '16px' }}>
+              Token&apos;ı buraya yapıştırın:
             </p>
             <input
               type="password"
