@@ -16,6 +16,8 @@ jobs:
       contents: write
       pages: write
       id-token: write
+    outputs:
+      has_changes: ${{ steps.commit.outputs.has_changes }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -71,7 +73,7 @@ jobs:
           path: './out'
 
   deploy:
-    if: needs.update.result == 'success'
+    if: needs.update.result == 'success' && needs.update.outputs.has_changes == 'true'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
