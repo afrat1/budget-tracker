@@ -112,28 +112,22 @@ export default function Home() {
     setIsSaving(false);
   }, [currentMonth]);
 
-  // Auto-save when data changes (disabled - manual save only)
-  // useEffect(() => {
-  //   if (isLoaded) {
-  //     // If we just loaded data, skip this save cycle
-  //     if (skipSaveRef[0]) {
-  //       skipSaveRef[1](false);
-  //       return;
-  //     }
-
-  //     const timeoutId = setTimeout(() => {
-  //       saveData({
-  //         balance,
-  //         cash,
-  //         income,
-  //         target,
-  //         automaticPayments,
-  //         creditPayments,
-  //       });
-  //     }, 500);
-  //     return () => clearTimeout(timeoutId);
-  //   }
-  // }, [balance, cash, income, target, automaticPayments, creditPayments, isLoaded, saveData]);
+  // Auto-save when data changes
+  useEffect(() => {
+    if (isLoaded && !skipSaveRef.current) {
+      const timeoutId = setTimeout(() => {
+        saveData({
+          balance,
+          cash,
+          income,
+          target,
+          automaticPayments,
+          creditPayments,
+        });
+      }, 1000); // 1 second debounce
+      return () => clearTimeout(timeoutId);
+    }
+  }, [balance, cash, income, target, automaticPayments, creditPayments, isLoaded, saveData]);
 
   const handleAddAutomatic = (payment) => {
     setAutomaticPayments([...automaticPayments, payment]);
