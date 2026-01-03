@@ -45,7 +45,6 @@ jobs:
             git push
             echo "Changes committed successfully"
           fi
-          echo "has_changes output: $(cat $GITHUB_OUTPUT | grep has_changes || echo 'not found')"
 
       - name: Setup Node.js
         if: steps.commit.outputs.has_changes == 'true'
@@ -93,11 +92,6 @@ jobs:
       group: "pages"
       cancel-in-progress: false
     steps:
-      - name: Debug outputs
-        run: |
-          echo "Update job result: ${{ needs.update.result }}"
-          echo "Has changes: ${{ needs.update.outputs.has_changes }}"
-      
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
