@@ -47,7 +47,7 @@ jobs:
             echo "No changes to commit"
           else
             echo "has_changes=true" >> $GITHUB_OUTPUT
-            git commit -m "Update budget data [skip ci]"
+            git commit -m "Update budget data"
             git push
             echo "Changes committed successfully"
           fi
