@@ -67,6 +67,12 @@ body {
   padding: 40px 20px;
 }
 
+@media (max-width: 768px) {
+  .container {
+    padding: 20px 16px;
+  }
+}
+
 /* Header */
 .header {
   text-align: center;
@@ -86,6 +92,20 @@ body {
 .header p {
   color: var(--text-secondary);
   font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .header {
+    margin-bottom: 32px;
+  }
+
+  .header h1 {
+    font-size: 1.75rem;
+  }
+
+  .header p {
+    font-size: 0.95rem;
+  }
 }
 
 /* Cards */
@@ -133,7 +153,6 @@ body {
 }
 
 @media (max-width: 768px) {
-
   .grid-2,
   .grid-3 {
     grid-template-columns: 1fr;
@@ -141,6 +160,19 @@ body {
 
   .container>div[style*="grid-template-columns: repeat(3"] {
     grid-template-columns: 1fr !important;
+  }
+
+  .container>div[style*="grid-template-columns: repeat(2"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  .card {
+    padding: 16px;
+  }
+
+  .card-title {
+    font-size: 0.875rem;
+    margin-bottom: 12px;
   }
 }
 
@@ -321,6 +353,32 @@ body {
   gap: 8px;
 }
 
+@media (max-width: 768px) {
+  .payment-item {
+    padding: 12px;
+    flex-wrap: wrap;
+  }
+
+  .payment-item-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .payment-item-name {
+    font-size: 0.9rem;
+  }
+
+  .payment-item-amount {
+    font-size: 1rem;
+  }
+
+  .payment-item-actions {
+    width: 100%;
+    margin-top: 8px;
+    justify-content: flex-end;
+  }
+}
+
 /* Summary Card */
 .summary-card {
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
@@ -392,6 +450,16 @@ body {
 .remaining-balance-value {
   font-size: 3rem;
   font-weight: 800;
+}
+
+@media (max-width: 768px) {
+  .remaining-balance-value {
+    font-size: 2rem;
+  }
+
+  .summary-item-value {
+    font-size: 1.5rem;
+  }
 }
 
 .remaining-balance-value.positive {
@@ -502,6 +570,54 @@ body {
   }
 }
 
+.input-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .input-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+
+  .btn-sm {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+
+  .modal {
+    padding: 24px;
+    margin: 16px;
+  }
+
+  .modal-title {
+    font-size: 1.1rem;
+  }
+
+  .action-buttons {
+    gap: 12px !important;
+    margin-top: 24px !important;
+  }
+
+  .action-buttons button {
+    flex: 1;
+    min-width: 120px;
+  }
+
+  .radio-group {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
 /* Radio Group */
 .radio-group {
   display: flex;
@@ -570,4 +686,20 @@ body {
   font-weight: 700;
   min-width: 180px;
   text-align: center;
+}
+
+@media (max-width: 768px) {
+  .month-selector {
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .month-btn {
+    padding: 8px 10px;
+  }
+
+  .current-month {
+    font-size: 1rem;
+    min-width: 140px;
+  }
 }

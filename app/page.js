@@ -665,7 +665,7 @@ export default function Home() {
         gridTemplateColumns: 'repeat(2, 1fr)', 
         gap: '24px',
         marginBottom: '32px'
-      }}>
+      }} className="input-grid">
         <BalanceInput value={balance} onChange={setBalance} />
         <CashInput value={cash} onChange={setCash} />
         <IncomeInput value={income} onChange={setIncome} />
