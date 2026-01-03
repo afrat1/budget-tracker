@@ -1,0 +1,35 @@
+name: Update Budget Data
+
+on:
+  repository_dispatch:
+    types: [update-budget]
+  workflow_dispatch:
+    inputs:
+      data:
+        description: 'Budget data JSON'
+        required: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update budget.json
+        run: |
+          echo '${{ github.event.inputs.data || github.event.client_payload.data }}' > public/budget.json
+          echo '${{ github.event.inputs.data || github.event.client_payload.data }}' > data/budget.json
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add public/budget.json data/budget.json
+          git diff --staged --quiet || git commit -m "Update budget data [skip ci]"
+          git push
+

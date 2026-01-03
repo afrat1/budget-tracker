@@ -1,0 +1,178 @@
+{
+  "2026-01": {
+    "balance": 43265.02,
+    "cash": 13000,
+    "income": 77159.9,
+    "target": 0,
+    "automaticPayments": [
+      {
+        "id": 1767451302351,
+        "name": "Ev Kirası",
+        "amount": 14000,
+        "type": "automatic"
+      },
+      {
+        "id": 1767452655074,
+        "name": "Peder Beyaz Eşya II",
+        "amount": 4433,
+        "type": "automatic"
+      }
+    ],
+    "creditPayments": [
+      {
+        "id": 1767455687763,
+        "name": "Katılımevim Komisyon Ödemesi",
+        "amount": 84000,
+        "type": "credit"
+      },
+      {
+        "id": 1767452265100,
+        "name": "(03.01) Albaraka Kredi Kartı Borç",
+        "amount": 7403.44,
+        "type": "credit"
+      },
+      {
+        "id": 1767452525121,
+        "name": "(03.01) Ziraat Kredi Kartı Borç",
+        "amount": 3114.34,
+        "type": "credit"
+      }
+    ]
+  },
+  "2026-02": {
+    "balance": 20474.14,
+    "cash": 0,
+    "income": 100000,
+    "target": 0,
+    "automaticPayments": [
+      {
+        "id": 1767453023402.2559,
+        "name": "Ev Kirası",
+        "amount": 14000,
+        "type": "automatic"
+      },
+      {
+        "id": 1767453023476.9548,
+        "name": "Peder Beyaz Eşya III",
+        "amount": 4433,
+        "type": "automatic"
+      }
+    ],
+    "creditPayments": [
+      {
+        "id": 1767451971923,
+        "name": "Katılımevim Tahmini Taksit 1/17",
+        "amount": 70588.24,
+        "type": "credit"
+      },
+      {
+        "id": 1767451777229,
+        "name": "Garanti İhtiyaç Kredisi",
+        "amount": 16666.67,
+        "type": "credit"
+      },
+      {
+        "id": 1767455931994,
+        "name": "Ortalama Faturalar (Silinecek)",
+        "amount": 2000,
+        "type": "credit"
+      }
+    ]
+  },
+  "2026-03": {
+    "balance": 0,
+    "cash": 0,
+    "income": 0,
+    "target": 0,
+    "automaticPayments": [
+      {
+        "id": 1767458872505.674,
+        "name": "Ev Kirası",
+        "amount": 14000,
+        "type": "automatic"
+      },
+      {
+        "id": 1767458872599.8142,
+        "name": "Peder Beyaz Eşya III",
+        "amount": 4433,
+        "type": "automatic"
+      }
+    ],
+    "creditPayments": [
+      {
+        "id": 1767458859277.596,
+        "name": "Katılımevim Tahmini Taksit 1/17",
+        "amount": 70588.24,
+        "type": "credit"
+      },
+      {
+        "id": 1767458859577.492,
+        "name": "Garanti İhtiyaç Kredisi",
+        "amount": 16666.67,
+        "type": "credit"
+      },
+      {
+        "id": 1767458859623.8074,
+        "name": "Ortalama Faturalar (Silinecek)",
+        "amount": 2000,
+        "type": "credit"
+      }
+    ]
+  },
+  "2026-04": {
+    "balance": 0,
+    "cash": 0,
+    "income": 0,
+    "target": 0,
+    "automaticPayments": [],
+    "creditPayments": []
+  },
+  "2026-05": {
+    "balance": 0,
+    "cash": 0,
+    "income": 0,
+    "target": 0,
+    "automaticPayments": [],
+    "creditPayments": []
+  },
+  "2026-06": {
+    "balance": 0,
+    "cash": 0,
+    "income": 0,
+    "target": 0,
+    "automaticPayments": [],
+    "creditPayments": []
+  },
+  "2026-07": {
+    "balance": 0,
+    "cash": 0,
+    "income": 0,
+    "target": 0,
+    "automaticPayments": [],
+    "creditPayments": []
+  },
+  "2026-10": {
+    "balance": 0,
+    "cash": 0,
+    "income": 0,
+    "target": 0,
+    "automaticPayments": [],
+    "creditPayments": []
+  },
+  "2026-08": {
+    "balance": 0,
+    "cash": 0,
+    "income": 0,
+    "target": 0,
+    "automaticPayments": [],
+    "creditPayments": []
+  },
+  "2027-02": {
+    "balance": 0,
+    "cash": 0,
+    "income": 0,
+    "target": 0,
+    "automaticPayments": [],
+    "creditPayments": []
+  }
+}

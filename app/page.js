@@ -19,6 +19,7 @@ export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const skipSaveRef = useRef(true); // Initial load skip
+  const allDataRef = useRef({}); // Cache all data
 
   const months = [
     'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
@@ -31,55 +32,117 @@ export default function Home() {
     return `${year}-${month}`;
   };
 
-  // Load data for current month with retry mechanism
-  const loadMonthData = useCallback(async (date, retryCount = 0) => {
-    setIsLoaded(false);
-    const monthKey = getMonthKey(date);
-    console.log('Loading month data for:', monthKey, retryCount > 0 ? `(retry ${retryCount})` : '');
-    
+  // Get base path for GitHub Pages
+  const getBasePath = () => {
+    if (typeof window === 'undefined') return '';
+    // Check if we're on GitHub Pages (has /budget-tracker in path)
+    return window.location.pathname.startsWith('/budget-tracker') ? '/budget-tracker' : '';
+  };
+
+  // Load all budget data from public/budget.json
+  const loadAllData = useCallback(async () => {
     try {
-      const res = await fetch(`/api/budget?month=${monthKey}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        cache: 'no-store', // Prevent caching issues
+      const basePath = getBasePath();
+      const res = await fetch(`${basePath}/budget.json?t=${Date.now()}`, {
+        cache: 'no-store',
       });
-      
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
       }
-      
       const data = await res.json();
-      setBalance(data.balance || 0);
-      setCash(data.cash || 0);
-      setIncome(data.income || 0);
-      setTarget(data.target || 0);
-      setAutomaticPayments(data.automaticPayments || []);
-      setCreditPayments(data.creditPayments || []);
+      allDataRef.current = data;
+      return data;
+    } catch (err) {
+      console.error('Error loading all data:', err);
+      return {};
+    }
+  }, []);
+
+  // Save data using GitHub API via repository_dispatch
+  const saveDataToGitHub = useCallback(async (allData) => {
+    try {
+      // GitHub repository dispatch ile workflow tetikleme
+      // Bu GitHub Actions workflow'unu tetikleyecek ve dosyayı güncelleyecek
+      const repo = 'afrat1/budget-tracker'; // GitHub repo adı
+      const token = process.env.NEXT_PUBLIC_GITHUB_TOKEN; // GitHub token (opsiyonel, güvenlik için)
       
-      // Let React process the state updates before we allow saving
+      // Eğer token yoksa, sadece localStorage'a kaydet
+      // Kullanıcı manuel olarak GitHub'a push edebilir
+      if (typeof window !== 'undefined') {
+        // localStorage'a kaydet (geçici)
+        localStorage.setItem('budget_data', JSON.stringify(allData));
+        localStorage.setItem('budget_data_updated', new Date().toISOString());
+        
+        // GitHub API ile repository_dispatch göndermeyi dene
+        // Not: Bu için GitHub Personal Access Token gerekli
+        // Güvenlik nedeniyle bu kısım opsiyonel
+        if (token) {
+          try {
+            await fetch(`https://api.github.com/repos/${repo}/dispatches`, {
+              method: 'POST',
+              headers: {
+                'Authorization': `token ${token}`,
+                'Accept': 'application/vnd.github.v3+json',
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                event_type: 'update-budget',
+                client_payload: {
+                  data: JSON.stringify(allData, null, 2),
+                },
+              }),
+            });
+          } catch (apiErr) {
+            console.warn('GitHub API call failed, data saved to localStorage:', apiErr);
+          }
+        } else {
+          console.log('GitHub token not set. Data saved to localStorage.');
+          console.log('To enable auto-save, set NEXT_PUBLIC_GITHUB_TOKEN environment variable.');
+        }
+      }
+      
+      return { success: true };
+    } catch (err) {
+      console.error('Error saving to GitHub:', err);
+      throw err;
+    }
+  }, []);
+
+  // Load data for current month from public/budget.json
+  const loadMonthData = useCallback(async (date) => {
+    setIsLoaded(false);
+    const monthKey = getMonthKey(date);
+    console.log('Loading month data for:', monthKey);
+    
+    try {
+      // Load all data if not cached
+      if (Object.keys(allDataRef.current).length === 0) {
+        await loadAllData();
+      }
+      
+      const allData = allDataRef.current;
+      const monthData = allData[monthKey] || {
+        balance: 0,
+        cash: 0,
+        income: 0,
+        target: 0,
+        automaticPayments: [],
+        creditPayments: [],
+      };
+      
+      setBalance(monthData.balance || 0);
+      setCash(monthData.cash || 0);
+      setIncome(monthData.income || 0);
+      setTarget(monthData.target || 0);
+      setAutomaticPayments(monthData.automaticPayments || []);
+      setCreditPayments(monthData.creditPayments || []);
+      
       setTimeout(() => {
         setIsLoaded(true);
         skipSaveRef.current = true;
       }, 0);
     } catch (err) {
       console.error('Error loading data:', err);
-      
-      // Retry mechanism for "Failed to fetch" errors (API route might not be ready yet)
-      if ((err.message === 'Failed to fetch' || err.name === 'TypeError') && retryCount < 3) {
-        console.warn(`API endpoint not available, retrying in ${(retryCount + 1) * 500}ms...`);
-        setTimeout(() => {
-          loadMonthData(date, retryCount + 1);
-        }, (retryCount + 1) * 500);
-        return;
-      }
-      
-      // If all retries failed, use empty data
-      if (err.message === 'Failed to fetch' || err.name === 'TypeError') {
-        console.warn('API endpoint not available after retries, using empty data. Make sure Next.js dev server is running.');
-      }
-      
       setBalance(0);
       setCash(0);
       setIncome(0);
@@ -88,7 +151,7 @@ export default function Home() {
       setCreditPayments([]);
       setIsLoaded(true);
     }
-  }, []);
+  }, [loadAllData]);
 
   // Load data when month changes (including initial load)
   useEffect(() => {
@@ -96,21 +159,26 @@ export default function Home() {
     loadMonthData(currentMonth);
   }, [currentMonth, loadMonthData]);
 
-  // Save data to API
+  // Save data - update local cache and save to GitHub
   const saveData = useCallback(async (data) => {
     setIsSaving(true);
     const monthKey = getMonthKey(currentMonth);
     try {
-      await fetch('/api/budget', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ month: monthKey, data }),
-      });
+      // Reload all data to get latest
+      const allData = await loadAllData();
+      
+      // Update the month data
+      allData[monthKey] = data;
+      allDataRef.current = allData;
+      
+      // Save to GitHub (will use GitHub Actions or API)
+      await saveDataToGitHub(allData);
+      
     } catch (err) {
       console.error('Error saving data:', err);
     }
     setIsSaving(false);
-  }, [currentMonth]);
+  }, [currentMonth, loadAllData, saveDataToGitHub]);
 
   // Auto-save when data changes
   useEffect(() => {
@@ -195,9 +263,16 @@ export default function Home() {
 
     if (window.confirm(`Otomatik ödemeleri ${monthNames[nextMonthDate.getMonth()]} ayına kopyalamak istiyor musunuz?`)) {
       try {
-        // Get next month data first
-        const res = await fetch(`/api/budget?month=${nextMonthKey}`);
-        const nextMonthData = await res.json();
+        // Get all data
+        const allData = await loadAllData();
+        const nextMonthData = allData[nextMonthKey] || {
+          balance: 0,
+          cash: 0,
+          income: 0,
+          target: 0,
+          automaticPayments: [],
+          creditPayments: [],
+        };
         
         // Add current automatic payments with new IDs
         const copiedPayments = automaticPayments.map(p => ({
@@ -211,11 +286,10 @@ export default function Home() {
           automaticPayments: [...(nextMonthData.automaticPayments || []), ...copiedPayments],
         };
         
-        await fetch('/api/budget', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ month: nextMonthKey, data: updatedData }),
-        });
+        // Update all data
+        allData[nextMonthKey] = updatedData;
+        allDataRef.current = allData;
+        await saveDataToGitHub(allData);
         
         alert(`${automaticPayments.length} otomatik ödeme ${monthNames[nextMonthDate.getMonth()]} ayına kopyalandı!`);
       } catch (err) {
@@ -231,8 +305,16 @@ export default function Home() {
 
     if (window.confirm(`Kredi taksitlerini ${monthNames[nextMonthDate.getMonth()]} ayına kopyalamak istiyor musunuz?`)) {
       try {
-        const res = await fetch(`/api/budget?month=${nextMonthKey}`);
-        const nextMonthData = await res.json();
+        // Get all data
+        const allData = await loadAllData();
+        const nextMonthData = allData[nextMonthKey] || {
+          balance: 0,
+          cash: 0,
+          income: 0,
+          target: 0,
+          automaticPayments: [],
+          creditPayments: [],
+        };
         
         const copiedPayments = creditPayments.map(p => ({
           ...p,
@@ -244,11 +326,10 @@ export default function Home() {
           creditPayments: [...(nextMonthData.creditPayments || []), ...copiedPayments],
         };
         
-        await fetch('/api/budget', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ month: nextMonthKey, data: updatedData }),
-        });
+        // Update all data
+        allData[nextMonthKey] = updatedData;
+        allDataRef.current = allData;
+        await saveDataToGitHub(allData);
         
         alert(`${creditPayments.length} kredi taksiti ${monthNames[nextMonthDate.getMonth()]} ayına kopyalandı!`);
       } catch (err) {
@@ -265,19 +346,26 @@ export default function Home() {
 
     if (window.confirm(`${currentMonthName}'dan kalan ${amount.toFixed(2).replace('.', ',')} ₺'yi ${nextMonthName} ayının banka bakiyesine aktarmak istiyor musunuz?`)) {
       try {
-        const res = await fetch(`/api/budget?month=${nextMonthKey}`);
-        const nextMonthData = await res.json();
+        // Get all data
+        const allData = await loadAllData();
+        const nextMonthData = allData[nextMonthKey] || {
+          balance: 0,
+          cash: 0,
+          income: 0,
+          target: 0,
+          automaticPayments: [],
+          creditPayments: [],
+        };
         
         const updatedData = {
           ...nextMonthData,
           balance: amount,
         };
         
-        await fetch('/api/budget', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ month: nextMonthKey, data: updatedData }),
-        });
+        // Update all data
+        allData[nextMonthKey] = updatedData;
+        allDataRef.current = allData;
+        await saveDataToGitHub(allData);
         
         alert(`${amount.toFixed(2).replace('.', ',')} ₺ ${nextMonthName} ayına aktarıldı!`);
       } catch (err) {
@@ -293,19 +381,50 @@ export default function Home() {
 
     if (window.confirm(`${months[prevMonth.getMonth()]} ayındaki ödemeleri ${months[currentMonth.getMonth()]} ayına kopyalamak istiyor musunuz?`)) {
       try {
-        const res = await fetch('/api/budget', {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ fromMonth: fromKey, toMonth: toKey }),
-        });
-        const result = await res.json();
-        if (result.data) {
-          setBalance(result.data.balance || 0);
-          setCash(result.data.cash || 0);
-          setIncome(result.data.income || 0);
-          setTarget(result.data.target || 0);
-          setAutomaticPayments(result.data.automaticPayments || []);
-          setCreditPayments(result.data.creditPayments || []);
+        // Get all data
+        const allData = await loadAllData();
+        const sourceData = allData[fromKey];
+        
+        if (sourceData) {
+          // Copy data but generate new IDs for payments
+          const copiedData = {
+            balance: 0, // Start fresh with balance
+            cash: 0, // Start fresh with cash
+            income: sourceData.income, // Keep same income
+            target: sourceData.target || 0, // Keep same target
+            automaticPayments: sourceData.automaticPayments.map(p => ({
+              ...p,
+              id: Date.now() + Math.random() * 1000,
+            })),
+            creditPayments: sourceData.creditPayments.map(p => ({
+              ...p,
+              id: Date.now() + Math.random() * 1000,
+            })),
+          };
+          
+          allData[toKey] = copiedData;
+          allDataRef.current = allData;
+          await saveDataToGitHub(allData);
+          
+          // Update UI
+          setBalance(copiedData.balance || 0);
+          setCash(copiedData.cash || 0);
+          setIncome(copiedData.income || 0);
+          setTarget(copiedData.target || 0);
+          setAutomaticPayments(copiedData.automaticPayments || []);
+          setCreditPayments(copiedData.creditPayments || []);
+        } else {
+          // Empty month
+          allData[toKey] = {
+            balance: 0,
+            cash: 0,
+            income: 0,
+            target: 0,
+            automaticPayments: [],
+            creditPayments: [],
+          };
+          allDataRef.current = allData;
+          await saveDataToGitHub(allData);
         }
       } catch (err) {
         console.error('Error copying data:', err);
