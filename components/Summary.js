@@ -64,15 +64,15 @@ export default function Summary({ balance, cash, income, target, automaticPaymen
       </div>
 
       <div style={{ display: 'flex', gap: '16px', marginBottom: '24px' }} className="summary-middle-flex">
-        <div style={{ flex: 1, padding: '16px', background: 'var(--bg-secondary)', borderRadius: '12px' }}>
+        <div style={{ flex: 1, padding: '16px', background: 'var(--bg-secondary)', borderRadius: '12px', minWidth: 0 }}>
           <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '4px' }}>Otomatik Ödemeler</div>
           <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--warning)' }}>{formatNumber(totalAutomatic)} ₺</div>
         </div>
-        <div style={{ flex: 1, padding: '16px', background: 'var(--bg-secondary)', borderRadius: '12px' }}>
+        <div style={{ flex: 1, padding: '16px', background: 'var(--bg-secondary)', borderRadius: '12px', minWidth: 0 }}>
           <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '4px' }}>Kredi Taksitleri</div>
           <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--danger)' }}>{formatNumber(totalCredit)} ₺</div>
         </div>
-        <div style={{ flex: 1, padding: '16px', background: 'rgba(34, 197, 94, 0.1)', borderRadius: '12px', border: '1px solid rgba(34, 197, 94, 0.2)' }}>
+        <div style={{ flex: 1, padding: '16px', background: 'rgba(34, 197, 94, 0.1)', borderRadius: '12px', border: '1px solid rgba(34, 197, 94, 0.2)', minWidth: 0 }}>
           <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '4px' }}>Toplam Kullanılabilir</div>
           <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--success)' }}>{formatNumber(totalAvailable)} ₺</div>
         </div>
