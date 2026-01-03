@@ -18,6 +18,8 @@ export default function Home() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [isLoaded, setIsLoaded] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [saveStatus, setSaveStatus] = useState(null); // 'saving', 'success', 'error'
+  const [showTokenInput, setShowTokenInput] = useState(false);
   const skipSaveRef = useRef(true); // Initial load skip
   const allDataRef = useRef({}); // Cache all data
 
@@ -58,46 +60,123 @@ export default function Home() {
     }
   }, []);
 
-  // Save data using GitHub API via repository_dispatch
+  // Save data using GitHub API - direkt commit
   const saveDataToGitHub = useCallback(async (allData) => {
     try {
-      // GitHub repository dispatch ile workflow tetikleme
-      // Bu GitHub Actions workflow'unu tetikleyecek ve dosyayı güncelleyecek
-      const repo = 'afrat1/budget-tracker'; // GitHub repo adı
-      const token = process.env.NEXT_PUBLIC_GITHUB_TOKEN; // GitHub token (opsiyonel, güvenlik için)
+      const repo = 'afrat1/budget-tracker';
+      const owner = 'afrat1';
+      const path = 'public/budget.json';
+      const branch = 'main';
       
-      // Eğer token yoksa, sadece localStorage'a kaydet
-      // Kullanıcı manuel olarak GitHub'a push edebilir
+      // GitHub token - environment variable'dan al
+      // Not: NEXT_PUBLIC_ prefix'i client-side'da görünür yapar (güvenlik riski)
+      // Production'da GitHub Secrets kullanılmalı veya serverless function
+      const token = typeof window !== 'undefined' 
+        ? (window.GITHUB_TOKEN || localStorage.getItem('github_token') || '')
+        : '';
+      
       if (typeof window !== 'undefined') {
-        // localStorage'a kaydet (geçici)
+        // localStorage'a kaydet (backup)
         localStorage.setItem('budget_data', JSON.stringify(allData));
         localStorage.setItem('budget_data_updated', new Date().toISOString());
         
-        // GitHub API ile repository_dispatch göndermeyi dene
-        // Not: Bu için GitHub Personal Access Token gerekli
-        // Güvenlik nedeniyle bu kısım opsiyonel
-        if (token) {
-          try {
-            await fetch(`https://api.github.com/repos/${repo}/dispatches`, {
-              method: 'POST',
+        // Token yoksa sadece localStorage'a kaydet
+        if (!token) {
+          console.log('GitHub token not found. Data saved to localStorage only.');
+          console.log('To enable auto-commit, set GITHUB_TOKEN in localStorage or environment variable.');
+          return { success: true, savedToLocalStorage: true };
+        }
+        
+        try {
+          // 1. Mevcut dosyanın SHA'sını al (update için gerekli)
+          const getFileResponse = await fetch(
+            `https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}`,
+            {
+              headers: {
+                'Authorization': `token ${token}`,
+                'Accept': 'application/vnd.github.v3+json',
+              },
+            }
+          );
+          
+          let sha = null;
+          if (getFileResponse.ok) {
+            const fileData = await getFileResponse.json();
+            sha = fileData.sha;
+          }
+          
+          // 2. Dosyayı güncelle (veya oluştur)
+          const content = JSON.stringify(allData, null, 2);
+          const encodedContent = btoa(unescape(encodeURIComponent(content)));
+          
+          const updateResponse = await fetch(
+            `https://api.github.com/repos/${owner}/${repo}/contents/${path}`,
+            {
+              method: 'PUT',
               headers: {
                 'Authorization': `token ${token}`,
                 'Accept': 'application/vnd.github.v3+json',
                 'Content-Type': 'application/json',
               },
               body: JSON.stringify({
-                event_type: 'update-budget',
-                client_payload: {
-                  data: JSON.stringify(allData, null, 2),
-                },
+                message: `Update budget data - ${new Date().toISOString()}`,
+                content: encodedContent,
+                branch: branch,
+                sha: sha, // Update için gerekli, yeni dosya için null
               }),
-            });
-          } catch (apiErr) {
-            console.warn('GitHub API call failed, data saved to localStorage:', apiErr);
+            }
+          );
+          
+          if (updateResponse.ok) {
+            const result = await updateResponse.json();
+            console.log('✅ Budget data committed to GitHub successfully!');
+            
+            // data/budget.json'u da güncelle (sync için)
+            const dataPath = 'data/budget.json';
+            const dataGetResponse = await fetch(
+              `https://api.github.com/repos/${owner}/${repo}/contents/${dataPath}?ref=${branch}`,
+              {
+                headers: {
+                  'Authorization': `token ${token}`,
+                  'Accept': 'application/vnd.github.v3+json',
+                },
+              }
+            );
+            
+            let dataSha = null;
+            if (dataGetResponse.ok) {
+              const dataFileData = await dataGetResponse.json();
+              dataSha = dataFileData.sha;
+            }
+            
+            await fetch(
+              `https://api.github.com/repos/${owner}/${repo}/contents/${dataPath}`,
+              {
+                method: 'PUT',
+                headers: {
+                  'Authorization': `token ${token}`,
+                  'Accept': 'application/vnd.github.v3+json',
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  message: `Update budget data - ${new Date().toISOString()}`,
+                  content: encodedContent,
+                  branch: branch,
+                  sha: dataSha,
+                }),
+              }
+            );
+            
+            return { success: true, committed: true };
+          } else {
+            const error = await updateResponse.json();
+            console.error('GitHub API error:', error);
+            throw new Error(error.message || 'Failed to commit to GitHub');
           }
-        } else {
-          console.log('GitHub token not set. Data saved to localStorage.');
-          console.log('To enable auto-save, set NEXT_PUBLIC_GITHUB_TOKEN environment variable.');
+        } catch (apiErr) {
+          console.error('GitHub API call failed:', apiErr);
+          // Hata olsa bile localStorage'a kaydedildi
+          return { success: true, savedToLocalStorage: true, error: apiErr.message };
         }
       }
       
@@ -585,6 +664,92 @@ export default function Home() {
             Kaydediliyor...
           </span>
         )}
+        {saveStatus === 'success' && (
+          <span style={{ color: 'var(--success)', fontSize: '0.875rem', fontWeight: 600 }}>
+            ✅ GitHub&apos;a commit edildi!
+          </span>
+        )}
+        {saveStatus === 'localStorage' && (
+          <span style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>
+            💾 localStorage&apos;a kaydedildi (GitHub token gerekli)
+          </span>
+        )}
+        {saveStatus === 'error' && (
+          <span style={{ color: 'var(--error)', fontSize: '0.875rem' }}>
+            ❌ Hata oluştu, localStorage&apos;a kaydedildi
+          </span>
+        )}
+        {showTokenInput && (
+          <div style={{
+            position: 'fixed',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            background: 'var(--bg-card)',
+            padding: '24px',
+            borderRadius: '16px',
+            border: '1px solid var(--border-color)',
+            zIndex: 1000,
+            minWidth: '400px',
+            boxShadow: '0 4px 24px rgba(0,0,0,0.2)'
+          }}>
+            <h3 style={{ marginTop: 0, marginBottom: '16px' }}>GitHub Token Ayarla</h3>
+            <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '16px' }}>
+              Otomatik commit için GitHub Personal Access Token gerekli. Token&apos;ı buraya girin:
+            </p>
+            <input
+              type="password"
+              placeholder="ghp_xxxxxxxxxxxx"
+              id="github-token-input"
+              style={{
+                width: '100%',
+                padding: '12px',
+                borderRadius: '8px',
+                border: '1px solid var(--border-color)',
+                marginBottom: '16px',
+                fontSize: '0.875rem'
+              }}
+            />
+            <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+              <button
+                className="btn btn-ghost btn-sm"
+                onClick={() => setShowTokenInput(false)}
+              >
+                İptal
+              </button>
+              <button
+                className="btn btn-primary btn-sm"
+                onClick={() => {
+                  const token = document.getElementById('github-token-input').value;
+                  if (token) {
+                    localStorage.setItem('github_token', token);
+                    setShowTokenInput(false);
+                    alert('Token kaydedildi! Artık değişiklikler otomatik olarak GitHub&apos;a commit edilecek.');
+                  }
+                }}
+              >
+                Kaydet
+              </button>
+            </div>
+            <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '16px', marginBottom: 0 }}>
+              Token oluşturmak için: GitHub → Settings → Developer settings → Personal access tokens → Generate new token (repo yetkisi gerekli)
+            </p>
+          </div>
+        )}
+        {showTokenInput && (
+          <div
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'rgba(0,0,0,0.5)',
+              zIndex: 999
+            }}
+            onClick={() => setShowTokenInput(false)}
+          />
+        )}
         <button 
           className="btn btn-primary btn-sm" 
           onClick={() => saveData({
@@ -626,7 +791,18 @@ export default function Home() {
         color: 'var(--text-muted)',
         fontSize: '0.875rem'
       }}>
-        <p>Verileriniz <code style={{ background: 'var(--bg-secondary)', padding: '2px 6px', borderRadius: '4px' }}>data/budget.json</code> dosyasında ay bazlı saklanır</p>
+        <p>Verileriniz <code style={{ background: 'var(--bg-secondary)', padding: '2px 6px', borderRadius: '4px' }}>public/budget.json</code> dosyasında ay bazlı saklanır</p>
+        {!localStorage.getItem('github_token') && (
+          <p style={{ marginTop: '12px' }}>
+            <button
+              className="btn btn-ghost btn-sm"
+              onClick={() => setShowTokenInput(true)}
+              style={{ fontSize: '0.875rem' }}
+            >
+              🔑 GitHub Token Ayarla (Otomatik commit için)
+            </button>
+          </p>
+        )}
       </footer>
     </main>
   );
