@@ -87,6 +87,9 @@ jobs:
       contents: write
       pages: write
       id-token: write
+    concurrency:
+      group: "pages"
+      cancel-in-progress: false
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
