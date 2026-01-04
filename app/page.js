@@ -581,11 +581,34 @@ export default function Home() {
     return (
       <div style={{ 
         display: 'flex', 
+        flexDirection: 'column',
         alignItems: 'center', 
         justifyContent: 'center', 
-        minHeight: '100vh' 
+        minHeight: '100vh',
+        background: 'var(--bg-primary)',
+        gap: '24px'
       }}>
-        <div style={{ color: 'var(--text-muted)' }}>Yükleniyor...</div>
+        <div style={{
+          width: '60px',
+          height: '60px',
+          border: '4px solid var(--border-color)',
+          borderTop: '4px solid var(--primary)',
+          borderRadius: '50%',
+          animation: 'spin 0.8s linear infinite'
+        }} />
+        <div style={{ 
+          color: 'var(--text-secondary)',
+          fontSize: '1rem',
+          fontWeight: 500
+        }}>
+          Yükleniyor...
+        </div>
+        <style jsx>{`
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}</style>
       </div>
     );
   }
