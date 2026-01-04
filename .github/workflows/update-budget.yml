@@ -32,24 +32,15 @@ jobs:
           echo "Budget files updated"
 
       - name: Commit changes
-        id: commit
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add public/budget.json data/budget.json
           if git diff --staged --quiet; then
-            echo "has_changes=false" >> $GITHUB_OUTPUT
             echo "No changes to commit"
           else
-            echo "has_changes=true" >> $GITHUB_OUTPUT
             git commit -m "Update budget data"
             git push
-            echo "Changes committed and pushed"
+            echo "Changes committed - deploy.yml will auto-trigger via workflow_run"
           fi
-
-      - name: Trigger deployment
-        if: steps.commit.outputs.has_changes == 'true'
-        run: gh workflow run deploy.yml
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
