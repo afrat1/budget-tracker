@@ -121,30 +121,6 @@ export default function PaymentList({ payments, onAdd, onDelete, onEdit, onReord
           <div className="payment-list">
             {payments.map((payment, index) => (
               <div key={payment.id} className="payment-item">
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', marginRight: '12px' }}>
-                  <button
-                    className="btn btn-icon btn-ghost"
-                    onClick={() => onReorder && onReorder(index, index - 1)}
-                    disabled={index === 0}
-                    title="Yukarı"
-                    style={{ padding: '4px', opacity: index === 0 ? 0.3 : 1 }}
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" width="14" height="14">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
-                    </svg>
-                  </button>
-                  <button
-                    className="btn btn-icon btn-ghost"
-                    onClick={() => onReorder && onReorder(index, index + 1)}
-                    disabled={index === payments.length - 1}
-                    title="Aşağı"
-                    style={{ padding: '4px', opacity: index === payments.length - 1 ? 0.3 : 1 }}
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" width="14" height="14">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                    </svg>
-                  </button>
-                </div>
                 <div className="payment-item-info" style={{ flex: 1 }}>
                   <span className="payment-item-name">{payment.name}</span>
                   <span className="payment-item-type">{type === 'automatic' ? 'OTOMATİK ÖDEME' : 'KREDİ TAKSİTİ'}</span>
