@@ -3,7 +3,7 @@
     "balance": 34635.02,
     "cash": 13000,
     "income": 100000,
-    "target": 0,
+    "target": 10000,
     "automaticPayments": [
       {
         "id": 1767451302351,
@@ -46,7 +46,7 @@
     ]
   },
   "2026-02": {
-    "balance": 10000,
+    "balance": 19113.68,
     "cash": 0,
     "income": 100000,
     "target": 0,
