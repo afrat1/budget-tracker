@@ -156,7 +156,26 @@
         "type": "automatic"
       }
     ],
-    "creditPayments": []
+    "creditPayments": [
+      {
+        "id": 1768131278315.7263,
+        "name": "Katılımevim Tahmini Taksit 1/17",
+        "amount": 65000,
+        "type": "credit"
+      },
+      {
+        "id": 1768131278246.2617,
+        "name": "Garanti İhtiyaç Kredisi",
+        "amount": 16666.67,
+        "type": "credit"
+      },
+      {
+        "id": 1768131278318.847,
+        "name": "Ortalama Faturalar (Silinecek)",
+        "amount": 2000,
+        "type": "credit"
+      }
+    ]
   },
   "2026-05": {
     "balance": 0,
