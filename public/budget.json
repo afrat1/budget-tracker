@@ -28,7 +28,7 @@
       {
         "id": 1767452265100,
         "name": "Albaraka Kredi Kartı Borç",
-        "amount": 14136.92,
+        "amount": 13716.92,
         "type": "credit"
       },
       {
@@ -46,7 +46,7 @@
     ]
   },
   "2026-02": {
-    "balance": 19113.68,
+    "balance": 10000,
     "cash": 0,
     "income": 100000,
     "target": 0,
