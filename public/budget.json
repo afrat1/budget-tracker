@@ -204,12 +204,6 @@
         "name": "Ev Kirası",
         "amount": 14000,
         "type": "automatic"
-      },
-      {
-        "id": 1768646201895.2222,
-        "name": "Peder Beyaz Eşya VI",
-        "amount": 4433,
-        "type": "automatic"
       }
     ],
     "creditPayments": [
