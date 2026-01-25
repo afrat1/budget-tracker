@@ -166,21 +166,21 @@
         "name": "Peder Beyaz Eşya V",
         "amount": 4433,
         "type": "automatic"
+      },
+      {
+        "id": 1769344628652,
+        "name": "KatılımEvim Taksit",
+        "amount": 65000,
+        "type": "automatic"
+      },
+      {
+        "id": 1769344680586,
+        "name": "Ortalama Faturalar (Silinecek)",
+        "amount": 2000,
+        "type": "automatic"
       }
     ],
     "creditPayments": [
-      {
-        "id": 1768131278315.7263,
-        "name": "Katılımevim Tahmini Taksit 1/17",
-        "amount": 65000,
-        "type": "credit"
-      },
-      {
-        "id": 1768131278318.847,
-        "name": "Ortalama Faturalar (Silinecek)",
-        "amount": 2000,
-        "type": "credit"
-      },
       {
         "id": 1769341768151,
         "name": "Ziraat Kredi Kartı Borç",
