@@ -20,12 +20,6 @@
     ],
     "creditPayments": [
       {
-        "id": 1767455687763,
-        "name": "Katılımevim Komisyon Ödemesi",
-        "amount": 91000,
-        "type": "credit"
-      },
-      {
         "id": 1767452265100,
         "name": "Albaraka Kredi Kartı Borç",
         "amount": 14256.18,
