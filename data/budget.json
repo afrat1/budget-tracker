@@ -246,22 +246,21 @@
         "name": "Ev Kirası",
         "amount": 14000,
         "type": "automatic"
-      }
-    ],
-    "creditPayments": [
-      {
-        "id": 1768646202421.5017,
-        "name": "Katılımevim Tahmini Taksit 1/17",
-        "amount": 65000,
-        "type": "credit"
       },
       {
-        "id": 1768646202233.9324,
+        "id": 1769345339478,
+        "name": "KatılımEvim Taksit",
+        "amount": 65000,
+        "type": "automatic"
+      },
+      {
+        "id": 1769345352172,
         "name": "Ortalama Faturalar (Silinecek)",
         "amount": 2000,
-        "type": "credit"
+        "type": "automatic"
       }
-    ]
+    ],
+    "creditPayments": []
   },
   "2026-07": {
     "balance": 0,
