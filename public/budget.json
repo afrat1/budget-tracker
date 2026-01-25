@@ -76,6 +76,12 @@
         "name": "Ortalama Faturalar (Silinecek)",
         "amount": 2000,
         "type": "credit"
+      },
+      {
+        "id": 1769340644027,
+        "name": "Kuveyt Kredi Kartı Borç",
+        "amount": 1184.99,
+        "type": "credit"
       }
     ]
   },
