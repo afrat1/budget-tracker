@@ -114,25 +114,25 @@
         "name": "Peder Beyaz Eşya IV",
         "amount": 4433,
         "type": "automatic"
+      },
+      {
+        "id": 1769344510654,
+        "name": "KatılımEvim Taksit",
+        "amount": 65000,
+        "type": "automatic"
+      },
+      {
+        "id": 1769344524357,
+        "name": "Ortalama Faturalar (Silinecek)",
+        "amount": 2000,
+        "type": "automatic"
       }
     ],
     "creditPayments": [
       {
-        "id": 1767458859277.596,
-        "name": "Katılımevim Tahmini Taksit 1/17",
-        "amount": 65000,
-        "type": "credit"
-      },
-      {
         "id": 1767458859577.492,
         "name": "Garanti İhtiyaç Kredisi",
         "amount": 16666.67,
-        "type": "credit"
-      },
-      {
-        "id": 1767458859623.8074,
-        "name": "Ortalama Faturalar (Silinecek)",
-        "amount": 2000,
         "type": "credit"
       },
       {
