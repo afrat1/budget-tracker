@@ -82,6 +82,12 @@
         "name": "Kuveyt Kredi Kartı Borç",
         "amount": 1184.99,
         "type": "credit"
+      },
+      {
+        "id": 1769341513273,
+        "name": "Ziraat Kredi Kartı Borç",
+        "amount": 725.35,
+        "type": "credit"
       }
     ]
   },
