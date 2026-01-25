@@ -140,6 +140,12 @@
         "name": "Ziraat Kredi Kartı Borç",
         "amount": 228.59,
         "type": "credit"
+      },
+      {
+        "id": 1769342666294,
+        "name": "Garanti Kredi Kartı Borç",
+        "amount": 1987.23,
+        "type": "credit"
       }
     ]
   },
