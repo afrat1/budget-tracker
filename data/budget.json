@@ -20,21 +20,9 @@
     ],
     "creditPayments": [
       {
-        "id": 1767452265100,
-        "name": "Albaraka Kredi Kartı Borç",
-        "amount": 14256.18,
-        "type": "credit"
-      },
-      {
         "id": 1767452525121,
         "name": "Ziraat Kredi Kartı Borç",
         "amount": 5090.36,
-        "type": "credit"
-      },
-      {
-        "id": 1767596732219,
-        "name": "Garanti Kredi Kartı Borç",
-        "amount": 12149.02,
         "type": "credit"
       }
     ]
