@@ -1,17 +1,10 @@
 {
   "2026-01": {
-    "balance": 93965.64,
-    "cash": 13000,
+    "balance": 92965.64,
+    "cash": 0,
     "income": 13200,
     "target": 10000,
-    "automaticPayments": [
-      {
-        "id": 1767451302351,
-        "name": "Ev Kirası",
-        "amount": 14000,
-        "type": "automatic"
-      }
-    ],
+    "automaticPayments": [],
     "creditPayments": [
       {
         "id": 1767452525121,
