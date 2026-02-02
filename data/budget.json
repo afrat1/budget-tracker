@@ -33,12 +33,6 @@
         "type": "automatic"
       },
       {
-        "id": 1769344365343,
-        "name": "KatılımEvim Taksit",
-        "amount": 65000,
-        "type": "automatic"
-      },
-      {
         "id": 1769344385201,
         "name": "Ortalama Faturalar (Silinecek)",
         "amount": 2000,
