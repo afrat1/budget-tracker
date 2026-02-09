@@ -49,7 +49,7 @@
       {
         "id": 1769340644027,
         "name": "Kuveyt Kredi Kartı Borç",
-        "amount": 1344.99,
+        "amount": 1793.99,
         "type": "credit"
       },
       {
@@ -62,6 +62,18 @@
         "id": 1769342567940,
         "name": "Garanti Kredi Kartı Borcu",
         "amount": 17842.83,
+        "type": "credit"
+      },
+      {
+        "id": 1770665019610,
+        "name": "Yapı Kredi Kredi Kartı Borç",
+        "amount": 266.4,
+        "type": "credit"
+      },
+      {
+        "id": 1770665060926,
+        "name": "Albaraka Kredi Kartı Borç",
+        "amount": 905.75,
         "type": "credit"
       }
     ]
