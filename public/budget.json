@@ -2,8 +2,8 @@
   "2026-01": {
     "balance": 92965.64,
     "cash": 0,
-    "income": 13200,
-    "target": 10000,
+    "income": 0,
+    "target": 0,
     "automaticPayments": [],
     "creditPayments": [
       {
