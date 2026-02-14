@@ -5,14 +5,7 @@
     "income": 0,
     "target": 0,
     "automaticPayments": [],
-    "creditPayments": [
-      {
-        "id": 1767452525121,
-        "name": "Ziraat Kredi Kartı Borç",
-        "amount": 5090.36,
-        "type": "credit"
-      }
-    ]
+    "creditPayments": []
   },
   "2026-02": {
     "balance": 0,
