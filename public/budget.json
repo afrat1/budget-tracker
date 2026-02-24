@@ -114,6 +114,12 @@
         "name": "Garanti Kredi Kartı Borç",
         "amount": 1987.23,
         "type": "credit"
+      },
+      {
+        "id": 1771957877281,
+        "name": "Yapı Kredi Kredi Kartı Borç",
+        "amount": 266.4,
+        "type": "credit"
       }
     ]
   },
