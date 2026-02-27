@@ -10,25 +10,13 @@
   "2026-02": {
     "balance": 0,
     "cash": 0,
-    "income": 90000,
+    "income": 0,
     "target": 0,
     "automaticPayments": [
-      {
-        "id": 1767453023402.2559,
-        "name": "Ev Kirası",
-        "amount": 14000,
-        "type": "automatic"
-      },
       {
         "id": 1767453023476.9548,
         "name": "Peder Beyaz Eşya III",
         "amount": 4433,
-        "type": "automatic"
-      },
-      {
-        "id": 1769344385201,
-        "name": "Ortalama Faturalar (Silinecek)",
-        "amount": 2000,
         "type": "automatic"
       }
     ],
