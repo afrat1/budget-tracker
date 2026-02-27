@@ -34,27 +34,9 @@
     ],
     "creditPayments": [
       {
-        "id": 1767451777229,
-        "name": "Garanti İhtiyaç Kredisi",
-        "amount": 16666.67,
-        "type": "credit"
-      },
-      {
-        "id": 1769340644027,
-        "name": "Kuveyt Kredi Kartı Borç",
-        "amount": 2493.99,
-        "type": "credit"
-      },
-      {
         "id": 1769341513273,
         "name": "Ziraat Kredi Kartı Borç",
         "amount": 1009.86,
-        "type": "credit"
-      },
-      {
-        "id": 1769342567940,
-        "name": "Garanti Kredi Kartı Borcu",
-        "amount": 40054.52,
         "type": "credit"
       },
       {
