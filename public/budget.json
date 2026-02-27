@@ -38,18 +38,6 @@
         "name": "Ziraat Kredi Kartı Borç",
         "amount": 1009.86,
         "type": "credit"
-      },
-      {
-        "id": 1770665019610,
-        "name": "Yapı Kredi Kredi Kartı Borç",
-        "amount": 266.4,
-        "type": "credit"
-      },
-      {
-        "id": 1770665060926,
-        "name": "Albaraka Kredi Kartı Borç",
-        "amount": 3291.85,
-        "type": "credit"
       }
     ]
   },
