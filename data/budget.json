@@ -70,7 +70,7 @@
   "2026-04": {
     "balance": 0,
     "cash": 0,
-    "income": 100000,
+    "income": 90000,
     "target": 0,
     "automaticPayments": [
       {
@@ -83,12 +83,6 @@
         "id": 1768125581323.7773,
         "name": "Peder Beyaz Eşya V",
         "amount": 4433,
-        "type": "automatic"
-      },
-      {
-        "id": 1769344628652,
-        "name": "KatılımEvim Taksit",
-        "amount": 65000,
         "type": "automatic"
       },
       {
