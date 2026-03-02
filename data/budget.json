@@ -64,6 +64,12 @@
         "name": "Yapı Kredi Kredi Kartı Borç",
         "amount": 266.42,
         "type": "credit"
+      },
+      {
+        "id": 1772478838577,
+        "name": "Kuveyt Kredi Kartı Borç",
+        "amount": 4706.12,
+        "type": "credit"
       }
     ]
   },
