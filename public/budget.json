@@ -98,12 +98,6 @@
         "name": "Garanti Kredi Kartı Borcu",
         "amount": 202.89,
         "type": "credit"
-      },
-      {
-        "id": 1774721821300,
-        "name": "Yapıkredi Kredi Kartı Borcu",
-        "amount": 266.42,
-        "type": "credit"
       }
     ]
   },
