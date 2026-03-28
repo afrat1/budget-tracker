@@ -98,6 +98,12 @@
         "name": "Garanti Kredi Kartı Borcu",
         "amount": 202.89,
         "type": "credit"
+      },
+      {
+        "id": 1774724698565,
+        "name": "Albaraka Kredi Kartı Borcu",
+        "amount": 862.25,
+        "type": "credit"
       }
     ]
   },
