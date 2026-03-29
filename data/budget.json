@@ -110,6 +110,12 @@
         "name": "Kuveyt Türk Kredi Kartı Borcu",
         "amount": 4009.88,
         "type": "credit"
+      },
+      {
+        "id": 1774806859674,
+        "name": "Kahve Makinesi Taksit",
+        "amount": 3333.22,
+        "type": "credit"
       }
     ]
   },
