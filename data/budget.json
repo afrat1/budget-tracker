@@ -32,34 +32,9 @@
         "name": "Peder Beyaz Eşya IV",
         "amount": 4433,
         "type": "automatic"
-      },
-      {
-        "id": 1769344524357,
-        "name": "Ortalama Faturalar (Silinecek)",
-        "amount": 2000,
-        "type": "automatic"
       }
     ],
-    "creditPayments": [
-      {
-        "id": 1767458859577.492,
-        "name": "Garanti İhtiyaç Kredisi",
-        "amount": 16666.67,
-        "type": "credit"
-      },
-      {
-        "id": 1769342666294,
-        "name": "Garanti Kredi Kartı Borç",
-        "amount": 43563.23,
-        "type": "credit"
-      },
-      {
-        "id": 1772478838577,
-        "name": "Kuveyt Kredi Kartı Borç",
-        "amount": 17342.73,
-        "type": "credit"
-      }
-    ]
+    "creditPayments": []
   },
   "2026-04": {
     "balance": 0,
