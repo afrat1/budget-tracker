@@ -27,7 +27,7 @@
     "balance": 0,
     "cash": 0,
     "income": 92000,
-    "target": 0,
+    "target": 40000,
     "automaticPayments": [
       {
         "id": 1768125582027.126,
@@ -64,7 +64,7 @@
       {
         "id": 1774724698565,
         "name": "Albaraka Kredi Kartı Borcu",
-        "amount": 1115.91,
+        "amount": 862.25,
         "type": "credit"
       },
       {
