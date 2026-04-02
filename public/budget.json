@@ -58,7 +58,7 @@
       {
         "id": 1769344821657,
         "name": "Garanti Kredi Kartı Borcu",
-        "amount": 10451.51,
+        "amount": 13780.65,
         "type": "credit"
       },
       {
@@ -71,12 +71,6 @@
         "id": 1774725165289,
         "name": "Kuveyt Türk Kredi Kartı Borcu",
         "amount": 4967.37,
-        "type": "credit"
-      },
-      {
-        "id": 1774806859674,
-        "name": "Kahve Makinesi Taksit",
-        "amount": 3333.22,
         "type": "credit"
       }
     ]
