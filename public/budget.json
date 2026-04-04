@@ -40,12 +40,6 @@
         "name": "Peder Beyaz Eşya V",
         "amount": 4433,
         "type": "automatic"
-      },
-      {
-        "id": 1769344680586,
-        "name": "Ortalama Faturalar (Silinecek)",
-        "amount": 2000,
-        "type": "automatic"
       }
     ],
     "creditPayments": [
