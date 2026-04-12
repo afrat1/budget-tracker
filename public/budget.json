@@ -26,7 +26,7 @@
   "2026-04": {
     "balance": 0,
     "cash": 0,
-    "income": 92000,
+    "income": 93000,
     "target": 40000,
     "automaticPayments": [
       {
@@ -64,7 +64,7 @@
       {
         "id": 1774725165289,
         "name": "Kuveyt Türk Kredi Kartı Borcu",
-        "amount": 5251.36,
+        "amount": 4644.36,
         "type": "credit"
       }
     ]
