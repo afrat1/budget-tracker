@@ -98,6 +98,12 @@
         "name": "Otomatik Faturalar (Silinecek)",
         "amount": 2000,
         "type": "automatic"
+      },
+      {
+        "id": 1775997653199,
+        "name": "Kahve Makinesi",
+        "amount": 3329.07,
+        "type": "automatic"
       }
     ],
     "creditPayments": [
