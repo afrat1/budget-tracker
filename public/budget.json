@@ -104,6 +104,12 @@
         "name": "Kahve Makinesi",
         "amount": 3329.07,
         "type": "automatic"
+      },
+      {
+        "id": 1775997757961,
+        "name": "PS5",
+        "amount": 3499.88,
+        "type": "automatic"
       }
     ],
     "creditPayments": [
