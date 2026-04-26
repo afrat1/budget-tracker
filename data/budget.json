@@ -104,19 +104,13 @@
         "name": "Kahve Makinesi",
         "amount": 3329.07,
         "type": "automatic"
-      },
-      {
-        "id": 1775997757961,
-        "name": "PS5",
-        "amount": 3499.88,
-        "type": "automatic"
       }
     ],
     "creditPayments": [
       {
         "id": 1769343574847,
         "name": "Garanti Kredi Kartı Borç",
-        "amount": 202.89,
+        "amount": 6397.25,
         "type": "credit"
       }
     ]
