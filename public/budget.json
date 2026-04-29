@@ -42,14 +42,7 @@
         "type": "automatic"
       }
     ],
-    "creditPayments": [
-      {
-        "id": 1774724698565,
-        "name": "Albaraka Kredi Kartı Borcu",
-        "amount": 15371.37,
-        "type": "credit"
-      }
-    ]
+    "creditPayments": []
   },
   "2026-05": {
     "balance": 0,
