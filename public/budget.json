@@ -44,27 +44,9 @@
     ],
     "creditPayments": [
       {
-        "id": 1769341768151,
-        "name": "Ziraat Kredi Kartı Borç",
-        "amount": 486.1,
-        "type": "credit"
-      },
-      {
-        "id": 1769344821657,
-        "name": "Garanti Kredi Kartı Borcu",
-        "amount": 33565.38,
-        "type": "credit"
-      },
-      {
         "id": 1774724698565,
         "name": "Albaraka Kredi Kartı Borcu",
         "amount": 15371.37,
-        "type": "credit"
-      },
-      {
-        "id": 1774725165289,
-        "name": "Kuveyt Türk Kredi Kartı Borcu",
-        "amount": 4644.36,
         "type": "credit"
       }
     ]
