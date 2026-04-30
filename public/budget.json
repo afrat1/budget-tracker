@@ -27,18 +27,12 @@
     "balance": 0,
     "cash": 0,
     "income": 93000,
-    "target": 40000,
+    "target": 0,
     "automaticPayments": [
       {
         "id": 1768125582027.126,
         "name": "Ev Kirası",
         "amount": 14000,
-        "type": "automatic"
-      },
-      {
-        "id": 1768125581323.7773,
-        "name": "Peder Beyaz Eşya V",
-        "amount": 4400,
         "type": "automatic"
       }
     ],
