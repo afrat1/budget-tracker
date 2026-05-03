@@ -118,9 +118,22 @@
         "name": "Ayakkabı Taksit I",
         "amount": 1498.5,
         "type": "automatic"
+      },
+      {
+        "id": 1777814446626,
+        "name": "Kahve Makinesi III",
+        "amount": 3329.07,
+        "type": "automatic"
       }
     ],
-    "creditPayments": []
+    "creditPayments": [
+      {
+        "id": 1777814376494,
+        "name": "Tenis (Nakit)",
+        "amount": 15000,
+        "type": "credit"
+      }
+    ]
   },
   "2026-07": {
     "balance": 0,
