@@ -168,12 +168,6 @@
     ],
     "creditPayments": [
       {
-        "id": 1777815143743.9219,
-        "name": "Tenis (Nakit)",
-        "amount": 15000,
-        "type": "credit"
-      },
-      {
         "id": 1777815144640.4958,
         "name": "Otomatik Faturalar (Silinecek)",
         "amount": 2000,
