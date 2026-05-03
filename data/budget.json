@@ -102,27 +102,9 @@
         "type": "automatic"
       },
       {
-        "id": 1777806137595,
-        "name": "Tenis",
-        "amount": 15000,
-        "type": "automatic"
-      },
-      {
         "id": 1777806149136,
         "name": "Otomatik Faturalar",
         "amount": 2000,
-        "type": "automatic"
-      },
-      {
-        "id": 1777814186368.1104,
-        "name": "Ev Kirası",
-        "amount": 14000,
-        "type": "automatic"
-      },
-      {
-        "id": 1777814186504.7344,
-        "name": "Peder Beyaz Eşya VI",
-        "amount": 4433,
         "type": "automatic"
       },
       {
