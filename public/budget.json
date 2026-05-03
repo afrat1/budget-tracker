@@ -102,12 +102,6 @@
         "type": "automatic"
       },
       {
-        "id": 1777806149136,
-        "name": "Otomatik Faturalar",
-        "amount": 2000,
-        "type": "automatic"
-      },
-      {
         "id": 1777814186074.4229,
         "name": "PS5 III",
         "amount": 3499.88,
@@ -131,6 +125,12 @@
         "id": 1777814376494,
         "name": "Tenis (Nakit)",
         "amount": 15000,
+        "type": "credit"
+      },
+      {
+        "id": 1777814892748,
+        "name": "Otomatik Faturalar (Silinecek)",
+        "amount": 2000,
         "type": "credit"
       }
     ]
