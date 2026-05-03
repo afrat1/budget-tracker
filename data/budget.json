@@ -60,18 +60,6 @@
         "name": "Ayakkabı Taksit I",
         "amount": 1498.5,
         "type": "automatic"
-      },
-      {
-        "id": 1777805935733,
-        "name": "Otobüs",
-        "amount": 1769,
-        "type": "automatic"
-      },
-      {
-        "id": 1777805945832,
-        "name": "Tenis",
-        "amount": 15000,
-        "type": "automatic"
       }
     ],
     "creditPayments": [
@@ -85,6 +73,18 @@
         "id": 1777232506057,
         "name": "Albaraka Kredi Kartı Borcu",
         "amount": 5165.7,
+        "type": "credit"
+      },
+      {
+        "id": 1777814000885,
+        "name": "Otobüs (Silinecek)",
+        "amount": 1769,
+        "type": "credit"
+      },
+      {
+        "id": 1777814029757,
+        "name": "Tenis (Nakit)",
+        "amount": 15000,
         "type": "credit"
       }
     ]
