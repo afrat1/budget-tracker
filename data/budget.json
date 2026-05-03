@@ -138,10 +138,48 @@
   "2026-07": {
     "balance": 0,
     "cash": 0,
-    "income": 0,
+    "income": 93000,
     "target": 0,
-    "automaticPayments": [],
-    "creditPayments": []
+    "automaticPayments": [
+      {
+        "id": 1777815143911.2432,
+        "name": "Ev Kirası",
+        "amount": 14000,
+        "type": "automatic"
+      },
+      {
+        "id": 1777815144515.1543,
+        "name": "PS5 IV",
+        "amount": 3499.88,
+        "type": "automatic"
+      },
+      {
+        "id": 1777815143675.414,
+        "name": "Ayakkabı Taksit II",
+        "amount": 1498.5,
+        "type": "automatic"
+      },
+      {
+        "id": 1777815143948.4302,
+        "name": "Kahve Makinesi III",
+        "amount": 3329.07,
+        "type": "automatic"
+      }
+    ],
+    "creditPayments": [
+      {
+        "id": 1777815143743.9219,
+        "name": "Tenis (Nakit)",
+        "amount": 15000,
+        "type": "credit"
+      },
+      {
+        "id": 1777815144640.4958,
+        "name": "Otomatik Faturalar (Silinecek)",
+        "amount": 2000,
+        "type": "credit"
+      }
+    ]
   },
   "2026-10": {
     "balance": 0,
