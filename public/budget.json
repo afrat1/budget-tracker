@@ -66,19 +66,13 @@
       {
         "id": 1769343574847,
         "name": "Garanti Kredi Kartı Borç",
-        "amount": 10347.02,
+        "amount": 13971.51,
         "type": "credit"
       },
       {
         "id": 1777232506057,
         "name": "Albaraka Kredi Kartı Borcu",
         "amount": 5165.7,
-        "type": "credit"
-      },
-      {
-        "id": 1777814000885,
-        "name": "Otobüs (Silinecek)",
-        "amount": 1769,
         "type": "credit"
       },
       {
