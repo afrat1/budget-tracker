@@ -80,6 +80,12 @@
         "name": "Tenis (Nakit)",
         "amount": 15000,
         "type": "credit"
+      },
+      {
+        "id": 1778912301788,
+        "name": "Raket",
+        "amount": 8450,
+        "type": "credit"
       }
     ]
   },
