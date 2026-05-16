@@ -86,6 +86,12 @@
         "name": "Raket",
         "amount": 8450,
         "type": "credit"
+      },
+      {
+        "id": 1778942055899,
+        "name": "Garanti Kredi Kartı Borç II",
+        "amount": 5323.54,
+        "type": "credit"
       }
     ]
   },
