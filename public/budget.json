@@ -66,25 +66,13 @@
       {
         "id": 1769343574847,
         "name": "Garanti Kredi Kartı Borç",
-        "amount": 37618.46,
+        "amount": 38381.91,
         "type": "credit"
       },
       {
         "id": 1777232506057,
         "name": "Albaraka Kredi Kartı Borcu",
         "amount": 9242.94,
-        "type": "credit"
-      },
-      {
-        "id": 1777814029757,
-        "name": "Tenis (Nakit)",
-        "amount": 15000,
-        "type": "credit"
-      },
-      {
-        "id": 1778912301788,
-        "name": "Raket",
-        "amount": 8450,
         "type": "credit"
       },
       {
