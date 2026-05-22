@@ -32,9 +32,9 @@
     "creditPayments": []
   },
   "2026-05": {
-    "balance": 290000,
+    "balance": 314000,
     "cash": 0,
-    "income": 93000,
+    "income": 0,
     "target": 0,
     "automaticPayments": [
       {
