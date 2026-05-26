@@ -95,6 +95,12 @@
         "name": "Garanti Kredi Kartı Borç",
         "amount": 5262.2,
         "type": "credit"
+      },
+      {
+        "id": 1779817533169,
+        "name": "Garanti Kredi Kartı Borç II",
+        "amount": 1936.17,
+        "type": "credit"
       }
     ]
   },
