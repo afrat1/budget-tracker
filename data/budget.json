@@ -69,12 +69,6 @@
         "name": "Ayakkabı Taksit II",
         "amount": 1498.5,
         "type": "automatic"
-      },
-      {
-        "id": 1777814446626,
-        "name": "Kahve Makinesi III",
-        "amount": 3329.07,
-        "type": "automatic"
       }
     ],
     "creditPayments": [
@@ -99,7 +93,7 @@
       {
         "id": 1779198857187,
         "name": "Garanti Kredi Kartı Borç",
-        "amount": 235.48,
+        "amount": 5262.2,
         "type": "credit"
       }
     ]
