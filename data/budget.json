@@ -50,7 +50,7 @@
       }
     ],
     "balance": 295500,
-    "reservedCash": 123,
+    "reservedCash": 0,
     "income": 0,
     "target": 0,
     "automaticPayments": [],
@@ -116,8 +116,9 @@
     ]
   },
   "2026-07": {
+    "bankAccounts": [],
     "balance": 0,
-    "cash": 0,
+    "reservedCash": 0,
     "income": 93000,
     "target": 0,
     "automaticPayments": [
