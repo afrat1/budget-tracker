@@ -32,8 +32,14 @@
     "creditPayments": []
   },
   "2026-05": {
+    "bankAccounts": [
+      {
+        "id": 1779879280222.227,
+        "name": "Ana Hesap",
+        "amount": 295000
+      }
+    ],
     "balance": 295000,
-    "cash": 0,
     "income": 0,
     "target": 0,
     "automaticPayments": [],
