@@ -57,8 +57,19 @@
     "creditPayments": []
   },
   "2026-06": {
-    "bankAccounts": [],
-    "balance": 0,
+    "bankAccounts": [
+      {
+        "id": 1779893411749.7588,
+        "name": "Yapı Kredi",
+        "amount": 100000
+      },
+      {
+        "id": 1779893438634.1604,
+        "name": "Kuveyt",
+        "amount": 32500
+      }
+    ],
+    "balance": 132500,
     "reservedCash": 0,
     "income": 90000,
     "target": 25000,
