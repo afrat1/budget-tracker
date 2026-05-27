@@ -2,15 +2,13 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import BalanceInput from '../components/BalanceInput';
-import CashInput from '../components/CashInput';
 import IncomeInput from '../components/IncomeInput';
 import TargetInput from '../components/TargetInput';
 import PaymentList from '../components/PaymentList';
 import Summary from '../components/Summary';
 
 export default function Home() {
-  const [balance, setBalance] = useState(0);
-  const [cash, setCash] = useState(0);
+  const [bankAccounts, setBankAccounts] = useState([]);
   const [income, setIncome] = useState(0);
   const [target, setTarget] = useState(0);
   const [automaticPayments, setAutomaticPayments] = useState([]);
@@ -38,6 +36,35 @@ export default function Home() {
     const month = String(date.getMonth() + 1).padStart(2, '0');
     return `${year}-${month}`;
   };
+
+  const getBalanceTotal = (accounts) =>
+    Math.round(accounts.reduce((sum, account) => sum + account.amount, 0) * 100) / 100;
+
+  const migrateMonthData = (monthData) => {
+    if (monthData.bankAccounts?.length > 0) {
+      return monthData.bankAccounts;
+    }
+
+    const legacyBalance = (monthData.balance || 0) + (monthData.cash || 0);
+    if (legacyBalance > 0) {
+      return [{
+        id: Date.now() + Math.random(),
+        name: 'Ana Hesap',
+        amount: legacyBalance,
+      }];
+    }
+
+    return [];
+  };
+
+  const buildMonthPayload = (accounts, incomeValue, targetValue, automatic, credit) => ({
+    bankAccounts: accounts,
+    balance: getBalanceTotal(accounts),
+    income: incomeValue,
+    target: targetValue,
+    automaticPayments: automatic,
+    creditPayments: credit,
+  });
 
   // Get base path for GitHub Pages
   const getBasePath = () => {
@@ -138,15 +165,15 @@ export default function Home() {
       const allData = allDataRef.current;
       const monthData = allData[monthKey] || {
         balance: 0,
-        cash: 0,
+        bankAccounts: [],
         income: 0,
         target: 0,
         automaticPayments: [],
         creditPayments: [],
       };
-      
-      setBalance(monthData.balance || 0);
-      setCash(monthData.cash || 0);
+
+      const accounts = migrateMonthData(monthData);
+      setBankAccounts(accounts);
       setIncome(monthData.income || 0);
       setTarget(monthData.target || 0);
       setAutomaticPayments(monthData.automaticPayments || []);
@@ -154,12 +181,11 @@ export default function Home() {
       
       setTimeout(() => {
         setIsLoaded(true);
-        skipSaveRef.current = true;
+        skipSaveRef.current = false;
       }, 0);
     } catch (err) {
       console.error('Error loading data:', err);
-      setBalance(0);
-      setCash(0);
+      setBankAccounts([]);
       setIncome(0);
       setTarget(0);
       setAutomaticPayments([]);
@@ -236,18 +262,17 @@ export default function Home() {
   useEffect(() => {
     if (isLoaded && !skipSaveRef.current) {
       const timeoutId = setTimeout(() => {
-        saveData({
-          balance,
-          cash,
+        saveData(buildMonthPayload(
+          bankAccounts,
           income,
           target,
           automaticPayments,
           creditPayments,
-        });
+        ));
       }, 1000); // 1 second debounce
       return () => clearTimeout(timeoutId);
     }
-  }, [balance, cash, income, target, automaticPayments, creditPayments, isLoaded, saveData]);
+  }, [bankAccounts, income, target, automaticPayments, creditPayments, isLoaded, saveData]);
 
   const handleAddAutomatic = (payment) => {
     setAutomaticPayments([...automaticPayments, payment]);
@@ -319,7 +344,7 @@ export default function Home() {
         const allData = await loadAllData();
         const nextMonthData = allData[nextMonthKey] || {
           balance: 0,
-          cash: 0,
+          bankAccounts: [],
           income: 0,
           target: 0,
           automaticPayments: [],
@@ -361,7 +386,7 @@ export default function Home() {
         const allData = await loadAllData();
         const nextMonthData = allData[nextMonthKey] || {
           balance: 0,
-          cash: 0,
+          bankAccounts: [],
           income: 0,
           target: 0,
           automaticPayments: [],
@@ -402,15 +427,22 @@ export default function Home() {
         const allData = await loadAllData();
         const nextMonthData = allData[nextMonthKey] || {
           balance: 0,
-          cash: 0,
+          bankAccounts: [],
           income: 0,
           target: 0,
           automaticPayments: [],
           creditPayments: [],
         };
+
+        const transferredAccounts = [{
+          id: Date.now() + Math.random(),
+          name: 'Devreden Bakiye',
+          amount,
+        }];
         
         const updatedData = {
           ...nextMonthData,
+          bankAccounts: transferredAccounts,
           balance: amount,
         };
         
@@ -440,10 +472,10 @@ export default function Home() {
         if (sourceData) {
           // Copy data but generate new IDs for payments
           const copiedData = {
-            balance: 0, // Start fresh with balance
-            cash: 0, // Start fresh with cash
-            income: sourceData.income, // Keep same income
-            target: sourceData.target || 0, // Keep same target
+            bankAccounts: [],
+            balance: 0,
+            income: sourceData.income,
+            target: sourceData.target || 0,
             automaticPayments: sourceData.automaticPayments.map(p => ({
               ...p,
               id: Date.now() + Math.random() * 1000,
@@ -458,9 +490,7 @@ export default function Home() {
           allDataRef.current = allData;
           await saveDataToGitHub(allData);
           
-          // Update UI
-          setBalance(copiedData.balance || 0);
-          setCash(copiedData.cash || 0);
+          setBankAccounts([]);
           setIncome(copiedData.income || 0);
           setTarget(copiedData.target || 0);
           setAutomaticPayments(copiedData.automaticPayments || []);
@@ -469,7 +499,7 @@ export default function Home() {
           // Empty month
           allData[toKey] = {
             balance: 0,
-            cash: 0,
+            bankAccounts: [],
             income: 0,
             target: 0,
             automaticPayments: [],
@@ -486,8 +516,7 @@ export default function Home() {
 
   const handleClearMonth = () => {
     if (window.confirm(`${months[currentMonth.getMonth()]} ${currentMonth.getFullYear()} verilerini silmek istediğinizden emin misiniz?`)) {
-      setBalance(0);
-      setCash(0);
+      setBankAccounts([]);
       setIncome(0);
       setTarget(0);
       setAutomaticPayments([]);
@@ -613,7 +642,8 @@ export default function Home() {
     );
   }
 
-  const hasData = balance > 0 || cash > 0 || income > 0 || target > 0 || automaticPayments.length > 0 || creditPayments.length > 0;
+  const balance = getBalanceTotal(bankAccounts);
+  const hasData = balance > 0 || income > 0 || target > 0 || automaticPayments.length > 0 || creditPayments.length > 0;
 
   return (
     <main className="container">
@@ -682,15 +712,8 @@ export default function Home() {
         </div>
       )}
 
-      {/* 2x2 grid: Bakiye, Nakit / Gelir, Hedef */}
-      <div style={{ 
-        display: 'grid', 
-        gridTemplateColumns: 'repeat(2, 1fr)', 
-        gap: '24px',
-        marginBottom: '32px'
-      }} className="input-grid">
-        <BalanceInput value={balance} onChange={setBalance} />
-        <CashInput value={cash} onChange={setCash} />
+      <div className="input-grid">
+        <BalanceInput bankAccounts={bankAccounts} onChange={setBankAccounts} />
         <IncomeInput value={income} onChange={setIncome} />
         <TargetInput value={target} onChange={setTarget} />
       </div>
@@ -719,7 +742,6 @@ export default function Home() {
       <div style={{ marginTop: '32px' }}>
         <Summary
           balance={balance}
-          cash={cash}
           income={income}
           target={target}
           automaticPayments={automaticPayments}
@@ -847,14 +869,13 @@ export default function Home() {
         )}
         <button 
           className="btn btn-primary btn-sm" 
-          onClick={() => saveData({
-            balance,
-            cash,
+          onClick={() => saveData(buildMonthPayload(
+            bankAccounts,
             income,
             target,
             automaticPayments,
             creditPayments,
-          })}
+          ))}
           disabled={isSaving}
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" width="16" height="16">
