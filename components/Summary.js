@@ -1,6 +1,6 @@
 'use client';
 
-export default function Summary({ balance, income, target, automaticPayments, creditPayments, currentMonth, onTransferToNextMonth }) {
+export default function Summary({ balance, reservedCash, income, target, automaticPayments, creditPayments, currentMonth, onTransferToNextMonth }) {
   // Türkçe para formatı: 1.234,56
   const formatNumber = (num) => {
     // Floating point düzeltmesi için 2 ondalık basamağa yuvarla
@@ -19,7 +19,7 @@ export default function Summary({ balance, income, target, automaticPayments, cr
   const totalAutomatic = round2(automaticPayments.reduce((sum, p) => sum + p.amount, 0));
   const totalCredit = round2(creditPayments.reduce((sum, p) => sum + p.amount, 0));
   const totalExpenses = round2(totalAutomatic + totalCredit);
-  const totalBalance = round2(balance);
+  const totalBalance = round2(balance + reservedCash);
   const totalAvailable = round2(totalBalance + income);
   const remaining = round2(totalAvailable - totalExpenses);
   
@@ -46,7 +46,7 @@ export default function Summary({ balance, income, target, automaticPayments, cr
 
       <div className="summary-top-grid">
         <div className="summary-item">
-          <div className="summary-item-label">Toplam Bakiye</div>
+          <div className="summary-item-label">Banka + Ayrılan Nakit</div>
           <div className="summary-item-value income">{formatNumber(totalBalance)} ₺</div>
         </div>
         <div className="summary-item">

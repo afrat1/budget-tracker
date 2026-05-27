@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import BalanceInput from '../components/BalanceInput';
+import CashInput from '../components/CashInput';
 import IncomeInput from '../components/IncomeInput';
 import TargetInput from '../components/TargetInput';
 import PaymentList from '../components/PaymentList';
@@ -9,6 +10,7 @@ import Summary from '../components/Summary';
 
 export default function Home() {
   const [bankAccounts, setBankAccounts] = useState([]);
+  const [reservedCash, setReservedCash] = useState(0);
   const [income, setIncome] = useState(0);
   const [target, setTarget] = useState(0);
   const [automaticPayments, setAutomaticPayments] = useState([]);
@@ -45,7 +47,7 @@ export default function Home() {
       return monthData.bankAccounts;
     }
 
-    const legacyBalance = (monthData.balance || 0) + (monthData.cash || 0);
+    const legacyBalance = monthData.balance || 0;
     if (legacyBalance > 0) {
       return [{
         id: Date.now() + Math.random(),
@@ -57,9 +59,10 @@ export default function Home() {
     return [];
   };
 
-  const buildMonthPayload = (accounts, incomeValue, targetValue, automatic, credit) => ({
+  const buildMonthPayload = (accounts, reservedCashValue, incomeValue, targetValue, automatic, credit) => ({
     bankAccounts: accounts,
     balance: getBalanceTotal(accounts),
+    reservedCash: reservedCashValue,
     income: incomeValue,
     target: targetValue,
     automaticPayments: automatic,
@@ -174,6 +177,7 @@ export default function Home() {
 
       const accounts = migrateMonthData(monthData);
       setBankAccounts(accounts);
+      setReservedCash(monthData.reservedCash ?? monthData.cash ?? 0);
       setIncome(monthData.income || 0);
       setTarget(monthData.target || 0);
       setAutomaticPayments(monthData.automaticPayments || []);
@@ -186,6 +190,7 @@ export default function Home() {
     } catch (err) {
       console.error('Error loading data:', err);
       setBankAccounts([]);
+      setReservedCash(0);
       setIncome(0);
       setTarget(0);
       setAutomaticPayments([]);
@@ -264,6 +269,7 @@ export default function Home() {
       const timeoutId = setTimeout(() => {
         saveData(buildMonthPayload(
           bankAccounts,
+          reservedCash,
           income,
           target,
           automaticPayments,
@@ -272,7 +278,7 @@ export default function Home() {
       }, 1000); // 1 second debounce
       return () => clearTimeout(timeoutId);
     }
-  }, [bankAccounts, income, target, automaticPayments, creditPayments, isLoaded, saveData]);
+  }, [bankAccounts, reservedCash, income, target, automaticPayments, creditPayments, isLoaded, saveData]);
 
   const handleAddAutomatic = (payment) => {
     setAutomaticPayments([...automaticPayments, payment]);
@@ -474,6 +480,7 @@ export default function Home() {
           const copiedData = {
             bankAccounts: [],
             balance: 0,
+            reservedCash: 0,
             income: sourceData.income,
             target: sourceData.target || 0,
             automaticPayments: sourceData.automaticPayments.map(p => ({
@@ -491,6 +498,7 @@ export default function Home() {
           await saveDataToGitHub(allData);
           
           setBankAccounts([]);
+          setReservedCash(0);
           setIncome(copiedData.income || 0);
           setTarget(copiedData.target || 0);
           setAutomaticPayments(copiedData.automaticPayments || []);
@@ -500,6 +508,7 @@ export default function Home() {
           allData[toKey] = {
             balance: 0,
             bankAccounts: [],
+            reservedCash: 0,
             income: 0,
             target: 0,
             automaticPayments: [],
@@ -517,6 +526,7 @@ export default function Home() {
   const handleClearMonth = () => {
     if (window.confirm(`${months[currentMonth.getMonth()]} ${currentMonth.getFullYear()} verilerini silmek istediğinizden emin misiniz?`)) {
       setBankAccounts([]);
+      setReservedCash(0);
       setIncome(0);
       setTarget(0);
       setAutomaticPayments([]);
@@ -643,7 +653,7 @@ export default function Home() {
   }
 
   const balance = getBalanceTotal(bankAccounts);
-  const hasData = balance > 0 || income > 0 || target > 0 || automaticPayments.length > 0 || creditPayments.length > 0;
+  const hasData = balance > 0 || reservedCash > 0 || income > 0 || target > 0 || automaticPayments.length > 0 || creditPayments.length > 0;
 
   return (
     <main className="container">
@@ -714,6 +724,7 @@ export default function Home() {
 
       <div className="input-grid">
         <BalanceInput bankAccounts={bankAccounts} onChange={setBankAccounts} />
+        <CashInput value={reservedCash} onChange={setReservedCash} />
         <IncomeInput value={income} onChange={setIncome} />
         <TargetInput value={target} onChange={setTarget} />
       </div>
@@ -742,6 +753,7 @@ export default function Home() {
       <div style={{ marginTop: '32px' }}>
         <Summary
           balance={balance}
+          reservedCash={reservedCash}
           income={income}
           target={target}
           automaticPayments={automaticPayments}
@@ -871,6 +883,7 @@ export default function Home() {
           className="btn btn-primary btn-sm" 
           onClick={() => saveData(buildMonthPayload(
             bankAccounts,
+            reservedCash,
             income,
             target,
             automaticPayments,
