@@ -32,18 +32,11 @@
     "creditPayments": []
   },
   "2026-05": {
-    "balance": 309000,
+    "balance": 295000,
     "cash": 0,
     "income": 0,
     "target": 0,
-    "automaticPayments": [
-      {
-        "id": 1768341447018.978,
-        "name": "Ev Kirası",
-        "amount": 14000,
-        "type": "automatic"
-      }
-    ],
+    "automaticPayments": [],
     "creditPayments": []
   },
   "2026-06": {
