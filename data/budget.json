@@ -67,9 +67,14 @@
         "id": 1780064981673.394,
         "name": "Akbank",
         "amount": 100000
+      },
+      {
+        "id": 1780065006408.8262,
+        "name": "Kuveyt Türk",
+        "amount": 32500
       }
     ],
-    "balance": 250000,
+    "balance": 282500,
     "reservedCash": 0,
     "income": 90000,
     "target": 25000,
