@@ -57,24 +57,8 @@
     "creditPayments": []
   },
   "2026-06": {
-    "bankAccounts": [
-      {
-        "id": 1780064970974.3196,
-        "name": "Garanti ",
-        "amount": 150000
-      },
-      {
-        "id": 1780064981673.394,
-        "name": "Akbank",
-        "amount": 100000
-      },
-      {
-        "id": 1780065006408.8262,
-        "name": "Kuveyt Türk",
-        "amount": 32500
-      }
-    ],
-    "balance": 282500,
+    "bankAccounts": [],
+    "balance": 0,
     "reservedCash": 0,
     "income": 90000,
     "target": 25000,
