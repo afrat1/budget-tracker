@@ -57,14 +57,8 @@
     "creditPayments": []
   },
   "2026-06": {
-    "bankAccounts": [
-      {
-        "id": 1780230769622.5764,
-        "name": "Akbank",
-        "amount": 100000
-      }
-    ],
-    "balance": 100000,
+    "bankAccounts": [],
+    "balance": 0,
     "reservedCash": 20000,
     "income": 90000,
     "target": 25000,
