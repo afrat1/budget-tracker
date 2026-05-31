@@ -128,7 +128,7 @@
       }
     ],
     "balance": 320000,
-    "reservedCash": 0,
+    "reservedCash": 20000,
     "income": 93000,
     "target": 0,
     "automaticPayments": [
