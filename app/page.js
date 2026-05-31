@@ -23,7 +23,6 @@ export default function Home() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
-  const skipSaveRef = useRef(true); // Initial load skip
   const allDataRef = useRef({}); // Cache all data
 
   const CORRECT_PASSWORD = 'afkaya48';
@@ -185,10 +184,7 @@ export default function Home() {
       setAutomaticPayments(monthData.automaticPayments || []);
       setCreditPayments(monthData.creditPayments || []);
       
-      setTimeout(() => {
-        setIsLoaded(true);
-        skipSaveRef.current = false;
-      }, 0);
+      setTimeout(() => setIsLoaded(true), 0);
     } catch (err) {
       console.error('Error loading data:', err);
       setBankAccounts([]);
@@ -275,22 +271,17 @@ export default function Home() {
     setTimeout(() => setSaveStatus(null), 8000);
   }, [currentMonth, loadAllData, saveDataToGitHub]);
 
-  // Auto-save when data changes
-  useEffect(() => {
-    if (isLoaded && !skipSaveRef.current) {
-      const timeoutId = setTimeout(() => {
-        saveData(buildMonthPayload(
-          bankAccounts,
-          reservedCash,
-          income,
-          target,
-          automaticPayments,
-          creditPayments,
-        ));
-      }, 1000); // 1 second debounce
-      return () => clearTimeout(timeoutId);
-    }
-  }, [bankAccounts, reservedCash, income, target, automaticPayments, creditPayments, isLoaded, saveData]);
+  const handleSave = () => {
+    if (!isLoaded || isSaving) return;
+    saveData(buildMonthPayload(
+      bankAccounts,
+      reservedCash,
+      income,
+      target,
+      automaticPayments,
+      creditPayments,
+    ));
+  };
 
   const handleAddAutomatic = (payment) => {
     setAutomaticPayments([...automaticPayments, payment]);
@@ -891,17 +882,10 @@ export default function Home() {
             onClick={() => setShowTokenInput(false)}
           />
         )}
-        <button 
-          className="btn btn-primary btn-sm" 
-          onClick={() => saveData(buildMonthPayload(
-            bankAccounts,
-            reservedCash,
-            income,
-            target,
-            automaticPayments,
-            creditPayments,
-          ))}
-          disabled={isSaving}
+        <button
+          className="btn btn-primary btn-sm"
+          onClick={handleSave}
+          disabled={isSaving || !isLoaded}
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" width="16" height="16">
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
