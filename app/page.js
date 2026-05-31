@@ -76,6 +76,11 @@ export default function Home() {
     return window.location.pathname.startsWith('/budget-tracker') ? '/budget-tracker' : '';
   };
 
+  const encodeBudgetPayload = (allData) => {
+    const json = JSON.stringify(allData, null, 2);
+    return btoa(unescape(encodeURIComponent(json)));
+  };
+
   // Load all budget data from public/budget.json
   const loadAllData = useCallback(async () => {
     try {
@@ -101,51 +106,48 @@ export default function Home() {
   const saveDataToGitHub = useCallback(async (allData) => {
     try {
       if (typeof window !== 'undefined') {
-        // localStorage'a kaydet (backup)
         localStorage.setItem('budget_data', JSON.stringify(allData));
         localStorage.setItem('budget_data_updated', new Date().toISOString());
-        
+
         const token = localStorage.getItem('github_token');
-        
+
         if (!token) {
           console.log('GitHub token not found. Data saved to localStorage only.');
-          return { success: true, savedToLocalStorage: true };
+          return { success: true, savedToLocalStorage: true, needsToken: true };
         }
-        
+
         try {
-          // GitHub Actions workflow'unu tetikle (repository_dispatch)
           const repo = 'afrat1/budget-tracker';
           const response = await fetch(`https://api.github.com/repos/${repo}/dispatches`, {
             method: 'POST',
             headers: {
-              'Authorization': `Bearer ${token}`,
-              'Accept': 'application/vnd.github.v3+json',
+              Authorization: `Bearer ${token}`,
+              Accept: 'application/vnd.github.v3+json',
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
               event_type: 'update-budget',
               client_payload: {
-                data: JSON.stringify(allData, null, 2),
+                data_b64: encodeBudgetPayload(allData),
               },
             }),
           });
-          
+
           if (response.ok) {
-            console.log('✅ GitHub Actions workflow tetiklendi! Commit yakında yapılacak.');
+            console.log('GitHub Actions workflow tetiklendi.');
             return { success: true, workflowTriggered: true };
-          } else {
-            const error = await response.json();
-            console.error('GitHub API error:', error);
-            // Hata olsa bile localStorage'a kaydedildi
-            return { success: true, savedToLocalStorage: true, error: error.message };
           }
+
+          const error = await response.json().catch(() => ({}));
+          const message = error.message || `HTTP ${response.status}`;
+          console.error('GitHub API error:', message, error);
+          return { success: false, savedToLocalStorage: true, error: message };
         } catch (apiErr) {
           console.error('GitHub API call failed:', apiErr);
-          // Hata olsa bile localStorage'a kaydedildi
-          return { success: true, savedToLocalStorage: true, error: apiErr.message };
+          return { success: false, savedToLocalStorage: true, error: apiErr.message };
         }
       }
-      
+
       return { success: true };
     } catch (err) {
       console.error('Error saving data:', err);
@@ -245,22 +247,32 @@ export default function Home() {
   // Save data - update local cache and save to GitHub
   const saveData = useCallback(async (data) => {
     setIsSaving(true);
+    setSaveStatus('saving');
     const monthKey = getMonthKey(currentMonth);
     try {
-      // Reload all data to get latest
       const allData = await loadAllData();
-      
-      // Update the month data
       allData[monthKey] = data;
       allDataRef.current = allData;
-      
-      // Save to GitHub (will use GitHub Actions or API)
-      await saveDataToGitHub(allData);
-      
+
+      const result = await saveDataToGitHub(allData);
+
+      if (result.workflowTriggered) {
+        setSaveStatus('success');
+      } else if (result.needsToken) {
+        setSaveStatus('localStorage');
+      } else if (result.error) {
+        setSaveStatus('error');
+      } else if (result.savedToLocalStorage) {
+        setSaveStatus('localStorage');
+      } else {
+        setSaveStatus('success');
+      }
     } catch (err) {
       console.error('Error saving data:', err);
+      setSaveStatus('error');
     }
     setIsSaving(false);
+    setTimeout(() => setSaveStatus(null), 8000);
   }, [currentMonth, loadAllData, saveDataToGitHub]);
 
   // Auto-save when data changes
@@ -788,7 +800,7 @@ export default function Home() {
         )}
         {saveStatus === 'error' && (
           <span style={{ color: 'var(--error)', fontSize: '0.875rem' }}>
-            ❌ Hata oluştu, localStorage&apos;a kaydedildi
+            GitHub kaydı başarısız (tarayıcıda yedek var). Token veya Actions izinlerini kontrol et.
           </span>
         )}
         {showTokenInput && (

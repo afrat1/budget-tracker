@@ -5,9 +5,12 @@ on:
     types: [update-budget]
   workflow_dispatch:
     inputs:
-      data:
-        description: 'Budget data JSON'
+      data_b64:
+        description: 'Budget JSON (base64)'
         required: true
+
+permissions:
+  contents: write
 
 concurrency:
   group: update-budget
@@ -16,37 +19,36 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
       - name: Update budget.json
+        env:
+          DATA_B64: ${{ github.event.client_payload.data_b64 || github.event.inputs.data_b64 }}
         run: |
-          DATA='${{ github.event.inputs.data || github.event.client_payload.data }}'
-          if [ -z "$DATA" ] || [ "$DATA" == "null" ] || [ "$DATA" == "" ]; then
+          if [ -z "$DATA_B64" ] || [ "$DATA_B64" = "null" ]; then
             echo "No data provided, skipping update"
             exit 0
           fi
-          echo "$DATA" > public/budget.json
-          echo "$DATA" > data/budget.json
-          echo "Budget files updated"
+          printf '%s' "$DATA_B64" | base64 -d > public/budget.json
+          cp public/budget.json data/budget.json
+          python3 -c "import json; json.load(open('public/budget.json'))"
+          echo "Budget files updated ($(wc -c < public/budget.json) bytes)"
 
-      - name: Commit changes
+      - name: Commit and push
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
           git add public/budget.json data/budget.json
           if git diff --staged --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "Update budget data"
-            git pull --rebase origin main
-            git push origin main
-            echo "Changes committed - deploy.yml main push ile tetiklenecek"
+            echo "No changes to commit (data already matches main)"
+            exit 0
           fi
+          git commit -m "Update budget data"
+          git pull --rebase origin main
+          git push origin main
+          echo "Pushed to main — deploy workflow will run"
 
