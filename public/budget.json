@@ -175,8 +175,9 @@
     "creditPayments": []
   },
   "2026-08": {
+    "bankAccounts": [],
     "balance": 0,
-    "cash": 0,
+    "reservedCash": 0,
     "income": 93000,
     "target": 0,
     "automaticPayments": [
@@ -197,12 +198,6 @@
         "name": "Ayakkabı Taksit IV",
         "amount": 1498.5,
         "type": "automatic"
-      },
-      {
-        "id": 1777818118137.6794,
-        "name": "Kahve Makinesi V",
-        "amount": 3329.07,
-        "type": "automatic"
       }
     ],
     "creditPayments": [
@@ -210,6 +205,12 @@
         "id": 1777818118430.9636,
         "name": "Otomatik Faturalar (Silinecek)",
         "amount": 2000,
+        "type": "credit"
+      },
+      {
+        "id": 1780246876015,
+        "name": "Garanti Kredi Kartı Borç",
+        "amount": 3993,
         "type": "credit"
       }
     ]
