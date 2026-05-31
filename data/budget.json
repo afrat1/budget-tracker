@@ -57,8 +57,19 @@
     "creditPayments": []
   },
   "2026-06": {
-    "bankAccounts": [],
-    "balance": 0,
+    "bankAccounts": [
+      {
+        "id": 1780234166883.0442,
+        "name": "Akbank",
+        "amount": 100000
+      },
+      {
+        "id": 1780234175548.1296,
+        "name": "Kuveyt Türk",
+        "amount": 32500
+      }
+    ],
+    "balance": 132500,
     "reservedCash": 20000,
     "income": 90000,
     "target": 37000,
