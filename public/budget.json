@@ -181,8 +181,14 @@
     "creditPayments": []
   },
   "2026-08": {
-    "bankAccounts": [],
-    "balance": 0,
+    "bankAccounts": [
+      {
+        "id": 1780248073065.117,
+        "name": "Devreden Bakiye",
+        "amount": 365186.64
+      }
+    ],
+    "balance": 365186.64,
     "reservedCash": 0,
     "income": 93000,
     "target": 0,
