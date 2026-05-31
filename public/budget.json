@@ -67,9 +67,14 @@
         "id": 1780234175548.1296,
         "name": "Kuveyt Türk",
         "amount": 32500
+      },
+      {
+        "id": 1780234394904.981,
+        "name": "Garanti",
+        "amount": 145000
       }
     ],
-    "balance": 132500,
+    "balance": 277500,
     "reservedCash": 20000,
     "income": 90000,
     "target": 37000,
