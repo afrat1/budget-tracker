@@ -157,6 +157,12 @@
         "name": "Otomatik Faturalar (Silinecek)",
         "amount": 2000,
         "type": "credit"
+      },
+      {
+        "id": 1780245599591,
+        "name": "Garanti Kredi Kartı Borç",
+        "amount": 663.93,
+        "type": "credit"
       }
     ]
   },
