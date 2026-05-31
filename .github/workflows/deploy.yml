@@ -4,10 +4,6 @@ on:
   push:
     branches:
       - main
-  workflow_run:
-    workflows: ["Update Budget Data"]
-    types:
-      - completed
   workflow_dispatch:
 
 permissions:
@@ -15,9 +11,10 @@ permissions:
   pages: write
   id-token: write
 
+# Tek seferde bir deploy; yeni push gelirse sıraya al (iptal = kırmızı hata görünür)
 concurrency:
   group: "pages"
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:

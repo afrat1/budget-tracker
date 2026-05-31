@@ -47,6 +47,6 @@ jobs:
             git commit -m "Update budget data"
             git pull --rebase origin main
             git push origin main
-            echo "Changes committed - deploy.yml will auto-trigger via workflow_run"
+            echo "Changes committed - deploy.yml main push ile tetiklenecek"
           fi
 
