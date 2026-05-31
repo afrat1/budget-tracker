@@ -120,8 +120,14 @@
     ]
   },
   "2026-07": {
-    "bankAccounts": [],
-    "balance": 0,
+    "bankAccounts": [
+      {
+        "id": 1780247009079.7043,
+        "name": "Tahmini",
+        "amount": 320000
+      }
+    ],
+    "balance": 320000,
     "reservedCash": 0,
     "income": 93000,
     "target": 0,
