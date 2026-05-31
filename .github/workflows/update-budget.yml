@@ -9,6 +9,10 @@ on:
         description: 'Budget data JSON'
         required: true
 
+concurrency:
+  group: update-budget
+  cancel-in-progress: false
+
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -19,6 +23,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
 
       - name: Update budget.json
         run: |
@@ -40,7 +45,8 @@ jobs:
             echo "No changes to commit"
           else
             git commit -m "Update budget data"
-            git push
+            git pull --rebase origin main
+            git push origin main
             echo "Changes committed - deploy.yml will auto-trigger via workflow_run"
           fi
 
