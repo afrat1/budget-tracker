@@ -19,8 +19,7 @@ export default function Summary({ balance, reservedCash, income, target, automat
   const totalAutomatic = round2(automaticPayments.reduce((sum, p) => sum + p.amount, 0));
   const totalCredit = round2(creditPayments.reduce((sum, p) => sum + p.amount, 0));
   const totalExpenses = round2(totalAutomatic + totalCredit);
-  const totalBalance = round2(balance + reservedCash);
-  const totalAvailable = round2(totalBalance + income);
+  const totalAvailable = round2(balance + income - reservedCash);
   const remaining = round2(totalAvailable - totalExpenses);
   
   // Hedef tasarruf hesaplaması
@@ -46,9 +45,15 @@ export default function Summary({ balance, reservedCash, income, target, automat
 
       <div className="summary-top-grid">
         <div className="summary-item">
-          <div className="summary-item-label">Banka + Ayrılan Nakit</div>
-          <div className="summary-item-value income">{formatNumber(totalBalance)} ₺</div>
+          <div className="summary-item-label">Banka Bakiyesi</div>
+          <div className="summary-item-value income">{formatNumber(balance)} ₺</div>
         </div>
+        {reservedCash > 0 && (
+          <div className="summary-item">
+            <div className="summary-item-label">Ayrılan Nakit</div>
+            <div className="summary-item-value expense">-{formatNumber(reservedCash)} ₺</div>
+          </div>
+        )}
         <div className="summary-item">
           <div className="summary-item-label">Gelecek Gelir</div>
           <div className="summary-item-value" style={{ color: 'var(--success)' }}>+{formatNumber(income)} ₺</div>
@@ -89,7 +94,7 @@ export default function Summary({ balance, reservedCash, income, target, automat
           {remaining >= 0 ? '' : '-'}{formatNumber(remaining)} ₺
         </div>
         <div className="remaining-balance-note">
-          Mevcut bakiye + gelecek gelir - tüm ödemeler
+          Banka bakiyesi + gelecek gelir{reservedCash > 0 ? ' − ayrılan nakit' : ''} − tüm ödemeler
         </div>
         {remaining > 0 && onTransferToNextMonth && (
           <button 

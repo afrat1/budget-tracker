@@ -69,7 +69,7 @@ export default function CashInput({ value, onChange }) {
         </div>
       </div>
       <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginTop: '8px' }}>
-        Harcamalar için ayırdığınız nakit para
+        Ana bütçeden bu ay harcamak için ayırdığınız tutar (özetten düşülür)
       </p>
     </div>
   );
