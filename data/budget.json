@@ -61,7 +61,7 @@
     "balance": 0,
     "reservedCash": 20000,
     "income": 90000,
-    "target": 25000,
+    "target": 37000,
     "automaticPayments": [
       {
         "id": 1768646201938.8245,
@@ -83,12 +83,6 @@
       }
     ],
     "creditPayments": [
-      {
-        "id": 1777814376494,
-        "name": "Tenis (Nakit)",
-        "amount": 12000,
-        "type": "credit"
-      },
       {
         "id": 1777814892748,
         "name": "Otomatik Faturalar (Silinecek)",
