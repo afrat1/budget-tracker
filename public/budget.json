@@ -71,11 +71,11 @@
       {
         "id": 1780234394904.981,
         "name": "Garanti",
-        "amount": 136710
+        "amount": 131382
       }
     ],
-    "balance": 269210,
-    "reservedCash": 8608,
+    "balance": 263882,
+    "reservedCash": 4695.51,
     "income": 90000,
     "target": 320000,
     "automaticPayments": [
