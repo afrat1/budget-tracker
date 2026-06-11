@@ -102,13 +102,13 @@
       {
         "id": 1777814892748,
         "name": "Otomatik Faturalar (Silinecek)",
-        "amount": 1500,
+        "amount": 1000,
         "type": "credit"
       },
       {
         "id": 1779198744541,
         "name": "Albaraka Kredi Kartı Borç",
-        "amount": 3959.61,
+        "amount": 4659.61,
         "type": "credit"
       },
       {
