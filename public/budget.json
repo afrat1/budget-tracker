@@ -100,12 +100,6 @@
     ],
     "creditPayments": [
       {
-        "id": 1777814892748,
-        "name": "Otomatik Faturalar (Silinecek)",
-        "amount": 1000,
-        "type": "credit"
-      },
-      {
         "id": 1779198744541,
         "name": "Albaraka Kredi Kartı Borç",
         "amount": 4659.61,
@@ -114,7 +108,7 @@
       {
         "id": 1779198857187,
         "name": "Garanti Kredi Kartı Borç",
-        "amount": 3896.33,
+        "amount": 3946.32,
         "type": "credit"
       },
       {
