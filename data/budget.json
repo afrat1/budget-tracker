@@ -71,11 +71,11 @@
       {
         "id": 1780234394904.981,
         "name": "Garanti",
-        "amount": 131382
+        "amount": 116228
       }
     ],
-    "balance": 263882,
-    "reservedCash": 4695.51,
+    "balance": 248728,
+    "reservedCash": 1349.1,
     "income": 90000,
     "target": 310000,
     "automaticPayments": [
@@ -109,12 +109,6 @@
         "id": 1779198857187,
         "name": "Garanti Kredi Kartı Borç",
         "amount": 3946.32,
-        "type": "credit"
-      },
-      {
-        "id": 1781092056894,
-        "name": "Çeyrek Altın",
-        "amount": 10600,
         "type": "credit"
       }
     ]
