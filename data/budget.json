@@ -71,10 +71,10 @@
       {
         "id": 1780234394904.981,
         "name": "Garanti",
-        "amount": 116968
+        "amount": 116042
       }
     ],
-    "balance": 249468,
+    "balance": 248542,
     "reservedCash": 154.28,
     "income": 90000,
     "target": 310000,
@@ -108,7 +108,7 @@
       {
         "id": 1779198857187,
         "name": "Garanti Kredi Kartı Borç",
-        "amount": 6960.81,
+        "amount": 7431.28,
         "type": "credit"
       }
     ]
