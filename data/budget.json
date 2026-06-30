@@ -84,12 +84,6 @@
         "name": "Ev Kirası",
         "amount": 14000,
         "type": "automatic"
-      },
-      {
-        "id": 1777814186216.4526,
-        "name": "Ayakkabı Taksit II",
-        "amount": 1498.5,
-        "type": "automatic"
       }
     ],
     "creditPayments": []
