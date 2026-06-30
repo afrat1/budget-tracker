@@ -66,7 +66,7 @@
       {
         "id": 1780234175548.1296,
         "name": "Kuveyt Türk",
-        "amount": 32500
+        "amount": 98434
       },
       {
         "id": 1780234394904.981,
@@ -74,10 +74,10 @@
         "amount": 116042
       }
     ],
-    "balance": 248542,
-    "reservedCash": 154.28,
-    "income": 90000,
-    "target": 310000,
+    "balance": 314476,
+    "reservedCash": 0,
+    "income": 0,
+    "target": 0,
     "automaticPayments": [
       {
         "id": 1768646201938.8245,
