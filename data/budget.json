@@ -91,12 +91,12 @@
   "2026-07": {
     "bankAccounts": [
       {
-        "id": 1780247009079.7043,
-        "name": "Tahmini",
-        "amount": 320000
+        "id": 1782803791495.7214,
+        "name": "Devreden Bakiye",
+        "amount": 300168.32
       }
     ],
-    "balance": 320000,
+    "balance": 300168.32,
     "reservedCash": 20000,
     "income": 93000,
     "target": 0,
