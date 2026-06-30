@@ -86,32 +86,13 @@
         "type": "automatic"
       },
       {
-        "id": 1777814186074.4229,
-        "name": "PS5 IV",
-        "amount": 3499.88,
-        "type": "automatic"
-      },
-      {
         "id": 1777814186216.4526,
         "name": "Ayakkabı Taksit II",
         "amount": 1498.5,
         "type": "automatic"
       }
     ],
-    "creditPayments": [
-      {
-        "id": 1779198744541,
-        "name": "Albaraka Kredi Kartı Borç",
-        "amount": 5014.61,
-        "type": "credit"
-      },
-      {
-        "id": 1779198857187,
-        "name": "Garanti Kredi Kartı Borç",
-        "amount": 15007.62,
-        "type": "credit"
-      }
-    ]
+    "creditPayments": []
   },
   "2026-07": {
     "bankAccounts": [
