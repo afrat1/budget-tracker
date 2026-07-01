@@ -72,11 +72,16 @@
         "id": 1780234394904.981,
         "name": "Garanti",
         "amount": 114046.58
+      },
+      {
+        "id": 1782944760228.135,
+        "name": "albaraka",
+        "amount": 1700
       }
     ],
-    "balance": 297322.63,
+    "balance": 299022.63,
     "reservedCash": 0,
-    "income": 1200,
+    "income": 0,
     "target": 0,
     "automaticPayments": [],
     "creditPayments": []
