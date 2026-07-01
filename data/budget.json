@@ -89,12 +89,12 @@
   "2026-07": {
     "bankAccounts": [
       {
-        "id": 1782803791495.7214,
+        "id": 1782944950919.1448,
         "name": "Devreden Bakiye",
-        "amount": 300000
+        "amount": 299022.63
       }
     ],
-    "balance": 300000,
+    "balance": 299022.63,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
