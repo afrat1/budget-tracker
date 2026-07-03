@@ -90,11 +90,11 @@
     "bankAccounts": [
       {
         "id": 1782944950919.1448,
-        "name": "Kuveyt Türk",
-        "amount": 84638.4
+        "name": "Devreden Bakiye",
+        "amount": 300000
       }
     ],
-    "balance": 84638.4,
+    "balance": 300000,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
