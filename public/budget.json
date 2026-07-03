@@ -91,10 +91,10 @@
       {
         "id": 1782944950919.1448,
         "name": "Devreden Bakiye",
-        "amount": 300000
+        "amount": 301808.42
       }
     ],
-    "balance": 300000,
+    "balance": 301808.42,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
