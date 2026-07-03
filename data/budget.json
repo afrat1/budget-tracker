@@ -89,17 +89,27 @@
   "2026-07": {
     "bankAccounts": [
       {
-        "id": 1782944950919.1448,
-        "name": "Devreden Bakiye",
-        "amount": 301808.42
+        "id": 1783080589500.2563,
+        "name": "Kuveyt Türk",
+        "amount": 84638.4
       },
       {
-        "id": 1783080507916.432,
+        "id": 1783080604300.0977,
+        "name": "Garanti",
+        "amount": 114669.27
+      },
+      {
+        "id": 1783080614401.448,
+        "name": "Albaraka",
+        "amount": 2500.75
+      },
+      {
+        "id": 1783080628185.724,
         "name": "Yapı Kredi",
         "amount": 100000
       }
     ],
-    "balance": 401808.42,
+    "balance": 301808.42,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
