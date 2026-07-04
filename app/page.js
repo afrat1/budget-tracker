@@ -23,7 +23,8 @@ export default function Home() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
-  const allDataRef = useRef({}); // Cache all data
+  const allDataRef = useRef({}); // Working copy: server data + unsaved drafts
+  const serverDataLoadedRef = useRef(false);
 
   const CORRECT_PASSWORD = 'afkaya48';
 
@@ -80,8 +81,12 @@ export default function Home() {
     return btoa(unescape(encodeURIComponent(json)));
   };
 
-  // Load all budget data from public/budget.json
-  const loadAllData = useCallback(async () => {
+  // Load all budget data from public/budget.json (only on first load / F5)
+  const loadAllData = useCallback(async (force = false) => {
+    if (serverDataLoadedRef.current && !force) {
+      return allDataRef.current;
+    }
+
     try {
       const basePath = getBasePath();
       const res = await fetch(`${basePath}/budget.json?t=${Date.now()}`, {
@@ -92,12 +97,25 @@ export default function Home() {
       }
       const data = await res.json();
       allDataRef.current = data;
+      serverDataLoadedRef.current = true;
       return data;
     } catch (err) {
       console.error('Error loading all data:', err);
-      return {};
+      return allDataRef.current;
     }
   }, []);
+
+  const persistCurrentMonthDraft = useCallback(() => {
+    const monthKey = getMonthKey(currentMonth);
+    allDataRef.current[monthKey] = buildMonthPayload(
+      bankAccounts,
+      reservedCash,
+      income,
+      target,
+      automaticPayments,
+      creditPayments,
+    );
+  }, [currentMonth, bankAccounts, reservedCash, income, target, automaticPayments, creditPayments]);
 
   // Save data - GitHub Actions ile otomatik commit
   // CORS nedeniyle browser'dan direkt GitHub API çağrısı çalışmaz
@@ -154,18 +172,17 @@ export default function Home() {
     }
   }, []);
 
-  // Load data for current month from public/budget.json
+  // Load data for current month from working copy (drafts survive month navigation)
   const loadMonthData = useCallback(async (date) => {
     setIsLoaded(false);
     const monthKey = getMonthKey(date);
     console.log('Loading month data for:', monthKey);
-    
+
     try {
-      // Load all data if not cached
-      if (Object.keys(allDataRef.current).length === 0) {
+      if (!serverDataLoadedRef.current) {
         await loadAllData();
       }
-      
+
       const allData = allDataRef.current;
       const monthData = allData[monthKey] || {
         balance: 0,
@@ -183,7 +200,7 @@ export default function Home() {
       setTarget(monthData.target || 0);
       setAutomaticPayments(monthData.automaticPayments || []);
       setCreditPayments(monthData.creditPayments || []);
-      
+
       setTimeout(() => setIsLoaded(true), 0);
     } catch (err) {
       console.error('Error loading data:', err);
@@ -196,16 +213,6 @@ export default function Home() {
       setIsLoaded(true);
     }
   }, [loadAllData]);
-
-  // Check authentication on mount
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const authStatus = localStorage.getItem('budget_authenticated');
-      if (authStatus === 'true') {
-        setIsAuthenticated(true);
-      }
-    }
-  }, []);
 
   // Check authentication on mount
   useEffect(() => {
@@ -240,15 +247,13 @@ export default function Home() {
     }
   };
 
-  // Save data - update local cache and save to GitHub
-  const saveData = useCallback(async (data) => {
+  // Save data - commit working copy to GitHub (only via Kaydet button)
+  const saveData = useCallback(async () => {
     setIsSaving(true);
     setSaveStatus('saving');
-    const monthKey = getMonthKey(currentMonth);
     try {
-      const allData = await loadAllData();
-      allData[monthKey] = data;
-      allDataRef.current = allData;
+      persistCurrentMonthDraft();
+      const allData = { ...allDataRef.current };
 
       const result = await saveDataToGitHub(allData);
 
@@ -269,18 +274,11 @@ export default function Home() {
     }
     setIsSaving(false);
     setTimeout(() => setSaveStatus(null), 8000);
-  }, [currentMonth, loadAllData, saveDataToGitHub]);
+  }, [persistCurrentMonthDraft, saveDataToGitHub]);
 
   const handleSave = () => {
     if (!isLoaded || isSaving) return;
-    saveData(buildMonthPayload(
-      bankAccounts,
-      reservedCash,
-      income,
-      target,
-      automaticPayments,
-      creditPayments,
-    ));
+    saveData();
   };
 
   const handleAddAutomatic = (payment) => {
@@ -335,10 +333,12 @@ export default function Home() {
 
   const handlePrevMonth = () => {
     if (!canGoPrev) return;
+    persistCurrentMonthDraft();
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1));
   };
 
   const handleNextMonth = () => {
+    persistCurrentMonthDraft();
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1));
   };
 
@@ -349,8 +349,8 @@ export default function Home() {
 
     if (window.confirm(`Otomatik ödemeleri ${monthNames[nextMonthDate.getMonth()]} ayına kopyalamak istiyor musunuz?`)) {
       try {
-        // Get all data
-        const allData = await loadAllData();
+        persistCurrentMonthDraft();
+        const allData = allDataRef.current;
         const nextMonthData = allData[nextMonthKey] || {
           balance: 0,
           bankAccounts: [],
@@ -359,25 +359,19 @@ export default function Home() {
           automaticPayments: [],
           creditPayments: [],
         };
-        
-        // Add current automatic payments with new IDs
+
         const copiedPayments = automaticPayments.map(p => ({
           ...p,
           id: Date.now() + Math.random() * 1000,
         }));
-        
-        // Merge with existing or create new
-        const updatedData = {
+
+        allData[nextMonthKey] = {
           ...nextMonthData,
           automaticPayments: [...(nextMonthData.automaticPayments || []), ...copiedPayments],
         };
-        
-        // Update all data
-        allData[nextMonthKey] = updatedData;
         allDataRef.current = allData;
-        await saveDataToGitHub(allData);
-        
-        alert(`${automaticPayments.length} otomatik ödeme ${monthNames[nextMonthDate.getMonth()]} ayına kopyalandı!`);
+
+        alert(`${automaticPayments.length} otomatik ödeme ${monthNames[nextMonthDate.getMonth()]} ayına kopyalandı. Kaydet butonuna basarak commit edin.`);
       } catch (err) {
         console.error('Error copying payments:', err);
       }
@@ -391,8 +385,8 @@ export default function Home() {
 
     if (window.confirm(`Kredi taksitlerini ${monthNames[nextMonthDate.getMonth()]} ayına kopyalamak istiyor musunuz?`)) {
       try {
-        // Get all data
-        const allData = await loadAllData();
+        persistCurrentMonthDraft();
+        const allData = allDataRef.current;
         const nextMonthData = allData[nextMonthKey] || {
           balance: 0,
           bankAccounts: [],
@@ -401,23 +395,19 @@ export default function Home() {
           automaticPayments: [],
           creditPayments: [],
         };
-        
+
         const copiedPayments = creditPayments.map(p => ({
           ...p,
           id: Date.now() + Math.random() * 1000,
         }));
-        
-        const updatedData = {
+
+        allData[nextMonthKey] = {
           ...nextMonthData,
           creditPayments: [...(nextMonthData.creditPayments || []), ...copiedPayments],
         };
-        
-        // Update all data
-        allData[nextMonthKey] = updatedData;
         allDataRef.current = allData;
-        await saveDataToGitHub(allData);
-        
-        alert(`${creditPayments.length} kredi taksiti ${monthNames[nextMonthDate.getMonth()]} ayına kopyalandı!`);
+
+        alert(`${creditPayments.length} kredi taksiti ${monthNames[nextMonthDate.getMonth()]} ayına kopyalandı. Kaydet butonuna basarak commit edin.`);
       } catch (err) {
         console.error('Error copying payments:', err);
       }
@@ -432,8 +422,8 @@ export default function Home() {
 
     if (window.confirm(`${currentMonthName}'dan kalan ${amount.toFixed(2).replace('.', ',')} ₺'yi ${nextMonthName} ayının banka bakiyesine aktarmak istiyor musunuz?`)) {
       try {
-        // Get all data
-        const allData = await loadAllData();
+        persistCurrentMonthDraft();
+        const allData = allDataRef.current;
         const nextMonthData = allData[nextMonthKey] || {
           balance: 0,
           bankAccounts: [],
@@ -448,19 +438,15 @@ export default function Home() {
           name: 'Devreden Bakiye',
           amount,
         }];
-        
-        const updatedData = {
+
+        allData[nextMonthKey] = {
           ...nextMonthData,
           bankAccounts: transferredAccounts,
           balance: amount,
         };
-        
-        // Update all data
-        allData[nextMonthKey] = updatedData;
         allDataRef.current = allData;
-        await saveDataToGitHub(allData);
-        
-        alert(`${amount.toFixed(2).replace('.', ',')} ₺ ${nextMonthName} ayına aktarıldı!`);
+
+        alert(`${amount.toFixed(2).replace('.', ',')} ₺ ${nextMonthName} ayına aktarıldı. Kaydet butonuna basarak commit edin.`);
       } catch (err) {
         console.error('Error transferring balance:', err);
       }
@@ -474,12 +460,11 @@ export default function Home() {
 
     if (window.confirm(`${months[prevMonth.getMonth()]} ayındaki ödemeleri ${months[currentMonth.getMonth()]} ayına kopyalamak istiyor musunuz?`)) {
       try {
-        // Get all data
-        const allData = await loadAllData();
+        persistCurrentMonthDraft();
+        const allData = allDataRef.current;
         const sourceData = allData[fromKey];
-        
+
         if (sourceData) {
-          // Copy data but generate new IDs for payments
           const copiedData = {
             bankAccounts: [],
             balance: 0,
@@ -495,11 +480,10 @@ export default function Home() {
               id: Date.now() + Math.random() * 1000,
             })),
           };
-          
+
           allData[toKey] = copiedData;
           allDataRef.current = allData;
-          await saveDataToGitHub(allData);
-          
+
           setBankAccounts([]);
           setReservedCash(0);
           setIncome(copiedData.income || 0);
@@ -507,7 +491,6 @@ export default function Home() {
           setAutomaticPayments(copiedData.automaticPayments || []);
           setCreditPayments(copiedData.creditPayments || []);
         } else {
-          // Empty month
           allData[toKey] = {
             balance: 0,
             bankAccounts: [],
@@ -518,8 +501,9 @@ export default function Home() {
             creditPayments: [],
           };
           allDataRef.current = allData;
-          await saveDataToGitHub(allData);
         }
+
+        alert('Ödemeler kopyalandı. Kaydet butonuna basarak commit edin.');
       } catch (err) {
         console.error('Error copying data:', err);
       }
@@ -916,7 +900,7 @@ export default function Home() {
         color: 'var(--text-muted)',
         fontSize: '0.875rem'
       }}>
-        <p>Verileriniz <code style={{ background: 'var(--bg-secondary)', padding: '2px 6px', borderRadius: '4px' }}>public/budget.json</code> dosyasında ay bazlı saklanır</p>
+        <p>Verileriniz <code style={{ background: 'var(--bg-secondary)', padding: '2px 6px', borderRadius: '4px' }}>public/budget.json</code> dosyasında ay bazlı saklanır. Ay değiştirirken taslaklar bellekte kalır; F5 ile sunucudaki son kayıt yüklenir.</p>
         {!localStorage.getItem('github_token') && (
           <p style={{ marginTop: '12px' }}>
             <button

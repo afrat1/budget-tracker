@@ -29,6 +29,9 @@ jobs:
         env:
           DATA_B64: ${{ github.event.client_payload.data_b64 || github.event.inputs.data_b64 }}
         run: |
+          echo "=== Update budget context ==="
+          echo "run_id=${{ github.run_id }}"
+          echo "event=${{ github.event_name }}"
           if [ -z "$DATA_B64" ] || [ "$DATA_B64" = "null" ]; then
             echo "No data provided, skipping update"
             exit 0
@@ -48,7 +51,16 @@ jobs:
             exit 0
           fi
           git commit -m "Update budget data"
-          git pull --rebase origin main
-          git push origin main
-          echo "Pushed to main — deploy workflow will run"
+          echo "Pulling latest main before push..."
+          if ! git pull --rebase origin main; then
+            echo "::error::git pull --rebase failed — possible concurrent update conflict"
+            git status
+            exit 1
+          fi
+          echo "Pushing to main..."
+          if ! git push origin main; then
+            echo "::error::git push failed"
+            exit 1
+          fi
+          echo "Pushed to main — deploy workflow will run via workflow_run"
 
