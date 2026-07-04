@@ -156,6 +156,12 @@
         "name": "Albaraka Kredi Kartı Borç",
         "amount": 3428.47,
         "type": "credit"
+      },
+      {
+        "id": 1783154907878,
+        "name": "Provizyon",
+        "amount": 2538.35,
+        "type": "credit"
       }
     ]
   },
