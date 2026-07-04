@@ -171,7 +171,7 @@
     "bankAccounts": [],
     "balance": 0,
     "reservedCash": 0,
-    "income": 93000,
+    "income": 90000,
     "target": 0,
     "automaticPayments": [
       {
