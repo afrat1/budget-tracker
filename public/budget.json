@@ -141,7 +141,7 @@
     "creditPayments": [
       {
         "id": 1777815144640.4958,
-        "name": "Otomatik Faturalar",
+        "name": "Otomatik Faturalar (Silinecek)",
         "amount": 2000,
         "type": "credit"
       },
