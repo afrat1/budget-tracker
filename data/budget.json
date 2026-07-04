@@ -311,7 +311,7 @@
       },
       {
         "id": 1783170625399.1523,
-        "name": "PS5 VIII",
+        "name": "PS5 IX",
         "amount": 3499.88,
         "type": "automatic"
       }
@@ -326,7 +326,7 @@
       {
         "id": 1783170625363.5415,
         "name": "Garanti Kredi Kartı Borç",
-        "amount": 3993,
+        "amount": 3564.52,
         "type": "credit"
       }
     ]
@@ -343,12 +343,6 @@
         "name": "Ev Kirası",
         "amount": 14000,
         "type": "automatic"
-      },
-      {
-        "id": 1783170653938.3442,
-        "name": "PS5 IX",
-        "amount": 3499.88,
-        "type": "automatic"
       }
     ],
     "creditPayments": [
@@ -361,7 +355,7 @@
       {
         "id": 1783170654295.4185,
         "name": "Garanti Kredi Kartı Borç",
-        "amount": 3993,
+        "amount": 3329.07,
         "type": "credit"
       }
     ]
