@@ -225,8 +225,14 @@
     ]
   },
   "2026-08": {
-    "bankAccounts": [],
-    "balance": 0,
+    "bankAccounts": [
+      {
+        "id": 1783173878316.609,
+        "name": "Tahmini",
+        "amount": 225000
+      }
+    ],
+    "balance": 225000,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -253,6 +259,12 @@
         "id": 1783172250271,
         "name": "Katılımevim Taksit II",
         "amount": 66666.67,
+        "type": "automatic"
+      },
+      {
+        "id": 1783173862431,
+        "name": "Tahmini Harcama",
+        "amount": 20000,
         "type": "automatic"
       }
     ],
