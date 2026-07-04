@@ -115,7 +115,7 @@
       }
     ],
     "balance": 301756.32,
-    "reservedCash": 35000,
+    "reservedCash": 0,
     "income": 90000,
     "target": 0,
     "automaticPayments": [
@@ -221,5 +221,46 @@
     "target": 0,
     "automaticPayments": [],
     "creditPayments": []
+  },
+  "2026-09": {
+    "bankAccounts": [],
+    "balance": 0,
+    "reservedCash": 0,
+    "income": 90000,
+    "target": 0,
+    "automaticPayments": [
+      {
+        "id": 1783170159982.728,
+        "name": "Ev Kirası",
+        "amount": 14000,
+        "type": "automatic"
+      },
+      {
+        "id": 1783170160724.6167,
+        "name": "PS5 VI",
+        "amount": 3499.88,
+        "type": "automatic"
+      },
+      {
+        "id": 1783170160715.442,
+        "name": "Ayakkabı Taksit IV",
+        "amount": 1498.5,
+        "type": "automatic"
+      }
+    ],
+    "creditPayments": [
+      {
+        "id": 1783170160680.051,
+        "name": "Otomatik Faturalar (Silinecek)",
+        "amount": 2000,
+        "type": "credit"
+      },
+      {
+        "id": 1783170160738.4053,
+        "name": "Garanti Kredi Kartı Borç",
+        "amount": 3993,
+        "type": "credit"
+      }
+    ]
   }
 }
