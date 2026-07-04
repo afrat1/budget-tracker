@@ -296,8 +296,9 @@
     ]
   },
   "2027-02": {
+    "bankAccounts": [],
     "balance": 0,
-    "cash": 0,
+    "reservedCash": 0,
     "income": 0,
     "target": 0,
     "automaticPayments": [],
@@ -378,7 +379,7 @@
       {
         "id": 1783170625120.5593,
         "name": "Ev Kirası",
-        "amount": 14000,
+        "amount": 18000,
         "type": "automatic"
       },
       {
@@ -420,10 +421,10 @@
       {
         "id": 1783189448857.4097,
         "name": "Tahmini",
-        "amount": 147000
+        "amount": 143000
       }
     ],
-    "balance": 147000,
+    "balance": 143000,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -431,7 +432,7 @@
       {
         "id": 1783170654653.3416,
         "name": "Ev Kirası",
-        "amount": 14000,
+        "amount": 20000,
         "type": "automatic"
       },
       {
@@ -467,10 +468,10 @@
       {
         "id": 1783189765597.585,
         "name": "Tahmini",
-        "amount": 132000
+        "amount": 123000
       }
     ],
-    "balance": 132000,
+    "balance": 123000,
     "reservedCash": 0,
     "income": 110000,
     "target": 0,
@@ -478,7 +479,7 @@
       {
         "id": 1783189735052.7468,
         "name": "Ev Kirası",
-        "amount": 14000,
+        "amount": 20000,
         "type": "automatic"
       },
       {
