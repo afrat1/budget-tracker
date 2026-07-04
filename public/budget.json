@@ -142,12 +142,6 @@
         "name": "Katılımevim Taksit I",
         "amount": 64705.88,
         "type": "automatic"
-      },
-      {
-        "id": 1783173291500,
-        "name": "Tahmini Harcama",
-        "amount": 20000,
-        "type": "automatic"
       }
     ],
     "creditPayments": [
@@ -174,12 +168,12 @@
   "2026-10": {
     "bankAccounts": [
       {
-        "id": 1783189382316.0986,
-        "name": "Tahmini",
-        "amount": 185000
+        "id": 1783195385021.6223,
+        "name": "Devreden Bakiye",
+        "amount": 204525.51
       }
     ],
-    "balance": 185000,
+    "balance": 204525.51,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -233,12 +227,12 @@
   "2026-08": {
     "bankAccounts": [
       {
-        "id": 1783173878316.609,
-        "name": "Tahmini",
-        "amount": 225000
+        "id": 1783195385021.7612,
+        "name": "Devreden Bakiye",
+        "amount": 243920.03
       }
     ],
-    "balance": 225000,
+    "balance": 243920.03,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -301,12 +295,12 @@
   "2026-09": {
     "bankAccounts": [
       {
-        "id": 1783189346992.3694,
-        "name": "Tahmini",
-        "amount": 205000
+        "id": 1783195385021.948,
+        "name": "Devreden Bakiye",
+        "amount": 224222.77
       }
     ],
-    "balance": 205000,
+    "balance": 224222.77,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -360,12 +354,12 @@
   "2026-11": {
     "bankAccounts": [
       {
-        "id": 1783189416353.9434,
-        "name": "Tahmini",
-        "amount": 165000
+        "id": 1783195385021.9353,
+        "name": "Devreden Bakiye",
+        "amount": 184828.25
       }
     ],
-    "balance": 165000,
+    "balance": 184828.25,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -413,12 +407,12 @@
   "2026-12": {
     "bankAccounts": [
       {
-        "id": 1783189448857.4097,
-        "name": "Tahmini",
-        "amount": 143000
+        "id": 1783195385021.0732,
+        "name": "Devreden Bakiye",
+        "amount": 163057.97
       }
     ],
-    "balance": 143000,
+    "balance": 163057.97,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -460,12 +454,12 @@
   "2027-01": {
     "bankAccounts": [
       {
-        "id": 1783189765597.585,
-        "name": "Tahmini",
-        "amount": 123000
+        "id": 1783195385021.0364,
+        "name": "Devreden Bakiye",
+        "amount": 143023.02
       }
     ],
-    "balance": 123000,
+    "balance": 143023.02,
     "reservedCash": 0,
     "income": 110000,
     "target": 0,
