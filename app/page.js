@@ -8,6 +8,80 @@ import TargetInput from '../components/TargetInput';
 import PaymentList from '../components/PaymentList';
 import Summary from '../components/Summary';
 
+const round2 = (num) => Math.round(num * 100) / 100;
+
+const getMonthKeyFromDate = (date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  return `${year}-${month}`;
+};
+
+const getAccountsFromMonthData = (monthData) => {
+  if (!monthData) return [];
+  if (monthData.bankAccounts?.length > 0) return monthData.bankAccounts;
+  if ((monthData.balance || 0) > 0) {
+    return [{ amount: monthData.balance }];
+  }
+  return [];
+};
+
+const monthHasStoredData = (monthData) => {
+  if (!monthData) return false;
+  const balance = round2(getAccountsFromMonthData(monthData).reduce((sum, account) => sum + account.amount, 0));
+  const reservedCash = monthData.reservedCash ?? monthData.cash ?? 0;
+  return balance > 0
+    || reservedCash > 0
+    || (monthData.income || 0) > 0
+    || (monthData.target || 0) > 0
+    || (monthData.automaticPayments?.length || 0) > 0
+    || (monthData.creditPayments?.length || 0) > 0;
+};
+
+const calculateMonthRemaining = (monthData) => {
+  const balance = round2(getAccountsFromMonthData(monthData).reduce((sum, account) => sum + account.amount, 0));
+  const reservedCash = monthData.reservedCash ?? monthData.cash ?? 0;
+  const income = monthData.income || 0;
+  const totalAutomatic = round2((monthData.automaticPayments || []).reduce((sum, payment) => sum + payment.amount, 0));
+  const totalCredit = round2((monthData.creditPayments || []).reduce((sum, payment) => sum + payment.amount, 0));
+  const totalAvailable = round2(balance + income - reservedCash);
+  return round2(totalAvailable - totalAutomatic - totalCredit);
+};
+
+const applyDevredenBakiye = (monthData, amount) => {
+  const roundedAmount = round2(amount);
+  return {
+    ...monthData,
+    bankAccounts: [{
+      id: Date.now() + Math.random(),
+      name: 'Devreden Bakiye',
+      amount: roundedAmount,
+    }],
+    balance: roundedAmount,
+  };
+};
+
+const cascadeBalanceToFutureMonths = (allData) => {
+  const today = new Date();
+  let cursor = new Date(today.getFullYear(), today.getMonth(), 1);
+
+  while (true) {
+    const currentKey = getMonthKeyFromDate(cursor);
+    const currentData = allData[currentKey];
+
+    if (!monthHasStoredData(currentData)) break;
+
+    const remaining = calculateMonthRemaining(currentData);
+    const nextCursor = new Date(cursor.getFullYear(), cursor.getMonth() + 1, 1);
+    const nextKey = getMonthKeyFromDate(nextCursor);
+    const nextData = allData[nextKey];
+
+    if (!monthHasStoredData(nextData)) break;
+
+    allData[nextKey] = applyDevredenBakiye(nextData, remaining);
+    cursor = nextCursor;
+  }
+};
+
 export default function Home() {
   const [bankAccounts, setBankAccounts] = useState([]);
   const [reservedCash, setReservedCash] = useState(0);
@@ -30,6 +104,7 @@ export default function Home() {
   const [passwordError, setPasswordError] = useState('');
   const allDataRef = useRef({}); // Working copy: server data + unsaved drafts
   const serverDataLoadedRef = useRef(false);
+  const skipAutoCascadeRef = useRef(true);
 
   const CORRECT_PASSWORD = 'afkaya48';
 
@@ -43,6 +118,11 @@ export default function Home() {
     const month = String(date.getMonth() + 1).padStart(2, '0');
     return `${year}-${month}`;
   };
+
+  const isViewingCurrentCalendarMonth = useCallback((date) => {
+    const now = new Date();
+    return date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear();
+  }, []);
 
   const getBalanceTotal = (accounts) =>
     Math.round(accounts.reduce((sum, account) => sum + account.amount, 0) * 100) / 100;
@@ -121,6 +201,15 @@ export default function Home() {
       creditPayments,
     );
   }, [currentMonth, bankAccounts, reservedCash, income, target, automaticPayments, creditPayments]);
+
+  const runAutoCascade = useCallback(() => {
+    if (!isViewingCurrentCalendarMonth(currentMonth)) return;
+
+    persistCurrentMonthDraft();
+    const allData = { ...allDataRef.current };
+    cascadeBalanceToFutureMonths(allData);
+    allDataRef.current = allData;
+  }, [currentMonth, isViewingCurrentCalendarMonth, persistCurrentMonthDraft]);
 
   // Save data - GitHub Actions ile otomatik commit
   // CORS nedeniyle browser'dan direkt GitHub API çağrısı çalışmaz
@@ -280,11 +369,36 @@ export default function Home() {
 
   // Load data when month changes (including initial load)
   useEffect(() => {
+    skipAutoCascadeRef.current = true;
     if (isAuthenticated) {
       console.log('useEffect triggered, currentMonth:', getMonthKey(currentMonth));
       loadMonthData(currentMonth);
     }
   }, [currentMonth, loadMonthData, isAuthenticated]);
+
+  // Current ayda değişiklik olunca gelecek aylara otomatik devret
+  useEffect(() => {
+    if (!isAuthenticated || !isLoaded || !isViewingCurrentCalendarMonth(currentMonth)) return;
+
+    if (skipAutoCascadeRef.current) {
+      skipAutoCascadeRef.current = false;
+      return;
+    }
+
+    runAutoCascade();
+  }, [
+    bankAccounts,
+    reservedCash,
+    income,
+    target,
+    automaticPayments,
+    creditPayments,
+    isAuthenticated,
+    isLoaded,
+    currentMonth,
+    isViewingCurrentCalendarMonth,
+    runAutoCascade,
+  ]);
 
   // Handle password submission
   const handlePasswordSubmit = (e) => {
@@ -694,7 +808,15 @@ export default function Home() {
   }
 
   const balance = getBalanceTotal(bankAccounts);
-  const hasData = balance > 0 || reservedCash > 0 || income > 0 || target > 0 || automaticPayments.length > 0 || creditPayments.length > 0;
+  const hasData = monthHasStoredData({
+    bankAccounts,
+    balance,
+    reservedCash,
+    income,
+    target,
+    automaticPayments,
+    creditPayments,
+  });
 
   return (
     <main className="container">
