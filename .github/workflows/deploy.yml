@@ -16,10 +16,10 @@ permissions:
   pages: write
   id-token: write
 
-# Tek seferde bir deploy; yeni push gelirse sıraya al (iptal = kırmızı hata görünür)
+# Hızlı ardışık kayıtlarda eski deploy iptal; sadece en son build yayınlanır
 concurrency:
   group: "pages"
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -66,4 +66,8 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: WyriHaximus/github-action-retry@v3.2.2
+        with:
+          uses: actions/deploy-pages@v4
+          max_attempts: 5
+          retry_delay: 45000
