@@ -91,7 +91,7 @@
       {
         "id": 1783080589500.2563,
         "name": "Kuveyt Türk",
-        "amount": 84638.4
+        "amount": 80670.93
       },
       {
         "id": 1783080604300.0977,
@@ -107,9 +107,14 @@
         "id": 1783080628185.724,
         "name": "Yapı Kredi",
         "amount": 100000
+      },
+      {
+        "id": 1783150462832.4685,
+        "name": "Akbank",
+        "amount": 30000
       }
     ],
-    "balance": 275724.72,
+    "balance": 301757.25,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
