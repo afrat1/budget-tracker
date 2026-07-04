@@ -142,6 +142,12 @@
         "name": "Katılımevim Taksit I",
         "amount": 66666.67,
         "type": "automatic"
+      },
+      {
+        "id": 1783173291500,
+        "name": "Tahmini Harcama",
+        "amount": 20000,
+        "type": "automatic"
       }
     ],
     "creditPayments": [
