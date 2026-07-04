@@ -20,6 +20,11 @@ export default function Home() {
   const [isSaving, setIsSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState(null); // 'saving', 'success', 'error'
   const [showTokenInput, setShowTokenInput] = useState(false);
+  const [tokenModalMode, setTokenModalMode] = useState('set'); // 'set' | 'renew'
+  const [tokenInput, setTokenInput] = useState('');
+  const [tokenSaving, setTokenSaving] = useState(false);
+  const [tokenError, setTokenError] = useState('');
+  const [hasGitHubToken, setHasGitHubToken] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
@@ -214,15 +219,64 @@ export default function Home() {
     }
   }, [loadAllData]);
 
-  // Check authentication on mount
+  // Check authentication and token on mount
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const authStatus = localStorage.getItem('budget_authenticated');
       if (authStatus === 'true') {
         setIsAuthenticated(true);
       }
+      setHasGitHubToken(!!localStorage.getItem('github_token'));
     }
   }, []);
+
+  const openTokenModal = (mode = 'set') => {
+    setTokenModalMode(mode);
+    setTokenInput('');
+    setTokenError('');
+    setShowTokenInput(true);
+  };
+
+  const handleSaveToken = async () => {
+    const token = tokenInput.trim();
+    if (!token) {
+      setTokenError('Token boş olamaz');
+      return;
+    }
+
+    setTokenSaving(true);
+    setTokenError('');
+
+    try {
+      const response = await fetch('https://api.github.com/user', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/vnd.github.v3+json',
+        },
+      });
+
+      if (!response.ok) {
+        const error = await response.json().catch(() => ({}));
+        throw new Error(error.message || `HTTP ${response.status}`);
+      }
+
+      localStorage.setItem('github_token', token);
+      setHasGitHubToken(true);
+      setShowTokenInput(false);
+      setTokenInput('');
+    } catch (err) {
+      setTokenError(err.message || 'Token geçersiz veya süresi dolmuş');
+    } finally {
+      setTokenSaving(false);
+    }
+  };
+
+  const handleRemoveToken = () => {
+    if (window.confirm('Kayıtlı GitHub token silinsin mi? Kaydet butonu yalnızca tarayıcıya yedekler.')) {
+      localStorage.removeItem('github_token');
+      setHasGitHubToken(false);
+    }
+  };
 
   // Load data when month changes (including initial load)
   useEffect(() => {
@@ -792,9 +846,13 @@ export default function Home() {
             minWidth: '400px',
             boxShadow: '0 4px 24px rgba(0,0,0,0.2)'
           }}>
-            <h3 style={{ marginTop: 0, marginBottom: '16px' }}>GitHub Token Ayarla</h3>
+            <h3 style={{ marginTop: 0, marginBottom: '16px' }}>
+              {tokenModalMode === 'renew' ? 'GitHub Token Yenile' : 'GitHub Token Ayarla'}
+            </h3>
             <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '12px' }}>
-              Otomatik commit için GitHub Personal Access Token gerekli.
+              {tokenModalMode === 'renew'
+                ? 'Yeni token eskisinin yerine geçer. Süresi dolmuş veya hata alıyorsan buradan yenileyebilirsin.'
+                : 'Otomatik commit için GitHub Personal Access Token gerekli.'}
             </p>
             <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '16px' }}>
               <a 
@@ -803,7 +861,7 @@ export default function Home() {
                 rel="noopener noreferrer"
                 style={{ color: 'var(--primary)', textDecoration: 'underline' }}
               >
-                🔗 Token oluştur (GitHub&apos;a gider)
+                🔗 Yeni token oluştur (GitHub&apos;a gider)
               </a>
               <br />
               <span style={{ fontSize: '0.75rem', display: 'block', marginTop: '8px' }}>
@@ -816,39 +874,55 @@ export default function Home() {
             <input
               type="password"
               placeholder="ghp_xxxxxxxxxxxx"
-              id="github-token-input"
+              value={tokenInput}
+              onChange={(e) => {
+                setTokenInput(e.target.value);
+                setTokenError('');
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !tokenSaving) {
+                  handleSaveToken();
+                }
+              }}
               style={{
                 width: '100%',
                 padding: '12px',
                 borderRadius: '8px',
-                border: '1px solid var(--border-color)',
-                marginBottom: '16px',
-                fontSize: '0.875rem'
+                border: tokenError ? '2px solid var(--error)' : '1px solid var(--border-color)',
+                marginBottom: tokenError ? '8px' : '16px',
+                fontSize: '0.875rem',
+                boxSizing: 'border-box',
               }}
+              autoFocus
             />
+            {tokenError && (
+              <p style={{
+                color: 'var(--error)',
+                fontSize: '0.875rem',
+                marginTop: 0,
+                marginBottom: '16px',
+              }}>
+                {tokenError}
+              </p>
+            )}
             <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
               <button
                 className="btn btn-ghost btn-sm"
                 onClick={() => setShowTokenInput(false)}
+                disabled={tokenSaving}
               >
                 İptal
               </button>
               <button
                 className="btn btn-primary btn-sm"
-                onClick={() => {
-                  const token = document.getElementById('github-token-input').value;
-                  if (token) {
-                    localStorage.setItem('github_token', token);
-                    setShowTokenInput(false);
-                    alert('Token kaydedildi! Artık değişiklikler otomatik olarak GitHub&apos;a commit edilecek.');
-                  }
-                }}
+                onClick={handleSaveToken}
+                disabled={tokenSaving}
               >
-                Kaydet
+                {tokenSaving ? 'Doğrulanıyor...' : tokenModalMode === 'renew' ? 'Token Yenile' : 'Kaydet'}
               </button>
             </div>
             <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '16px', marginBottom: 0 }}>
-              Token oluşturmak için: GitHub → Settings → Developer settings → Personal access tokens → Generate new token (repo yetkisi gerekli)
+              Token kaydedilmeden önce GitHub API ile doğrulanır.
             </p>
           </div>
         )}
@@ -901,17 +975,34 @@ export default function Home() {
         fontSize: '0.875rem'
       }}>
         <p>Verileriniz <code style={{ background: 'var(--bg-secondary)', padding: '2px 6px', borderRadius: '4px' }}>public/budget.json</code> dosyasında ay bazlı saklanır. Ay değiştirirken taslaklar bellekte kalır; F5 ile sunucudaki son kayıt yüklenir.</p>
-        {!localStorage.getItem('github_token') && (
-          <p style={{ marginTop: '12px' }}>
+        <p style={{ marginTop: '12px', display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap' }}>
+          {!hasGitHubToken ? (
             <button
               className="btn btn-ghost btn-sm"
-              onClick={() => setShowTokenInput(true)}
+              onClick={() => openTokenModal('set')}
               style={{ fontSize: '0.875rem' }}
             >
-              🔑 GitHub Token Ayarla (Otomatik commit için)
+              🔑 GitHub Token Ayarla
             </button>
-          </p>
-        )}
+          ) : (
+            <>
+              <button
+                className="btn btn-ghost btn-sm"
+                onClick={() => openTokenModal('renew')}
+                style={{ fontSize: '0.875rem' }}
+              >
+                🔄 GitHub Token Yenile
+              </button>
+              <button
+                className="btn btn-ghost btn-sm"
+                onClick={handleRemoveToken}
+                style={{ fontSize: '0.875rem' }}
+              >
+                🗑️ Token Sil
+              </button>
+            </>
+          )}
+        </p>
       </footer>
     </main>
   );
