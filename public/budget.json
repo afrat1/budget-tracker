@@ -96,7 +96,7 @@
       {
         "id": 1783080604300.0977,
         "name": "Garanti",
-        "amount": 114669.27
+        "amount": 88585.57
       },
       {
         "id": 1783080614401.448,
@@ -109,7 +109,7 @@
         "amount": 100000
       }
     ],
-    "balance": 301808.42,
+    "balance": 275724.72,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -136,8 +136,8 @@
     "creditPayments": [
       {
         "id": 1777815144640.4958,
-        "name": "Otomatik Faturalar",
-        "amount": 1911.85,
+        "name": "Otomatik Faturalar (Silinecek)",
+        "amount": 2000,
         "type": "credit"
       },
       {
