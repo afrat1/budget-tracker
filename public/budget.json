@@ -115,7 +115,7 @@
       }
     ],
     "balance": 301756.32,
-    "reservedCash": 35000,
+    "reservedCash": 38500,
     "income": 90000,
     "target": 0,
     "automaticPayments": [
@@ -140,7 +140,7 @@
       {
         "id": 1783172177984,
         "name": "Katılımevim Taksit I",
-        "amount": 66666.67,
+        "amount": 64705.88,
         "type": "automatic"
       },
       {
@@ -205,7 +205,7 @@
       {
         "id": 1783172319585,
         "name": "Katılımevim Taksit IV",
-        "amount": 66666.67,
+        "amount": 64705.88,
         "type": "automatic"
       }
     ],
@@ -258,7 +258,7 @@
       {
         "id": 1783172250271,
         "name": "Katılımevim Taksit II",
-        "amount": 66666.67,
+        "amount": 64705.88,
         "type": "automatic"
       },
       {
@@ -319,7 +319,7 @@
       {
         "id": 1783172299005,
         "name": "Katılımevim Taksit III",
-        "amount": 66666.67,
+        "amount": 64705.88,
         "type": "automatic"
       }
     ],
@@ -360,7 +360,7 @@
       {
         "id": 1783172331796,
         "name": "Katılımevim Taksit V",
-        "amount": 66666.67,
+        "amount": 64705.88,
         "type": "automatic"
       }
     ],
@@ -395,7 +395,7 @@
       {
         "id": 1783172348477,
         "name": "Katılımevim Taksit VI",
-        "amount": 66666.67,
+        "amount": 64705.88,
         "type": "automatic"
       }
     ],
