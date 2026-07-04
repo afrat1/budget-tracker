@@ -178,8 +178,14 @@
     ]
   },
   "2026-10": {
-    "bankAccounts": [],
-    "balance": 0,
+    "bankAccounts": [
+      {
+        "id": 1783189382316.0986,
+        "name": "Tahmini",
+        "amount": 185000
+      }
+    ],
+    "balance": 185000,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -206,6 +212,12 @@
         "id": 1783172319585,
         "name": "Katılımevim Taksit IV",
         "amount": 64705.88,
+        "type": "automatic"
+      },
+      {
+        "id": 1783189392129,
+        "name": "Tahmini Harcama",
+        "amount": 20000,
         "type": "automatic"
       }
     ],
@@ -292,8 +304,14 @@
     "creditPayments": []
   },
   "2026-09": {
-    "bankAccounts": [],
-    "balance": 0,
+    "bankAccounts": [
+      {
+        "id": 1783189346992.3694,
+        "name": "Tahmini",
+        "amount": 205000
+      }
+    ],
+    "balance": 205000,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -321,6 +339,12 @@
         "name": "Katılımevim Taksit III",
         "amount": 64705.88,
         "type": "automatic"
+      },
+      {
+        "id": 1783189362637,
+        "name": "Tahmini Harcama",
+        "amount": 20000,
+        "type": "automatic"
       }
     ],
     "creditPayments": [
@@ -339,8 +363,14 @@
     ]
   },
   "2026-11": {
-    "bankAccounts": [],
-    "balance": 0,
+    "bankAccounts": [
+      {
+        "id": 1783189416353.9434,
+        "name": "Tahmini",
+        "amount": 165000
+      }
+    ],
+    "balance": 165000,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -362,6 +392,12 @@
         "name": "Katılımevim Taksit V",
         "amount": 64705.88,
         "type": "automatic"
+      },
+      {
+        "id": 1783189429936,
+        "name": "Tahmini Harcama",
+        "amount": 20000,
+        "type": "automatic"
       }
     ],
     "creditPayments": [
@@ -380,8 +416,14 @@
     ]
   },
   "2026-12": {
-    "bankAccounts": [],
-    "balance": 0,
+    "bankAccounts": [
+      {
+        "id": 1783189448857.4097,
+        "name": "Tahmini",
+        "amount": 147000
+      }
+    ],
+    "balance": 147000,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -397,6 +439,12 @@
         "name": "Katılımevim Taksit VI",
         "amount": 64705.88,
         "type": "automatic"
+      },
+      {
+        "id": 1783189459836,
+        "name": "Tahmini Harcama",
+        "amount": 20000,
+        "type": "automatic"
       }
     ],
     "creditPayments": [
@@ -410,6 +458,47 @@
         "id": 1783170654295.4185,
         "name": "Garanti Kredi Kartı Borç",
         "amount": 3329.07,
+        "type": "credit"
+      }
+    ]
+  },
+  "2027-01": {
+    "bankAccounts": [
+      {
+        "id": 1783189765597.585,
+        "name": "Tahmini",
+        "amount": 132000
+      }
+    ],
+    "balance": 132000,
+    "reservedCash": 0,
+    "income": 110000,
+    "target": 0,
+    "automaticPayments": [
+      {
+        "id": 1783189735052.7468,
+        "name": "Ev Kirası",
+        "amount": 14000,
+        "type": "automatic"
+      },
+      {
+        "id": 1783189735366.1667,
+        "name": "Katılımevim Taksit VII",
+        "amount": 64705.88,
+        "type": "automatic"
+      },
+      {
+        "id": 1783189735117.7896,
+        "name": "Tahmini Harcama",
+        "amount": 20000,
+        "type": "automatic"
+      }
+    ],
+    "creditPayments": [
+      {
+        "id": 1783189735147.038,
+        "name": "Otomatik Faturalar (Silinecek)",
+        "amount": 2000,
         "type": "credit"
       }
     ]
