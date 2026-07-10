@@ -91,12 +91,12 @@
       {
         "id": 1783080589500.2563,
         "name": "Kuveyt Türk",
-        "amount": 83650.8
+        "amount": 83399.12
       },
       {
         "id": 1783080604300.0977,
         "name": "Garanti",
-        "amount": 88394.58
+        "amount": 87533.96
       },
       {
         "id": 1783080628185.724,
@@ -109,7 +109,7 @@
         "amount": 30000
       }
     ],
-    "balance": 302045.38,
+    "balance": 300933.08,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -175,12 +175,12 @@
   "2026-10": {
     "bankAccounts": [
       {
-        "id": 1783537629815.1338,
+        "id": 1783679173456.3728,
         "name": "Devreden Bakiye",
-        "amount": 155405.97
+        "amount": 154293.67
       }
     ],
-    "balance": 155405.97,
+    "balance": 154293.67,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -234,12 +234,12 @@
   "2026-08": {
     "bankAccounts": [
       {
-        "id": 1783537629815.082,
+        "id": 1783679173456.2534,
         "name": "Devreden Bakiye",
-        "amount": 194800.49
+        "amount": 193688.19
       }
     ],
-    "balance": 194800.49,
+    "balance": 193688.19,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -302,12 +302,12 @@
   "2026-09": {
     "bankAccounts": [
       {
-        "id": 1783537629815.41,
+        "id": 1783679173456.6812,
         "name": "Devreden Bakiye",
-        "amount": 175103.23
+        "amount": 173990.93
       }
     ],
-    "balance": 175103.23,
+    "balance": 173990.93,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -361,12 +361,12 @@
   "2026-11": {
     "bankAccounts": [
       {
-        "id": 1783537629815.4255,
+        "id": 1783679173456.8435,
         "name": "Devreden Bakiye",
-        "amount": 135708.71
+        "amount": 134596.41
       }
     ],
-    "balance": 135708.71,
+    "balance": 134596.41,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -414,12 +414,12 @@
   "2026-12": {
     "bankAccounts": [
       {
-        "id": 1783537629815.6807,
+        "id": 1783679173456.631,
         "name": "Devreden Bakiye",
-        "amount": 113938.43
+        "amount": 112826.13
       }
     ],
-    "balance": 113938.43,
+    "balance": 112826.13,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -461,12 +461,12 @@
   "2027-01": {
     "bankAccounts": [
       {
-        "id": 1783537629815.5654,
+        "id": 1783679173456.1226,
         "name": "Devreden Bakiye",
-        "amount": 93903.48
+        "amount": 92791.18
       }
     ],
-    "balance": 93903.48,
+    "balance": 92791.18,
     "reservedCash": 0,
     "income": 110000,
     "target": 0,
