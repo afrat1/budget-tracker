@@ -223,6 +223,12 @@
         "name": "Otomatik Faturalar (Silinecek)",
         "amount": 2000,
         "type": "automatic"
+      },
+      {
+        "id": 1783892332745,
+        "name": "Yol Parası (Silinecek)",
+        "amount": 2000,
+        "type": "automatic"
       }
     ],
     "creditPayments": [
@@ -280,6 +286,12 @@
       {
         "id": 1783888368912,
         "name": "Otomatik Faturalar (Silinecek)",
+        "amount": 2000,
+        "type": "automatic"
+      },
+      {
+        "id": 1783892273175,
+        "name": "Yol Parası (Silinecek)",
         "amount": 2000,
         "type": "automatic"
       }
@@ -356,6 +368,12 @@
         "name": "Otomatik Faturalar (Silinecek)",
         "amount": 2000,
         "type": "automatic"
+      },
+      {
+        "id": 1783892315791,
+        "name": "Yol Parası (Silinecek)",
+        "amount": 2000,
+        "type": "automatic"
       }
     ],
     "creditPayments": [
@@ -415,6 +433,12 @@
         "name": "Otomatik Faturalar (Silinecek)",
         "amount": 2000,
         "type": "automatic"
+      },
+      {
+        "id": 1783892342591,
+        "name": "Yol Parası (Silinecek)",
+        "amount": 2000,
+        "type": "automatic"
       }
     ],
     "creditPayments": [
@@ -468,6 +492,12 @@
         "name": "Otomatik Faturalar (Silinecek)",
         "amount": 2000,
         "type": "automatic"
+      },
+      {
+        "id": 1783892358247,
+        "name": "Yol Parası (Silinecek)",
+        "amount": 2000,
+        "type": "automatic"
       }
     ],
     "creditPayments": [
@@ -513,6 +543,12 @@
       {
         "id": 1783888570838,
         "name": "Otomatik Faturalar (Silinecek)",
+        "amount": 2000,
+        "type": "automatic"
+      },
+      {
+        "id": 1783892368512,
+        "name": "Yol Parası (Silinecek)",
         "amount": 2000,
         "type": "automatic"
       }
