@@ -152,6 +152,12 @@
         "name": "Katılımevim Provizyon",
         "amount": 77000,
         "type": "automatic"
+      },
+      {
+        "id": 1783888464794,
+        "name": "Çeyrek Altın",
+        "amount": 10172,
+        "type": "automatic"
       }
     ],
     "creditPayments": [
@@ -190,12 +196,12 @@
   "2026-10": {
     "bankAccounts": [
       {
-        "id": 1783888172950.0715,
+        "id": 1783888464796.9944,
         "name": "Devreden Bakiye",
-        "amount": 147263.53
+        "amount": 140591.53
       }
     ],
-    "balance": 147263.53,
+    "balance": 140591.53,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -207,41 +213,41 @@
         "type": "automatic"
       },
       {
-        "id": 1783170602596.7737,
-        "name": "PS5 VIII",
-        "amount": 3499.88,
-        "type": "automatic"
-      },
-      {
-        "id": 1783170602730.9514,
-        "name": "Ayakkabı Taksit VI",
-        "amount": 1498.5,
-        "type": "automatic"
-      },
-      {
         "id": 1783172319585,
         "name": "Katılımevim Taksit IV",
         "amount": 64705.88,
         "type": "automatic"
       },
       {
-        "id": 1783189392129,
-        "name": "Tahmini Harcama",
-        "amount": 20000,
+        "id": 1783888524631,
+        "name": "Otomatik Faturalar (Silinecek)",
+        "amount": 2000,
         "type": "automatic"
       }
     ],
     "creditPayments": [
       {
-        "id": 1783170602468.3848,
-        "name": "Otomatik Faturalar (Silinecek)",
-        "amount": 2000,
-        "type": "credit"
-      },
-      {
         "id": 1783170603237.2507,
         "name": "Garanti Kredi Kartı Borç",
         "amount": 3993,
+        "type": "credit"
+      },
+      {
+        "id": 1783888518428,
+        "name": "PS5 VIII",
+        "amount": 3499.88,
+        "type": "credit"
+      },
+      {
+        "id": 1783888520734,
+        "name": "Ayakkabı Taksit VI",
+        "amount": 1498.5,
+        "type": "credit"
+      },
+      {
+        "id": 1783888522871,
+        "name": "Tahmini Harcama",
+        "amount": 20000,
         "type": "credit"
       }
     ]
@@ -249,12 +255,12 @@
   "2026-08": {
     "bankAccounts": [
       {
-        "id": 1783888172950.9868,
+        "id": 1783888464796.162,
         "name": "Devreden Bakiye",
-        "amount": 186658.05
+        "amount": 176486.05
       }
     ],
-    "balance": 186658.05,
+    "balance": 176486.05,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -266,41 +272,47 @@
         "type": "automatic"
       },
       {
-        "id": 1777818117997.7886,
-        "name": "PS5 VI",
-        "amount": 3499.88,
-        "type": "automatic"
-      },
-      {
-        "id": 1777818118462.4758,
-        "name": "Ayakkabı Taksit IV",
-        "amount": 1498.5,
-        "type": "automatic"
-      },
-      {
         "id": 1783172250271,
         "name": "Katılımevim Taksit II",
         "amount": 64705.88,
         "type": "automatic"
       },
       {
-        "id": 1783173862431,
-        "name": "Tahmini Harcama",
-        "amount": 20000,
+        "id": 1783888368912,
+        "name": "Otomatik Faturalar (Silinecek)",
+        "amount": 2000,
         "type": "automatic"
       }
     ],
     "creditPayments": [
       {
-        "id": 1777818118430.9636,
-        "name": "Otomatik Faturalar (Silinecek)",
-        "amount": 2000,
-        "type": "credit"
-      },
-      {
         "id": 1780246876015,
         "name": "Garanti Kredi Kartı Borç",
         "amount": 3993,
+        "type": "credit"
+      },
+      {
+        "id": 1783888362679,
+        "name": "PS5 VI",
+        "amount": 3499.88,
+        "type": "credit"
+      },
+      {
+        "id": 1783888364795,
+        "name": "Ayakkabı Taksit IV",
+        "amount": 1498.5,
+        "type": "credit"
+      },
+      {
+        "id": 1783888397762,
+        "name": "Tenis Kort & Eğitim",
+        "amount": 1500,
+        "type": "credit"
+      },
+      {
+        "id": 1783888420578,
+        "name": "Tahmini Harcama",
+        "amount": 15000,
         "type": "credit"
       }
     ]
@@ -317,12 +329,12 @@
   "2026-09": {
     "bankAccounts": [
       {
-        "id": 1783888172950.3357,
+        "id": 1783888464796.111,
         "name": "Devreden Bakiye",
-        "amount": 166960.79
+        "amount": 160288.79
       }
     ],
-    "balance": 166960.79,
+    "balance": 160288.79,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -334,41 +346,41 @@
         "type": "automatic"
       },
       {
-        "id": 1783170160724.6167,
-        "name": "PS5 VII",
-        "amount": 3499.88,
-        "type": "automatic"
-      },
-      {
-        "id": 1783170160715.442,
-        "name": "Ayakkabı Taksit V",
-        "amount": 1498.5,
-        "type": "automatic"
-      },
-      {
         "id": 1783172299005,
         "name": "Katılımevim Taksit III",
         "amount": 64705.88,
         "type": "automatic"
       },
       {
-        "id": 1783189362637,
-        "name": "Tahmini Harcama",
-        "amount": 20000,
+        "id": 1783888512378,
+        "name": "Otomatik Faturalar (Silinecek)",
+        "amount": 2000,
         "type": "automatic"
       }
     ],
     "creditPayments": [
       {
-        "id": 1783170160680.051,
-        "name": "Otomatik Faturalar (Silinecek)",
-        "amount": 2000,
-        "type": "credit"
-      },
-      {
         "id": 1783170160738.4053,
         "name": "Garanti Kredi Kartı Borç",
         "amount": 3993,
+        "type": "credit"
+      },
+      {
+        "id": 1783888503233,
+        "name": "PS5 VII",
+        "amount": 3499.88,
+        "type": "credit"
+      },
+      {
+        "id": 1783888505461,
+        "name": "Ayakkabı Taksit V",
+        "amount": 1498.5,
+        "type": "credit"
+      },
+      {
+        "id": 1783888509628,
+        "name": "Tahmini Harcama",
+        "amount": 20000,
         "type": "credit"
       }
     ]
@@ -376,12 +388,12 @@
   "2026-11": {
     "bankAccounts": [
       {
-        "id": 1783888172950.3774,
+        "id": 1783888464796.6267,
         "name": "Devreden Bakiye",
-        "amount": 127566.27
+        "amount": 120894.27
       }
     ],
-    "balance": 127566.27,
+    "balance": 120894.27,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -393,35 +405,35 @@
         "type": "automatic"
       },
       {
-        "id": 1783170625399.1523,
-        "name": "PS5 IX",
-        "amount": 3499.88,
-        "type": "automatic"
-      },
-      {
         "id": 1783172331796,
         "name": "Katılımevim Taksit V",
         "amount": 64705.88,
         "type": "automatic"
       },
       {
-        "id": 1783189429936,
-        "name": "Tahmini Harcama",
-        "amount": 20000,
+        "id": 1783888538159,
+        "name": "Otomatik Faturalar (Silinecek)",
+        "amount": 2000,
         "type": "automatic"
       }
     ],
     "creditPayments": [
       {
-        "id": 1783170624937.1006,
-        "name": "Otomatik Faturalar (Silinecek)",
-        "amount": 2000,
-        "type": "credit"
-      },
-      {
         "id": 1783170625363.5415,
         "name": "Garanti Kredi Kartı Borç",
         "amount": 3564.52,
+        "type": "credit"
+      },
+      {
+        "id": 1783888533717,
+        "name": "PS5 IX",
+        "amount": 3499.88,
+        "type": "credit"
+      },
+      {
+        "id": 1783888535625,
+        "name": "Tahmini Harcama",
+        "amount": 20000,
         "type": "credit"
       }
     ]
@@ -429,12 +441,12 @@
   "2026-12": {
     "bankAccounts": [
       {
-        "id": 1783888172950.9692,
+        "id": 1783888464796.0344,
         "name": "Devreden Bakiye",
-        "amount": 105795.99
+        "amount": 99123.99
       }
     ],
-    "balance": 105795.99,
+    "balance": 99123.99,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -452,23 +464,23 @@
         "type": "automatic"
       },
       {
-        "id": 1783189459836,
-        "name": "Tahmini Harcama",
-        "amount": 20000,
+        "id": 1783888547073,
+        "name": "Otomatik Faturalar (Silinecek)",
+        "amount": 2000,
         "type": "automatic"
       }
     ],
     "creditPayments": [
       {
-        "id": 1783170654430.9648,
-        "name": "Otomatik Faturalar (Silinecek)",
-        "amount": 2000,
-        "type": "credit"
-      },
-      {
         "id": 1783170654295.4185,
         "name": "Garanti Kredi Kartı Borç",
         "amount": 3329.07,
+        "type": "credit"
+      },
+      {
+        "id": 1783888544382,
+        "name": "Tahmini Harcama",
+        "amount": 20000,
         "type": "credit"
       }
     ]
@@ -476,12 +488,12 @@
   "2027-01": {
     "bankAccounts": [
       {
-        "id": 1783888172950.5698,
+        "id": 1783888464796.506,
         "name": "Devreden Bakiye",
-        "amount": 85761.04
+        "amount": 79089.04
       }
     ],
-    "balance": 85761.04,
+    "balance": 79089.04,
     "reservedCash": 0,
     "income": 110000,
     "target": 0,
@@ -499,17 +511,17 @@
         "type": "automatic"
       },
       {
-        "id": 1783189735117.7896,
-        "name": "Tahmini Harcama",
-        "amount": 20000,
+        "id": 1783888570838,
+        "name": "Otomatik Faturalar (Silinecek)",
+        "amount": 2000,
         "type": "automatic"
       }
     ],
     "creditPayments": [
       {
-        "id": 1783189735147.038,
-        "name": "Otomatik Faturalar (Silinecek)",
-        "amount": 2000,
+        "id": 1783888569036,
+        "name": "Tahmini Harcama",
+        "amount": 20000,
         "type": "credit"
       }
     ]
