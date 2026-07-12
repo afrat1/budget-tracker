@@ -136,31 +136,25 @@
         "type": "automatic"
       },
       {
-        "id": 1777815144515.1543,
-        "name": "PS5 V",
-        "amount": 3499.88,
-        "type": "automatic"
-      },
-      {
-        "id": 1777815143675.414,
-        "name": "Ayakkabı Taksit III",
-        "amount": 1498.5,
-        "type": "automatic"
-      },
-      {
         "id": 1783172177984,
         "name": "Katılımevim Taksit I",
         "amount": 64705.88,
         "type": "automatic"
+      },
+      {
+        "id": 1783888168081,
+        "name": "Otomatik Faturalar",
+        "amount": 1911.85,
+        "type": "automatic"
+      },
+      {
+        "id": 1783888172946,
+        "name": "Katılımevim Provizyon",
+        "amount": 77000,
+        "type": "automatic"
       }
     ],
     "creditPayments": [
-      {
-        "id": 1777815144640.4958,
-        "name": "Otomatik Faturalar",
-        "amount": 1911.85,
-        "type": "credit"
-      },
       {
         "id": 1780245599591,
         "name": "Garanti Kredi Kartı Borç",
@@ -174,15 +168,21 @@
         "type": "credit"
       },
       {
-        "id": 1783238665788,
-        "name": "Katılımevim Provizyon",
-        "amount": 77000,
-        "type": "credit"
-      },
-      {
         "id": 1783490782856,
         "name": "Ziraat Kredi Kartı Borç",
         "amount": 1168.3,
+        "type": "credit"
+      },
+      {
+        "id": 1783888162897,
+        "name": "PS5 V",
+        "amount": 3499.88,
+        "type": "credit"
+      },
+      {
+        "id": 1783888165513,
+        "name": "Ayakkabı Taksit III",
+        "amount": 1498.5,
         "type": "credit"
       }
     ]
@@ -190,7 +190,7 @@
   "2026-10": {
     "bankAccounts": [
       {
-        "id": 1783883942418.5056,
+        "id": 1783888172950.0715,
         "name": "Devreden Bakiye",
         "amount": 147263.53
       }
@@ -249,7 +249,7 @@
   "2026-08": {
     "bankAccounts": [
       {
-        "id": 1783883942418.012,
+        "id": 1783888172950.9868,
         "name": "Devreden Bakiye",
         "amount": 186658.05
       }
@@ -317,7 +317,7 @@
   "2026-09": {
     "bankAccounts": [
       {
-        "id": 1783883942418.7644,
+        "id": 1783888172950.3357,
         "name": "Devreden Bakiye",
         "amount": 166960.79
       }
@@ -376,7 +376,7 @@
   "2026-11": {
     "bankAccounts": [
       {
-        "id": 1783883942418.0386,
+        "id": 1783888172950.3774,
         "name": "Devreden Bakiye",
         "amount": 127566.27
       }
@@ -429,7 +429,7 @@
   "2026-12": {
     "bankAccounts": [
       {
-        "id": 1783883942418.3364,
+        "id": 1783888172950.9692,
         "name": "Devreden Bakiye",
         "amount": 105795.99
       }
@@ -476,7 +476,7 @@
   "2027-01": {
     "bankAccounts": [
       {
-        "id": 1783883942418.092,
+        "id": 1783888172950.5698,
         "name": "Devreden Bakiye",
         "amount": 85761.04
       }
