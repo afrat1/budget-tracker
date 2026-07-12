@@ -306,7 +306,10 @@ body {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  max-height: 400px;
+}
+
+.payment-list-scrollable {
+  max-height: 520px;
   overflow-y: auto;
 }
 

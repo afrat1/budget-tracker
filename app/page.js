@@ -493,6 +493,30 @@ export default function Home() {
     setCreditPayments(newPayments);
   };
 
+  const handleMoveAutomaticToCredit = (payment) => {
+    setAutomaticPayments(automaticPayments.filter((p) => p.id !== payment.id));
+    setCreditPayments([
+      ...creditPayments,
+      {
+        ...payment,
+        id: Date.now(),
+        type: 'credit',
+      },
+    ]);
+  };
+
+  const handleMoveCreditToAutomatic = (payment) => {
+    setCreditPayments(creditPayments.filter((p) => p.id !== payment.id));
+    setAutomaticPayments([
+      ...automaticPayments,
+      {
+        ...payment,
+        id: Date.now(),
+        type: 'automatic',
+      },
+    ]);
+  };
+
   // Minimum tarih: Ocak 2026
   const minYear = 2026;
   const minMonth = 0; // Ocak = 0
@@ -900,6 +924,7 @@ export default function Home() {
           onEdit={handleEditAutomatic}
           onReorder={handleReorderAutomatic}
           onCopyToNextMonth={handleCopyAutomaticToNextMonth}
+          onMoveToOther={handleMoveAutomaticToCredit}
           type="automatic"
         />
         <PaymentList
@@ -909,6 +934,7 @@ export default function Home() {
           onEdit={handleEditCredit}
           onReorder={handleReorderCredit}
           onCopyToNextMonth={handleCopyCreditToNextMonth}
+          onMoveToOther={handleMoveCreditToAutomatic}
           type="credit"
         />
       </div>

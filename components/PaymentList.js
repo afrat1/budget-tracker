@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-export default function PaymentList({ payments, onAdd, onDelete, onEdit, onReorder, onCopyToNextMonth, type }) {
+export default function PaymentList({ payments, onAdd, onDelete, onEdit, onReorder, onCopyToNextMonth, onMoveToOther, type }) {
   const [showModal, setShowModal] = useState(false);
   const [editingPayment, setEditingPayment] = useState(null);
   const [newPayment, setNewPayment] = useState({ name: '', amount: '' });
@@ -29,6 +29,7 @@ export default function PaymentList({ payments, onAdd, onDelete, onEdit, onReord
   };
 
   const config = typeConfig[type];
+  const moveToOtherLabel = type === 'automatic' ? 'Kredi Taksitlerine Aktar' : 'Otomatik Ödemelere Aktar';
 
   const formatNumber = (num) => {
     if (num === 0) return '0';
@@ -104,6 +105,13 @@ export default function PaymentList({ payments, onAdd, onDelete, onEdit, onReord
     setNewPayment({ name: '', amount: '' });
   };
 
+  const handleMoveToOther = (payment) => {
+    if (!onMoveToOther) return;
+    if (window.confirm(`"${payment.name}" ödemesini ${moveToOtherLabel.toLowerCase()} istiyor musunuz?`)) {
+      onMoveToOther(payment);
+    }
+  };
+
   const totalPayments = payments.reduce((sum, p) => sum + p.amount, 0);
 
   return (
@@ -118,7 +126,7 @@ export default function PaymentList({ payments, onAdd, onDelete, onEdit, onReord
         </p>
 
         {payments.length > 0 ? (
-          <div className="payment-list">
+          <div className={`payment-list${payments.length > 5 ? ' payment-list-scrollable' : ''}`}>
             {payments.map((payment, index) => (
               <div key={payment.id} className="payment-item">
                 <div className="payment-item-info" style={{ flex: 1 }}>
@@ -127,6 +135,17 @@ export default function PaymentList({ payments, onAdd, onDelete, onEdit, onReord
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <span className="payment-item-amount">-{formatNumber(payment.amount)} ₺</span>
+                  {onMoveToOther && (
+                    <button
+                      className="btn btn-icon btn-ghost"
+                      onClick={() => handleMoveToOther(payment)}
+                      title={moveToOtherLabel}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" width="18" height="18">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
+                      </svg>
+                    </button>
+                  )}
                   <button
                     className="btn btn-icon btn-ghost"
                     onClick={() => handleOpenEdit(payment)}
