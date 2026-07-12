@@ -127,14 +127,14 @@ export default function PaymentList({ payments, onAdd, onDelete, onEdit, onReord
 
         {payments.length > 0 ? (
           <div className={`payment-list${payments.length > 5 ? ' payment-list-scrollable' : ''}`}>
-            {payments.map((payment, index) => (
+            {payments.map((payment) => (
               <div key={payment.id} className="payment-item">
-                <div className="payment-item-info" style={{ flex: 1 }}>
+                <div className="payment-item-info">
                   <span className="payment-item-name">{payment.name}</span>
-                  <span className="payment-item-type">{type === 'automatic' ? 'OTOMATİK ÖDEME' : 'KREDİ TAKSİTİ'}</span>
+                  <span className="payment-item-type">{type === 'automatic' ? 'Otomatik ödeme' : 'Kredi taksiti'}</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span className="payment-item-amount">-{formatNumber(payment.amount)} ₺</span>
+                <span className="payment-item-amount">-{formatNumber(payment.amount)} ₺</span>
+                <div className="payment-item-actions">
                   {onMoveToOther && (
                     <button
                       className="btn btn-icon btn-ghost"

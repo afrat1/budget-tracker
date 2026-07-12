@@ -89,7 +89,8 @@ export default function Home() {
   const [target, setTarget] = useState(0);
   const [automaticPayments, setAutomaticPayments] = useState([]);
   const [creditPayments, setCreditPayments] = useState([]);
-  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [currentMonth, setCurrentMonth] = useState(null);
+  const [isMounted, setIsMounted] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState(null); // 'saving', 'success', 'error'
@@ -120,6 +121,7 @@ export default function Home() {
   };
 
   const isViewingCurrentCalendarMonth = useCallback((date) => {
+    if (!date) return false;
     const now = new Date();
     return date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear();
   }, []);
@@ -191,6 +193,7 @@ export default function Home() {
   }, []);
 
   const persistCurrentMonthDraft = useCallback(() => {
+    if (!currentMonth) return;
     const monthKey = getMonthKey(currentMonth);
     allDataRef.current[monthKey] = buildMonthPayload(
       bankAccounts,
@@ -308,15 +311,17 @@ export default function Home() {
     }
   }, [loadAllData]);
 
-  // Check authentication and token on mount
+  // Client-only init: tarih, auth ve token SSR/hydration uyumsuzluğu yaratmasın
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const authStatus = localStorage.getItem('budget_authenticated');
-      if (authStatus === 'true') {
-        setIsAuthenticated(true);
-      }
-      setHasGitHubToken(!!localStorage.getItem('github_token'));
+    const authStatus = localStorage.getItem('budget_authenticated');
+    if (authStatus === 'true') {
+      setIsAuthenticated(true);
     }
+    setHasGitHubToken(!!localStorage.getItem('github_token'));
+
+    const now = new Date();
+    setCurrentMonth(new Date(now.getFullYear(), now.getMonth(), 1));
+    setIsMounted(true);
   }, []);
 
   const openTokenModal = (mode = 'set') => {
@@ -370,7 +375,7 @@ export default function Home() {
   // Load data when month changes (including initial load)
   useEffect(() => {
     skipAutoCascadeRef.current = true;
-    if (isAuthenticated) {
+    if (isAuthenticated && currentMonth) {
       console.log('useEffect triggered, currentMonth:', getMonthKey(currentMonth));
       loadMonthData(currentMonth);
     }
@@ -520,16 +525,19 @@ export default function Home() {
   // Minimum tarih: Ocak 2026
   const minYear = 2026;
   const minMonth = 0; // Ocak = 0
-  const canGoPrev = currentMonth.getFullYear() > minYear || 
-    (currentMonth.getFullYear() === minYear && currentMonth.getMonth() > minMonth);
+  const canGoPrev = currentMonth
+    ? currentMonth.getFullYear() > minYear
+      || (currentMonth.getFullYear() === minYear && currentMonth.getMonth() > minMonth)
+    : false;
 
   const handlePrevMonth = () => {
-    if (!canGoPrev) return;
+    if (!currentMonth || !canGoPrev) return;
     persistCurrentMonthDraft();
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1));
   };
 
   const handleNextMonth = () => {
+    if (!currentMonth) return;
     persistCurrentMonthDraft();
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1));
   };
@@ -713,6 +721,17 @@ export default function Home() {
     }
   };
 
+  const renderLoadingScreen = () => (
+    <div className="loading-screen">
+      <div className="loading-spinner" />
+      <div className="loading-text">Yükleniyor...</div>
+    </div>
+  );
+
+  if (!isMounted) {
+    return renderLoadingScreen();
+  }
+
   // Show password screen if not authenticated
   if (!isAuthenticated) {
     return (
@@ -795,40 +814,8 @@ export default function Home() {
     );
   }
 
-  if (!isLoaded) {
-    return (
-      <div style={{ 
-        display: 'flex', 
-        flexDirection: 'column',
-        alignItems: 'center', 
-        justifyContent: 'center', 
-        minHeight: '100vh',
-        background: 'var(--bg-primary)',
-        gap: '24px'
-      }}>
-        <div style={{
-          width: '60px',
-          height: '60px',
-          border: '4px solid var(--border-color)',
-          borderTop: '4px solid var(--primary)',
-          borderRadius: '50%',
-          animation: 'spin 0.8s linear infinite'
-        }} />
-        <div style={{ 
-          color: 'var(--text-secondary)',
-          fontSize: '1rem',
-          fontWeight: 500
-        }}>
-          Yükleniyor...
-        </div>
-        <style jsx>{`
-          @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-          }
-        `}</style>
-      </div>
-    );
+  if (!isLoaded || !currentMonth) {
+    return renderLoadingScreen();
   }
 
   const balance = getBalanceTotal(bankAccounts);
