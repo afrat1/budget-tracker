@@ -58,6 +58,8 @@ export default function TargetInput({ value, onChange }) {
         <div className="input-currency">
           <input
             type="text"
+            inputMode="decimal"
+            autoComplete="off"
             className="input"
             placeholder="0"
             value={inputValue}

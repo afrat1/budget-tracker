@@ -75,8 +75,19 @@ body {
 
 /* Header */
 .header {
-  text-align: center;
   margin-bottom: 48px;
+}
+
+.header-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.header-top > div {
+  flex: 1;
+  text-align: center;
 }
 
 .header h1 {
@@ -99,12 +110,130 @@ body {
     margin-bottom: 32px;
   }
 
+  .header-top {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header-top > div {
+    text-align: left;
+  }
+
+  .header-top .btn {
+    align-self: flex-start;
+  }
+
   .header h1 {
     font-size: 1.75rem;
   }
 
   .header p {
     font-size: 0.95rem;
+  }
+}
+
+.installment-plans-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 6px;
+  margin-left: 6px;
+  border-radius: 999px;
+  background: var(--primary);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.installment-plans-modal {
+  max-width: 560px;
+  width: calc(100vw - 32px);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.installment-plans-intro {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  margin: 0 0 20px;
+  line-height: 1.5;
+}
+
+.installment-plans-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.installment-plan-card {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--bg-secondary);
+}
+
+.installment-plan-name {
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.installment-plan-meta,
+.installment-plan-range {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.installment-plan-card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.installment-plan-form {
+  padding-top: 20px;
+  border-top: 1px solid var(--border-color);
+}
+
+.installment-plan-form-title {
+  margin: 0 0 16px;
+  font-size: 1rem;
+}
+
+.installment-plan-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.installment-plan-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+@media (max-width: 768px) {
+  .installment-plan-card {
+    flex-direction: column;
+  }
+
+  .installment-plan-card-actions {
+    flex-direction: row;
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .installment-plan-form-row {
+    grid-template-columns: 1fr;
   }
 }
 

@@ -7,6 +7,13 @@ import IncomeInput from '../components/IncomeInput';
 import TargetInput from '../components/TargetInput';
 import PaymentList from '../components/PaymentList';
 import Summary from '../components/Summary';
+import InstallmentPlansPanel from '../components/InstallmentPlansPanel';
+import {
+  INSTALLMENT_PLANS_KEY,
+  applyInstallmentPlansToMonth,
+  monthHasUserData,
+  syncInstallmentPlansAcrossAllData,
+} from '../lib/installmentPlans';
 
 const round2 = (num) => Math.round(num * 100) / 100;
 
@@ -25,17 +32,7 @@ const getAccountsFromMonthData = (monthData) => {
   return [];
 };
 
-const monthHasStoredData = (monthData) => {
-  if (!monthData) return false;
-  const balance = round2(getAccountsFromMonthData(monthData).reduce((sum, account) => sum + account.amount, 0));
-  const reservedCash = monthData.reservedCash ?? monthData.cash ?? 0;
-  return balance > 0
-    || reservedCash > 0
-    || (monthData.income || 0) > 0
-    || (monthData.target || 0) > 0
-    || (monthData.automaticPayments?.length || 0) > 0
-    || (monthData.creditPayments?.length || 0) > 0;
-};
+const monthHasStoredData = monthHasUserData;
 
 const calculateMonthRemaining = (monthData) => {
   const balance = round2(getAccountsFromMonthData(monthData).reduce((sum, account) => sum + account.amount, 0));
@@ -103,6 +100,8 @@ export default function Home() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [installmentPlans, setInstallmentPlans] = useState([]);
+  const [showInstallmentPlans, setShowInstallmentPlans] = useState(false);
   const allDataRef = useRef({}); // Working copy: server data + unsaved drafts
   const serverDataLoadedRef = useRef(false);
   const skipAutoCascadeRef = useRef(true);
@@ -184,6 +183,7 @@ export default function Home() {
       }
       const data = await res.json();
       allDataRef.current = data;
+      setInstallmentPlans(data[INSTALLMENT_PLANS_KEY] || []);
       serverDataLoadedRef.current = true;
       return data;
     } catch (err) {
@@ -291,12 +291,39 @@ export default function Home() {
       };
 
       const accounts = migrateMonthData(monthData);
+      const reservedCashValue = monthData.reservedCash ?? monthData.cash ?? 0;
+      const incomeValue = monthData.income || 0;
+      const targetValue = monthData.target || 0;
+      let automatic = monthData.automaticPayments || [];
+      const credit = monthData.creditPayments || [];
+      const plans = allData[INSTALLMENT_PLANS_KEY] || [];
+
+      const monthPayload = {
+        bankAccounts: accounts,
+        balance: getBalanceTotal(accounts),
+        reservedCash: reservedCashValue,
+        income: incomeValue,
+        target: targetValue,
+        automaticPayments: automatic,
+        creditPayments: credit,
+      };
+
+      if (monthHasUserData(monthPayload)) {
+        automatic = applyInstallmentPlansToMonth(automatic, plans, monthKey, true);
+        allDataRef.current[monthKey] = {
+          ...monthPayload,
+          automaticPayments: automatic,
+        };
+      } else {
+        automatic = applyInstallmentPlansToMonth(automatic, plans, monthKey, false);
+      }
+
       setBankAccounts(accounts);
-      setReservedCash(monthData.reservedCash ?? monthData.cash ?? 0);
-      setIncome(monthData.income || 0);
-      setTarget(monthData.target || 0);
-      setAutomaticPayments(monthData.automaticPayments || []);
-      setCreditPayments(monthData.creditPayments || []);
+      setReservedCash(reservedCashValue);
+      setIncome(incomeValue);
+      setTarget(targetValue);
+      setAutomaticPayments(automatic);
+      setCreditPayments(credit);
 
       setTimeout(() => setIsLoaded(true), 0);
     } catch (err) {
@@ -381,6 +408,60 @@ export default function Home() {
     }
   }, [currentMonth, loadMonthData, isAuthenticated]);
 
+  const handleSaveInstallmentPlans = useCallback((nextPlans) => {
+    setInstallmentPlans(nextPlans);
+    allDataRef.current[INSTALLMENT_PLANS_KEY] = nextPlans;
+    syncInstallmentPlansAcrossAllData(allDataRef.current);
+
+    if (!currentMonth) return;
+    const monthKey = getMonthKey(currentMonth);
+    const monthData = allDataRef.current[monthKey];
+    if (monthData?.automaticPayments) {
+      setAutomaticPayments(monthData.automaticPayments);
+    } else {
+      setAutomaticPayments((prev) => prev.filter((payment) => !payment.installmentPlanId));
+    }
+  }, [currentMonth]);
+
+  // Ay verisi oluşunca geçerli taksit planlarını otomatik ödemelere ekle
+  useEffect(() => {
+    if (!isLoaded || !currentMonth || installmentPlans.length === 0) return;
+
+    const monthPayload = {
+      bankAccounts,
+      balance: getBalanceTotal(bankAccounts),
+      reservedCash,
+      income,
+      target,
+      automaticPayments,
+      creditPayments,
+    };
+
+    if (!monthHasUserData(monthPayload)) {
+      const stripped = applyInstallmentPlansToMonth(automaticPayments, installmentPlans, monthKey, false);
+      if (JSON.stringify(stripped) !== JSON.stringify(automaticPayments)) {
+        setAutomaticPayments(stripped);
+      }
+      return;
+    }
+
+    const monthKey = getMonthKey(currentMonth);
+    const synced = applyInstallmentPlansToMonth(automaticPayments, installmentPlans, monthKey, true);
+    if (JSON.stringify(synced) !== JSON.stringify(automaticPayments)) {
+      setAutomaticPayments(synced);
+    }
+  }, [
+    bankAccounts,
+    reservedCash,
+    income,
+    target,
+    creditPayments,
+    installmentPlans,
+    isLoaded,
+    currentMonth,
+    automaticPayments,
+  ]);
+
   // Current ayda değişiklik olunca gelecek aylara otomatik devret
   useEffect(() => {
     if (!isAuthenticated || !isLoaded || !isViewingCurrentCalendarMonth(currentMonth)) return;
@@ -426,6 +507,8 @@ export default function Home() {
     setSaveStatus('saving');
     try {
       persistCurrentMonthDraft();
+      allDataRef.current[INSTALLMENT_PLANS_KEY] = installmentPlans;
+      syncInstallmentPlansAcrossAllData(allDataRef.current);
       const allData = { ...allDataRef.current };
 
       const result = await saveDataToGitHub(allData);
@@ -447,7 +530,7 @@ export default function Home() {
     }
     setIsSaving(false);
     setTimeout(() => setSaveStatus(null), 8000);
-  }, [persistCurrentMonthDraft, saveDataToGitHub]);
+  }, [persistCurrentMonthDraft, saveDataToGitHub, installmentPlans]);
 
   const handleSave = () => {
     if (!isLoaded || isSaving) return;
@@ -819,7 +902,7 @@ export default function Home() {
   }
 
   const balance = getBalanceTotal(bankAccounts);
-  const hasData = monthHasStoredData({
+  const hasData = monthHasUserData({
     bankAccounts,
     balance,
     reservedCash,
@@ -832,9 +915,35 @@ export default function Home() {
   return (
     <main className="container">
       <header className="header">
-        <h1>Bütçe Yönetimi</h1>
-        <p>Aylık ödemelerinizi takip edin, ay sonundaki bakiyenizi görün</p>
+        <div className="header-top">
+          <div>
+            <h1>Bütçe Yönetimi</h1>
+            <p>Aylık ödemelerinizi takip edin, ay sonundaki bakiyenizi görün</p>
+          </div>
+          <button
+            className="btn btn-ghost btn-sm"
+            type="button"
+            onClick={() => setShowInstallmentPlans(true)}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" width="16" height="16">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+            </svg>
+            Taksit Planları
+            {installmentPlans.length > 0 && (
+              <span className="installment-plans-badge">{installmentPlans.length}</span>
+            )}
+          </button>
+        </div>
       </header>
+
+      <InstallmentPlansPanel
+        isOpen={showInstallmentPlans}
+        onClose={() => setShowInstallmentPlans(false)}
+        plans={installmentPlans}
+        onSavePlans={handleSaveInstallmentPlans}
+        monthNames={months}
+        defaultStartMonth={getMonthKey(currentMonth)}
+      />
 
       <div className="month-selector">
         <button 
