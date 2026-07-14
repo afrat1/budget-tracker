@@ -142,12 +142,6 @@
         "type": "automatic"
       },
       {
-        "id": 1783888168081,
-        "name": "Otomatik Faturalar",
-        "amount": 1911.85,
-        "type": "automatic"
-      },
-      {
         "id": 1783888172946,
         "name": "Katılımevim Provizyon",
         "amount": 84000,
@@ -182,7 +176,7 @@
       {
         "id": 1783888162897,
         "name": "PS5 V",
-        "amount": 3499.88,
+        "amount": 5410.88,
         "type": "credit"
       },
       {
@@ -196,12 +190,12 @@
   "2026-10": {
     "bankAccounts": [
       {
-        "id": 1783978198609.125,
+        "id": 1784004897277.2227,
         "name": "Devreden Bakiye",
-        "amount": 110847.59
+        "amount": 110848.44
       }
     ],
-    "balance": 110847.59,
+    "balance": 110848.44,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -261,12 +255,12 @@
   "2026-08": {
     "bankAccounts": [
       {
-        "id": 1783978198609.402,
+        "id": 1784004897277.913,
         "name": "Devreden Bakiye",
-        "amount": 162506.83
+        "amount": 162507.68
       }
     ],
-    "balance": 162506.83,
+    "balance": 162507.68,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -332,12 +326,12 @@
   "2027-02": {
     "bankAccounts": [
       {
-        "id": 1783978198609.569,
+        "id": 1784004897277.8618,
         "name": "Devreden Bakiye",
-        "amount": 31109.78
+        "amount": 31110.63
       }
     ],
-    "balance": 31109.78,
+    "balance": 31110.63,
     "reservedCash": 0,
     "income": 120000,
     "target": 0,
@@ -379,12 +373,12 @@
   "2026-09": {
     "bankAccounts": [
       {
-        "id": 1783978198609.6367,
+        "id": 1784004897277.8691,
         "name": "Devreden Bakiye",
-        "amount": 138427.21
+        "amount": 138428.06
       }
     ],
-    "balance": 138427.21,
+    "balance": 138428.06,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -444,12 +438,12 @@
   "2026-11": {
     "bankAccounts": [
       {
-        "id": 1783978198609.315,
+        "id": 1784004897277.7458,
         "name": "Devreden Bakiye",
-        "amount": 83267.97
+        "amount": 83268.82
       }
     ],
-    "balance": 83267.97,
+    "balance": 83268.82,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -503,12 +497,12 @@
   "2026-12": {
     "bankAccounts": [
       {
-        "id": 1783978198609.731,
+        "id": 1784004897277.5068,
         "name": "Devreden Bakiye",
-        "amount": 53615.33
+        "amount": 53616.18
       }
     ],
-    "balance": 53615.33,
+    "balance": 53616.18,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -556,12 +550,12 @@
   "2027-01": {
     "bankAccounts": [
       {
-        "id": 1783978198609.2432,
+        "id": 1784004897277.2566,
         "name": "Devreden Bakiye",
-        "amount": 25698.02
+        "amount": 25698.87
       }
     ],
-    "balance": 25698.02,
+    "balance": 25698.87,
     "reservedCash": 0,
     "income": 120000,
     "target": 0,
@@ -603,12 +597,12 @@
   "2027-03": {
     "bankAccounts": [
       {
-        "id": 1783978198609.7964,
+        "id": 1784004897278.1165,
         "name": "Devreden Bakiye",
-        "amount": 36521.54
+        "amount": 36522.39
       }
     ],
-    "balance": 36521.54,
+    "balance": 36522.39,
     "reservedCash": 0,
     "income": 120000,
     "target": 0,
@@ -655,5 +649,6 @@
     "target": 0,
     "automaticPayments": [],
     "creditPayments": []
-  }
+  },
+  "installmentPlans": []
 }
