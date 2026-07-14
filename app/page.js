@@ -105,6 +105,7 @@ export default function Home() {
   const allDataRef = useRef({}); // Working copy: server data + unsaved drafts
   const serverDataLoadedRef = useRef(false);
   const skipAutoCascadeRef = useRef(true);
+  const loadedMonthKeyRef = useRef(null);
 
   const CORRECT_PASSWORD = 'afkaya48';
 
@@ -272,6 +273,7 @@ export default function Home() {
   // Load data for current month from working copy (drafts survive month navigation)
   const loadMonthData = useCallback(async (date) => {
     setIsLoaded(false);
+    loadedMonthKeyRef.current = null;
     const monthKey = getMonthKey(date);
     console.log('Loading month data for:', monthKey);
 
@@ -325,6 +327,7 @@ export default function Home() {
       setAutomaticPayments(automatic);
       setCreditPayments(credit);
 
+      loadedMonthKeyRef.current = monthKey;
       setTimeout(() => setIsLoaded(true), 0);
     } catch (err) {
       console.error('Error loading data:', err);
@@ -334,6 +337,7 @@ export default function Home() {
       setTarget(0);
       setAutomaticPayments([]);
       setCreditPayments([]);
+      loadedMonthKeyRef.current = null;
       setIsLoaded(true);
     }
   }, [loadAllData]);
@@ -409,23 +413,28 @@ export default function Home() {
   }, [currentMonth, loadMonthData, isAuthenticated]);
 
   const handleSaveInstallmentPlans = useCallback((nextPlans) => {
+    persistCurrentMonthDraft();
     setInstallmentPlans(nextPlans);
     allDataRef.current[INSTALLMENT_PLANS_KEY] = nextPlans;
     syncInstallmentPlansAcrossAllData(allDataRef.current);
 
     if (!currentMonth) return;
     const monthKey = getMonthKey(currentMonth);
+    loadedMonthKeyRef.current = monthKey;
     const monthData = allDataRef.current[monthKey];
     if (monthData?.automaticPayments) {
       setAutomaticPayments(monthData.automaticPayments);
     } else {
       setAutomaticPayments((prev) => prev.filter((payment) => !payment.installmentPlanId));
     }
-  }, [currentMonth]);
+  }, [currentMonth, persistCurrentMonthDraft]);
 
   // Ay verisi oluşunca geçerli taksit planlarını otomatik ödemelere ekle
   useEffect(() => {
     if (!isLoaded || !currentMonth || installmentPlans.length === 0) return;
+
+    const monthKey = getMonthKey(currentMonth);
+    if (loadedMonthKeyRef.current !== monthKey) return;
 
     const monthPayload = {
       bankAccounts,
@@ -441,14 +450,29 @@ export default function Home() {
       const stripped = applyInstallmentPlansToMonth(automaticPayments, installmentPlans, monthKey, false);
       if (JSON.stringify(stripped) !== JSON.stringify(automaticPayments)) {
         setAutomaticPayments(stripped);
+        allDataRef.current[monthKey] = buildMonthPayload(
+          bankAccounts,
+          reservedCash,
+          income,
+          target,
+          stripped,
+          creditPayments,
+        );
       }
       return;
     }
 
-    const monthKey = getMonthKey(currentMonth);
     const synced = applyInstallmentPlansToMonth(automaticPayments, installmentPlans, monthKey, true);
     if (JSON.stringify(synced) !== JSON.stringify(automaticPayments)) {
       setAutomaticPayments(synced);
+      allDataRef.current[monthKey] = buildMonthPayload(
+        bankAccounts,
+        reservedCash,
+        income,
+        target,
+        synced,
+        creditPayments,
+      );
     }
   }, [
     bankAccounts,
@@ -616,12 +640,16 @@ export default function Home() {
   const handlePrevMonth = () => {
     if (!currentMonth || !canGoPrev) return;
     persistCurrentMonthDraft();
+    loadedMonthKeyRef.current = null;
+    setIsLoaded(false);
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1));
   };
 
   const handleNextMonth = () => {
     if (!currentMonth) return;
     persistCurrentMonthDraft();
+    loadedMonthKeyRef.current = null;
+    setIsLoaded(false);
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1));
   };
 
