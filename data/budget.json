@@ -136,12 +136,6 @@
         "type": "automatic"
       },
       {
-        "id": 1783172177984,
-        "name": "Katılımevim Taksit I",
-        "amount": 70588.24,
-        "type": "automatic"
-      },
-      {
         "id": 1783888172946,
         "name": "Katılımevim Provizyon",
         "amount": 84000,
@@ -152,6 +146,12 @@
         "name": "Çeyrek Altın",
         "amount": 10172,
         "type": "automatic"
+      },
+      {
+        "id": "installment-1784057435407-2026-07",
+        "name": "Katılımevim I",
+        "amount": 70588.24,
+        "installmentPlanId": 1784057435407
       }
     ],
     "creditPayments": [
@@ -190,12 +190,12 @@
   "2026-10": {
     "bankAccounts": [
       {
-        "id": 1784056899897.6958,
+        "id": 1784057366814.689,
         "name": "Devreden Bakiye",
-        "amount": 110269.44
+        "amount": 180857.68
       }
     ],
-    "balance": 110269.44,
+    "balance": 180857.68,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -204,12 +204,6 @@
         "id": 1783170602267.2688,
         "name": "Ev Kirası",
         "amount": 14000,
-        "type": "automatic"
-      },
-      {
-        "id": 1783172319585,
-        "name": "Katılımevim Taksit IV",
-        "amount": 70588.24,
         "type": "automatic"
       },
       {
@@ -223,6 +217,12 @@
         "name": "Yol Parası (Silinecek)",
         "amount": 2000,
         "type": "automatic"
+      },
+      {
+        "id": "installment-1784057435407-2026-10",
+        "name": "Katılımevim IV",
+        "amount": 70588.24,
+        "installmentPlanId": 1784057435407
       }
     ],
     "creditPayments": [
@@ -255,12 +255,12 @@
   "2026-08": {
     "bankAccounts": [
       {
-        "id": 1784056899897.971,
+        "id": 1784057366814.9277,
         "name": "Devreden Bakiye",
-        "amount": 161928.68
+        "amount": 232516.92
       }
     ],
-    "balance": 161928.68,
+    "balance": 232516.92,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -269,12 +269,6 @@
         "id": 1777818117807.6008,
         "name": "Ev Kirası",
         "amount": 14000,
-        "type": "automatic"
-      },
-      {
-        "id": 1783172250271,
-        "name": "Katılımevim Taksit II",
-        "amount": 70588.24,
         "type": "automatic"
       },
       {
@@ -288,6 +282,12 @@
         "name": "Yol Parası (Silinecek)",
         "amount": 2000,
         "type": "automatic"
+      },
+      {
+        "id": "installment-1784057435407-2026-08",
+        "name": "Katılımevim II",
+        "amount": 70588.24,
+        "installmentPlanId": 1784057435407
       }
     ],
     "creditPayments": [
@@ -310,15 +310,9 @@
         "type": "credit"
       },
       {
-        "id": 1783888397762,
-        "name": "Tenis Kort & Eğitim",
-        "amount": 1500,
-        "type": "credit"
-      },
-      {
         "id": 1783888420578,
         "name": "Tahmini Harcama",
-        "amount": 15000,
+        "amount": 20000,
         "type": "credit"
       }
     ]
@@ -326,12 +320,12 @@
   "2027-02": {
     "bankAccounts": [
       {
-        "id": 1784056899897.5735,
+        "id": 1784057366814.9739,
         "name": "Devreden Bakiye",
-        "amount": 30531.63
+        "amount": 101119.87
       }
     ],
-    "balance": 30531.63,
+    "balance": 101119.87,
     "reservedCash": 0,
     "income": 120000,
     "target": 0,
@@ -340,12 +334,6 @@
         "id": 1783977974880.4827,
         "name": "Ev Kirası",
         "amount": 20000,
-        "type": "automatic"
-      },
-      {
-        "id": 1783977974998.7957,
-        "name": "Katılımevim Taksit VIII",
-        "amount": 70588.24,
         "type": "automatic"
       },
       {
@@ -359,6 +347,12 @@
         "name": "Yol Parası (Silinecek)",
         "amount": 2000,
         "type": "automatic"
+      },
+      {
+        "id": "installment-1784057435407-2027-02",
+        "name": "Katılımevim VIII",
+        "amount": 70588.24,
+        "installmentPlanId": 1784057435407
       }
     ],
     "creditPayments": [
@@ -373,12 +367,12 @@
   "2026-09": {
     "bankAccounts": [
       {
-        "id": 1784056899897.409,
+        "id": 1784057366814.7583,
         "name": "Devreden Bakiye",
-        "amount": 137849.06
+        "amount": 208437.3
       }
     ],
-    "balance": 137849.06,
+    "balance": 208437.3,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -387,12 +381,6 @@
         "id": 1783170159982.728,
         "name": "Ev Kirası",
         "amount": 14000,
-        "type": "automatic"
-      },
-      {
-        "id": 1783172299005,
-        "name": "Katılımevim Taksit III",
-        "amount": 70588.24,
         "type": "automatic"
       },
       {
@@ -406,6 +394,12 @@
         "name": "Yol Parası (Silinecek)",
         "amount": 2000,
         "type": "automatic"
+      },
+      {
+        "id": "installment-1784057435407-2026-09",
+        "name": "Katılımevim III",
+        "amount": 70588.24,
+        "installmentPlanId": 1784057435407
       }
     ],
     "creditPayments": [
@@ -438,12 +432,12 @@
   "2026-11": {
     "bankAccounts": [
       {
-        "id": 1784056899897.1746,
+        "id": 1784057366814.8167,
         "name": "Devreden Bakiye",
-        "amount": 82689.82
+        "amount": 153278.06
       }
     ],
-    "balance": 82689.82,
+    "balance": 153278.06,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -452,12 +446,6 @@
         "id": 1783170625120.5593,
         "name": "Ev Kirası",
         "amount": 18000,
-        "type": "automatic"
-      },
-      {
-        "id": 1783172331796,
-        "name": "Katılımevim Taksit V",
-        "amount": 70588.24,
         "type": "automatic"
       },
       {
@@ -471,6 +459,12 @@
         "name": "Yol Parası (Silinecek)",
         "amount": 2000,
         "type": "automatic"
+      },
+      {
+        "id": "installment-1784057435407-2026-11",
+        "name": "Katılımevim V",
+        "amount": 70588.24,
+        "installmentPlanId": 1784057435407
       }
     ],
     "creditPayments": [
@@ -497,12 +491,12 @@
   "2026-12": {
     "bankAccounts": [
       {
-        "id": 1784056899897.635,
+        "id": 1784057366814.9634,
         "name": "Devreden Bakiye",
-        "amount": 53037.18
+        "amount": 123625.42
       }
     ],
-    "balance": 53037.18,
+    "balance": 123625.42,
     "reservedCash": 0,
     "income": 90000,
     "target": 0,
@@ -511,12 +505,6 @@
         "id": 1783170654653.3416,
         "name": "Ev Kirası",
         "amount": 20000,
-        "type": "automatic"
-      },
-      {
-        "id": 1783172348477,
-        "name": "Katılımevim Taksit VI",
-        "amount": 70588.24,
         "type": "automatic"
       },
       {
@@ -530,6 +518,12 @@
         "name": "Yol Parası (Silinecek)",
         "amount": 2000,
         "type": "automatic"
+      },
+      {
+        "id": "installment-1784057435407-2026-12",
+        "name": "Katılımevim VI",
+        "amount": 70588.24,
+        "installmentPlanId": 1784057435407
       }
     ],
     "creditPayments": [
@@ -550,12 +544,12 @@
   "2027-01": {
     "bankAccounts": [
       {
-        "id": 1784056899897.2822,
+        "id": 1784057366814.4019,
         "name": "Devreden Bakiye",
-        "amount": 25119.87
+        "amount": 95708.11
       }
     ],
-    "balance": 25119.87,
+    "balance": 95708.11,
     "reservedCash": 0,
     "income": 120000,
     "target": 0,
@@ -564,12 +558,6 @@
         "id": 1783189735052.7468,
         "name": "Ev Kirası",
         "amount": 20000,
-        "type": "automatic"
-      },
-      {
-        "id": 1783189735366.1667,
-        "name": "Katılımevim Taksit VII",
-        "amount": 70588.24,
         "type": "automatic"
       },
       {
@@ -583,6 +571,12 @@
         "name": "Yol Parası (Silinecek)",
         "amount": 2000,
         "type": "automatic"
+      },
+      {
+        "id": "installment-1784057435407-2027-01",
+        "name": "Katılımevim VII",
+        "amount": 70588.24,
+        "installmentPlanId": 1784057435407
       }
     ],
     "creditPayments": [
@@ -597,12 +591,12 @@
   "2027-03": {
     "bankAccounts": [
       {
-        "id": 1784056899897.1309,
+        "id": 1784057366814.9048,
         "name": "Devreden Bakiye",
-        "amount": 35943.39
+        "amount": 106531.63
       }
     ],
-    "balance": 35943.39,
+    "balance": 106531.63,
     "reservedCash": 0,
     "income": 120000,
     "target": 0,
@@ -611,12 +605,6 @@
         "id": 1783978027261.7417,
         "name": "Ev Kirası",
         "amount": 20000,
-        "type": "automatic"
-      },
-      {
-        "id": 1783978027070.8582,
-        "name": "Katılımevim Taksit VII",
-        "amount": 70588.24,
         "type": "automatic"
       },
       {
@@ -630,6 +618,12 @@
         "name": "Yol Parası (Silinecek)",
         "amount": 2000,
         "type": "automatic"
+      },
+      {
+        "id": "installment-1784057435407-2027-03",
+        "name": "Katılımevim IX",
+        "amount": 70588.24,
+        "installmentPlanId": 1784057435407
       }
     ],
     "creditPayments": [
@@ -650,5 +644,13 @@
     "automaticPayments": [],
     "creditPayments": []
   },
-  "installmentPlans": []
+  "installmentPlans": [
+    {
+      "id": 1784057435407,
+      "name": "Katılımevim",
+      "monthlyAmount": 70588.24,
+      "startMonth": "2026-07",
+      "totalMonths": 17
+    }
+  ]
 }
