@@ -190,7 +190,7 @@
   "2026-10": {
     "bankAccounts": [
       {
-        "id": 1784125062221.0537,
+        "id": 1784137124175.433,
         "name": "Devreden Bakiye",
         "amount": 113086.46
       }
@@ -255,7 +255,7 @@
   "2026-08": {
     "bankAccounts": [
       {
-        "id": 1784125062221.553,
+        "id": 1784137124175.5596,
         "name": "Devreden Bakiye",
         "amount": 168245.7
       }
@@ -320,7 +320,7 @@
   "2027-02": {
     "bankAccounts": [
       {
-        "id": 1784125062221.189,
+        "id": 1784137124175.2166,
         "name": "Devreden Bakiye",
         "amount": 33348.65
       }
@@ -367,7 +367,7 @@
   "2026-09": {
     "bankAccounts": [
       {
-        "id": 1784125062221.443,
+        "id": 1784137124175.284,
         "name": "Devreden Bakiye",
         "amount": 140666.08
       }
@@ -432,7 +432,7 @@
   "2026-11": {
     "bankAccounts": [
       {
-        "id": 1784125062221.9253,
+        "id": 1784137124175.93,
         "name": "Devreden Bakiye",
         "amount": 85506.84
       }
@@ -491,7 +491,7 @@
   "2026-12": {
     "bankAccounts": [
       {
-        "id": 1784125062221.0989,
+        "id": 1784137124175.673,
         "name": "Devreden Bakiye",
         "amount": 55854.2
       }
@@ -544,7 +544,7 @@
   "2027-01": {
     "bankAccounts": [
       {
-        "id": 1784125062221.6653,
+        "id": 1784137124175.3171,
         "name": "Devreden Bakiye",
         "amount": 27936.89
       }
@@ -591,7 +591,7 @@
   "2027-03": {
     "bankAccounts": [
       {
-        "id": 1784125062221.6458,
+        "id": 1784137124175.4897,
         "name": "Devreden Bakiye",
         "amount": 38760.41
       }
@@ -610,12 +610,6 @@
       {
         "id": 1783978027945.3467,
         "name": "Otomatik Faturalar (Silinecek)",
-        "amount": 2000,
-        "type": "automatic"
-      },
-      {
-        "id": 1783978027062.0881,
-        "name": "Yol Parası (Silinecek)",
         "amount": 2000,
         "type": "automatic"
       },
