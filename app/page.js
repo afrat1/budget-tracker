@@ -210,10 +210,12 @@ export default function Home() {
     if (!isViewingCurrentCalendarMonth(currentMonth)) return;
 
     persistCurrentMonthDraft();
+    allDataRef.current[INSTALLMENT_PLANS_KEY] = installmentPlans;
+    syncInstallmentPlansAcrossAllData(allDataRef.current);
     const allData = { ...allDataRef.current };
     cascadeBalanceToFutureMonths(allData);
     allDataRef.current = allData;
-  }, [currentMonth, isViewingCurrentCalendarMonth, persistCurrentMonthDraft]);
+  }, [currentMonth, isViewingCurrentCalendarMonth, persistCurrentMonthDraft, installmentPlans]);
 
   // Save data - GitHub Actions ile otomatik commit
   // CORS nedeniyle browser'dan direkt GitHub API çağrısı çalışmaz
@@ -534,6 +536,8 @@ export default function Home() {
       allDataRef.current[INSTALLMENT_PLANS_KEY] = installmentPlans;
       syncInstallmentPlansAcrossAllData(allDataRef.current);
       const allData = { ...allDataRef.current };
+      cascadeBalanceToFutureMonths(allData);
+      allDataRef.current = allData;
 
       const result = await saveDataToGitHub(allData);
 
