@@ -1,9 +1,20 @@
 'use client';
 
-export default function Summary({ balance, reservedCash, income, target, automaticPayments, creditPayments, currentMonth, onTransferToNextMonth }) {
-  // Türkçe para formatı: 1.234,56
+import { formatMoneyRange, hasIncomeRange, normalizeIncomeRange } from '../lib/incomeRange';
+
+export default function Summary({
+  balance,
+  balanceMax,
+  reservedCash,
+  incomeMin,
+  incomeMax,
+  target,
+  automaticPayments,
+  creditPayments,
+  currentMonth,
+  onTransferToNextMonth,
+}) {
   const formatNumber = (num) => {
-    // Floating point düzeltmesi için 2 ondalık basamağa yuvarla
     const fixed = Math.abs(num).toFixed(2);
     const [intPart, decPart] = fixed.split('.');
     const formattedInt = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -13,26 +24,47 @@ export default function Summary({ balance, reservedCash, income, target, automat
     return `${formattedInt},${decPart}`;
   };
 
-  // Floating point düzeltmesi
   const round2 = (num) => Math.round(num * 100) / 100;
+  const formatSigned = (num) => `${num >= 0 ? '' : '-'}${formatNumber(num)}`;
+
+  const incomeRange = normalizeIncomeRange(incomeMin, incomeMax);
+  const balanceMin = round2(balance || 0);
+  const balanceHi = balanceMax != null ? round2(balanceMax) : balanceMin;
+  const balanceLo = Math.min(balanceMin, balanceHi);
+  const balanceHiNorm = Math.max(balanceMin, balanceHi);
+  const showBalanceRange = balanceLo !== balanceHiNorm;
+  const showIncomeRange = hasIncomeRange(incomeRange.min, incomeRange.max);
 
   const totalAutomatic = round2(automaticPayments.reduce((sum, p) => sum + p.amount, 0));
   const totalCredit = round2(creditPayments.reduce((sum, p) => sum + p.amount, 0));
   const totalExpenses = round2(totalAutomatic + totalCredit);
-  const totalAvailable = round2(balance + income - reservedCash);
-  const remaining = round2(totalAvailable - totalExpenses);
-  
-  // Hedef tasarruf hesaplaması
-  const spendableAmount = round2(remaining - target); // Hedef sonrası harcayabileceğiniz miktar
+
+  const availableMin = round2(balanceLo + incomeRange.min - reservedCash);
+  const availableMax = round2(balanceHiNorm + incomeRange.max - reservedCash);
+  const remainingMin = round2(availableMin - totalExpenses);
+  const remainingMax = round2(availableMax - totalExpenses);
+  const remainingLo = Math.min(remainingMin, remainingMax);
+  const remainingHi = Math.max(remainingMin, remainingMax);
+  const showRemainingRange = remainingLo !== remainingHi;
+
+  const spendableMin = round2(remainingLo - target);
+  const spendableMax = round2(remainingHi - target);
+  const showSpendableRange = spendableMin !== spendableMax;
 
   const months = [
     'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
-    'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'
+    'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık',
   ];
 
   const nextMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
   const nextMonthName = months[nextMonth.getMonth()];
   const nextMonthYear = nextMonth.getFullYear();
+
+  const remainingClass = remainingHi < 0
+    ? 'negative'
+    : remainingLo < 0
+      ? 'mixed'
+      : 'positive';
 
   return (
     <div className="card summary-card">
@@ -46,7 +78,11 @@ export default function Summary({ balance, reservedCash, income, target, automat
       <div className="summary-top-grid">
         <div className="summary-item">
           <div className="summary-item-label">Banka Bakiyesi</div>
-          <div className="summary-item-value income">{formatNumber(balance)} ₺</div>
+          <div className="summary-item-value income">
+            {showBalanceRange
+              ? formatMoneyRange(balanceLo, balanceHiNorm, formatNumber)
+              : `${formatNumber(balanceLo)} ₺`}
+          </div>
         </div>
         {reservedCash > 0 && (
           <div className="summary-item">
@@ -56,7 +92,11 @@ export default function Summary({ balance, reservedCash, income, target, automat
         )}
         <div className="summary-item">
           <div className="summary-item-label">Gelecek Gelir</div>
-          <div className="summary-item-value" style={{ color: 'var(--success)' }}>+{formatNumber(income)} ₺</div>
+          <div className="summary-item-value" style={{ color: 'var(--success)' }}>
+            +{showIncomeRange
+              ? formatMoneyRange(incomeRange.min, incomeRange.max, formatNumber)
+              : `${formatNumber(incomeRange.max)} ₺`}
+          </div>
         </div>
         <div className="summary-item">
           <div className="summary-item-label">Toplam Gider</div>
@@ -79,38 +119,44 @@ export default function Summary({ balance, reservedCash, income, target, automat
         </div>
         <div style={{ flex: 1, padding: '16px', background: 'rgba(34, 197, 94, 0.1)', borderRadius: '12px', border: '1px solid rgba(34, 197, 94, 0.2)', minWidth: 0 }}>
           <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '4px' }}>Toplam Kullanılabilir</div>
-          <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--success)' }}>{formatNumber(totalAvailable)} ₺</div>
+          <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--success)' }}>
+            {availableMin === availableMax
+              ? `${formatNumber(availableMin)} ₺`
+              : formatMoneyRange(availableMin, availableMax, formatNumber)}
+          </div>
         </div>
       </div>
 
       <div className="summary-divider"></div>
 
-      {/* Kalan Para */}
       <div className="remaining-balance">
         <div className="remaining-balance-label">
           {nextMonthName} {nextMonthYear} Ödemeler Sonrası Kalan Para
         </div>
-        <div className={`remaining-balance-value ${remaining >= 0 ? 'positive' : 'negative'}`}>
-          {remaining >= 0 ? '' : '-'}{formatNumber(remaining)} ₺
+        <div className={`remaining-balance-value ${remainingClass}`}>
+          {showRemainingRange
+            ? `${formatSigned(remainingLo)} – ${formatSigned(remainingHi)} ₺`
+            : `${formatSigned(remainingLo)} ₺`}
         </div>
         <div className="remaining-balance-note">
-          Banka bakiyesi + gelecek gelir{reservedCash > 0 ? ' − ayrılan nakit' : ''} − tüm ödemeler
+          {showRemainingRange
+            ? 'Min senaryo ← düşük gelir/devreden · Max senaryo ← yüksek gelir/devreden'
+            : `Banka bakiyesi + gelecek gelir${reservedCash > 0 ? ' − ayrılan nakit' : ''} − tüm ödemeler`}
         </div>
-        {remaining > 0 && onTransferToNextMonth && (
-          <button 
-            className="btn btn-success" 
-            onClick={() => onTransferToNextMonth(remaining)}
+        {remainingLo > 0 && onTransferToNextMonth && (
+          <button
+            className="btn btn-success"
+            onClick={() => onTransferToNextMonth(remainingLo, remainingHi)}
             style={{ marginTop: '16px' }}
           >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" width="18" height="18">
               <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
             </svg>
-            Sonraki Aya Aktar ({formatNumber(remaining)} ₺)
+            Sonraki Aya Aktar (min {formatNumber(remainingLo)} ₺)
           </button>
         )}
       </div>
 
-      {/* Hedef Hesaplaması */}
       {target > 0 && (
         <>
           <div className="summary-divider"></div>
@@ -119,37 +165,36 @@ export default function Summary({ balance, reservedCash, income, target, automat
             gridTemplateColumns: '1fr 1fr',
             gap: '16px',
           }} className="summary-target-grid">
-            {/* Hedefe Göre Harcama Limiti */}
             <div style={{
               padding: '20px',
-              background: spendableAmount >= 0 ? 'rgba(139, 92, 246, 0.1)' : 'rgba(239, 68, 68, 0.1)',
-              border: `1px solid ${spendableAmount >= 0 ? 'rgba(139, 92, 246, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`,
+              background: spendableMin >= 0 ? 'rgba(139, 92, 246, 0.1)' : 'rgba(239, 68, 68, 0.1)',
+              border: `1px solid ${spendableMin >= 0 ? 'rgba(139, 92, 246, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`,
               borderRadius: '12px',
               textAlign: 'center',
             }}>
               <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '8px' }}>
-                {spendableAmount >= 0 ? 'Ek Harcama Yapabilirsiniz' : 'Hedef İçin Eksik'}
+                {spendableMin >= 0 ? 'Ek Harcama Yapabilirsiniz' : 'Hedef İçin Eksik'}
               </div>
               <div style={{
-                fontSize: '2rem',
+                fontSize: showSpendableRange ? '1.5rem' : '2rem',
                 fontWeight: 800,
-                color: spendableAmount >= 0 ? 'var(--accent-secondary)' : 'var(--danger)',
+                color: spendableMin >= 0 ? 'var(--accent-secondary)' : 'var(--danger)',
               }}>
-                {spendableAmount >= 0 ? '' : '-'}{formatNumber(spendableAmount)} ₺
+                {showSpendableRange
+                  ? `${formatSigned(spendableMin)} – ${formatSigned(spendableMax)} ₺`
+                  : `${formatSigned(spendableMin)} ₺`}
               </div>
               <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '8px' }}>
-                {spendableAmount >= 0
+                {spendableMin >= 0
                   ? `${formatNumber(target)} ₺ hedefini tutturduktan sonra`
-                  : `Hedefinize ulaşmak için ${formatNumber(Math.abs(spendableAmount))} ₺ daha tasarruf edin`
-                }
+                  : `Hedefinize ulaşmak için en az ${formatNumber(Math.abs(spendableMin))} ₺ daha tasarruf edin`}
               </div>
             </div>
 
-            {/* Hedef Durumu */}
             <div style={{
               padding: '20px',
-              background: remaining >= target ? 'rgba(34, 197, 94, 0.1)' : 'rgba(245, 158, 11, 0.1)',
-              border: `1px solid ${remaining >= target ? 'rgba(34, 197, 94, 0.3)' : 'rgba(245, 158, 11, 0.3)'}`,
+              background: remainingLo >= target ? 'rgba(34, 197, 94, 0.1)' : 'rgba(245, 158, 11, 0.1)',
+              border: `1px solid ${remainingLo >= target ? 'rgba(34, 197, 94, 0.3)' : 'rgba(245, 158, 11, 0.3)'}`,
               borderRadius: '12px',
               textAlign: 'center',
             }}>
@@ -157,21 +202,21 @@ export default function Summary({ balance, reservedCash, income, target, automat
                 Hedef Durumu
               </div>
               <div style={{
-                fontSize: '2rem',
+                fontSize: '1.5rem',
                 fontWeight: 800,
-                color: remaining >= target ? 'var(--success)' : 'var(--warning)',
+                color: remainingLo >= target ? 'var(--success)' : 'var(--warning)',
               }}>
-                {remaining >= target ? '✓ Hedefe Ulaştınız' : '⚠ Hedef Altında'}
+                {remainingLo >= target ? '✓ Hedefe Ulaştınız' : remainingHi >= target ? '⚠ Aralıklı' : '⚠ Hedef Altında'}
               </div>
               <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '8px' }}>
-                Hedef: {formatNumber(target)} ₺ | Kalan: {formatNumber(remaining)} ₺
+                Hedef: {formatNumber(target)} ₺ | Kalan: {formatMoneyRange(remainingLo, remainingHi, formatNumber)}
               </div>
             </div>
           </div>
         </>
       )}
 
-      {remaining < 0 && (
+      {remainingHi < 0 && (
         <div style={{
           marginTop: '16px',
           padding: '16px',
@@ -180,7 +225,7 @@ export default function Summary({ balance, reservedCash, income, target, automat
           borderRadius: '12px',
           display: 'flex',
           alignItems: 'flex-start',
-          gap: '12px'
+          gap: '12px',
         }}>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="var(--danger)" width="24" height="24" style={{ flexShrink: 0 }}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
@@ -188,13 +233,36 @@ export default function Summary({ balance, reservedCash, income, target, automat
           <div>
             <div style={{ color: 'var(--danger)', fontWeight: 600, marginBottom: '4px' }}>Dikkat!</div>
             <div style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-              Mevcut bakiye ve gelecek geliriniz ödemeleri karşılamak için yeterli değil. Ek {formatNumber(Math.abs(remaining))} ₺ gerekiyor.
+              En iyi senaryoda bile ödemeler karşılanmıyor. En az {formatNumber(Math.abs(remainingHi))} ₺ ek gerekiyor.
             </div>
           </div>
         </div>
       )}
 
-      {remaining >= 0 && remaining > 0 && target === 0 && (
+      {remainingLo < 0 && remainingHi >= 0 && (
+        <div style={{
+          marginTop: '16px',
+          padding: '16px',
+          background: 'rgba(245, 158, 11, 0.1)',
+          border: '1px solid rgba(245, 158, 11, 0.2)',
+          borderRadius: '12px',
+          display: 'flex',
+          alignItems: 'flex-start',
+          gap: '12px',
+        }}>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="var(--warning)" width="24" height="24" style={{ flexShrink: 0 }}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+          </svg>
+          <div>
+            <div style={{ color: 'var(--warning)', fontWeight: 600, marginBottom: '4px' }}>Aralık riskli</div>
+            <div style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
+              Min senaryoda eksi ({formatSigned(remainingLo)} ₺), max senaryoda artı ({formatSigned(remainingHi)} ₺).
+            </div>
+          </div>
+        </div>
+      )}
+
+      {remainingLo > 0 && target === 0 && (
         <div style={{
           marginTop: '16px',
           padding: '16px',
@@ -203,7 +271,7 @@ export default function Summary({ balance, reservedCash, income, target, automat
           borderRadius: '12px',
           display: 'flex',
           alignItems: 'flex-start',
-          gap: '12px'
+          gap: '12px',
         }}>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="var(--success)" width="24" height="24" style={{ flexShrink: 0 }}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -211,7 +279,7 @@ export default function Summary({ balance, reservedCash, income, target, automat
           <div>
             <div style={{ color: 'var(--success)', fontWeight: 600, marginBottom: '4px' }}>Harika!</div>
             <div style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-              Tüm ödemeler sonrasında {formatNumber(remaining)} ₺ paranız kalacak.
+              Tüm ödemeler sonrasında {formatMoneyRange(remainingLo, remainingHi, formatNumber)} paranız kalacak.
             </div>
           </div>
         </div>

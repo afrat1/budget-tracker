@@ -14,6 +14,11 @@ import {
   monthHasUserData,
   syncInstallmentPlansAcrossAllData,
 } from '../lib/installmentPlans';
+import {
+  buildIncomeFields,
+  calculateRemainingRange,
+  getIncomeRange,
+} from '../lib/incomeRange';
 
 const round2 = (num) => Math.round(num * 100) / 100;
 
@@ -23,38 +28,28 @@ const getMonthKeyFromDate = (date) => {
   return `${year}-${month}`;
 };
 
-const getAccountsFromMonthData = (monthData) => {
-  if (!monthData) return [];
-  if (monthData.bankAccounts?.length > 0) return monthData.bankAccounts;
-  if ((monthData.balance || 0) > 0) {
-    return [{ amount: monthData.balance }];
-  }
-  return [];
-};
-
 const monthHasStoredData = monthHasUserData;
 
-const calculateMonthRemaining = (monthData) => {
-  const balance = round2(getAccountsFromMonthData(monthData).reduce((sum, account) => sum + account.amount, 0));
-  const reservedCash = monthData.reservedCash ?? monthData.cash ?? 0;
-  const income = monthData.income || 0;
-  const totalAutomatic = round2((monthData.automaticPayments || []).reduce((sum, payment) => sum + payment.amount, 0));
-  const totalCredit = round2((monthData.creditPayments || []).reduce((sum, payment) => sum + payment.amount, 0));
-  const totalAvailable = round2(balance + income - reservedCash);
-  return round2(totalAvailable - totalAutomatic - totalCredit);
-};
-
-const applyDevredenBakiye = (monthData, amount) => {
-  const roundedAmount = round2(amount);
-  return {
+const applyDevredenBakiye = (monthData, remainingMin, remainingMax) => {
+  const minAmount = round2(remainingMin);
+  const maxAmount = round2(remainingMax);
+  const next = {
     ...monthData,
     bankAccounts: [{
       id: Date.now() + Math.random(),
       name: 'Devreden Bakiye',
-      amount: roundedAmount,
+      amount: minAmount,
     }],
-    balance: roundedAmount,
+    balance: minAmount,
   };
+
+  if (maxAmount !== minAmount) {
+    next.projectedBalanceMax = maxAmount;
+  } else {
+    delete next.projectedBalanceMax;
+  }
+
+  return next;
 };
 
 const cascadeBalanceToFutureMonths = (allData) => {
@@ -67,14 +62,14 @@ const cascadeBalanceToFutureMonths = (allData) => {
 
     if (!monthHasStoredData(currentData)) break;
 
-    const remaining = calculateMonthRemaining(currentData);
+    const { min: remainingMin, max: remainingMax } = calculateRemainingRange(currentData);
     const nextCursor = new Date(cursor.getFullYear(), cursor.getMonth() + 1, 1);
     const nextKey = getMonthKeyFromDate(nextCursor);
     const nextData = allData[nextKey];
 
     if (!monthHasStoredData(nextData)) break;
 
-    allData[nextKey] = applyDevredenBakiye(nextData, remaining);
+    allData[nextKey] = applyDevredenBakiye(nextData, remainingMin, remainingMax);
     cursor = nextCursor;
   }
 };
@@ -82,7 +77,9 @@ const cascadeBalanceToFutureMonths = (allData) => {
 export default function Home() {
   const [bankAccounts, setBankAccounts] = useState([]);
   const [reservedCash, setReservedCash] = useState(0);
-  const [income, setIncome] = useState(0);
+  const [incomeMin, setIncomeMin] = useState(0);
+  const [incomeMax, setIncomeMax] = useState(0);
+  const [projectedBalanceMax, setProjectedBalanceMax] = useState(null);
   const [target, setTarget] = useState(0);
   const [automaticPayments, setAutomaticPayments] = useState([]);
   const [creditPayments, setCreditPayments] = useState([]);
@@ -120,12 +117,6 @@ export default function Home() {
     return `${year}-${month}`;
   };
 
-  const isViewingCurrentCalendarMonth = useCallback((date) => {
-    if (!date) return false;
-    const now = new Date();
-    return date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear();
-  }, []);
-
   const getBalanceTotal = (accounts) =>
     Math.round(accounts.reduce((sum, account) => sum + account.amount, 0) * 100) / 100;
 
@@ -146,15 +137,38 @@ export default function Home() {
     return [];
   };
 
-  const buildMonthPayload = (accounts, reservedCashValue, incomeValue, targetValue, automatic, credit) => ({
-    bankAccounts: accounts,
-    balance: getBalanceTotal(accounts),
-    reservedCash: reservedCashValue,
-    income: incomeValue,
-    target: targetValue,
-    automaticPayments: automatic,
-    creditPayments: credit,
-  });
+  const buildMonthPayload = (
+    accounts,
+    reservedCashValue,
+    incomeMinValue,
+    incomeMaxValue,
+    targetValue,
+    automatic,
+    credit,
+    projectedMaxValue = null,
+  ) => {
+    const incomeFields = buildIncomeFields(incomeMinValue, incomeMaxValue);
+    const payload = {
+      bankAccounts: accounts,
+      balance: getBalanceTotal(accounts),
+      reservedCash: reservedCashValue,
+      ...incomeFields,
+      target: targetValue,
+      automaticPayments: automatic,
+      creditPayments: credit,
+    };
+
+    if (projectedMaxValue != null && round2(projectedMaxValue) !== payload.balance) {
+      payload.projectedBalanceMax = round2(projectedMaxValue);
+    }
+
+    return payload;
+  };
+
+  const handleIncomeRangeChange = (range) => {
+    setIncomeMin(Number(range.min) || 0);
+    setIncomeMax(Number(range.max) || 0);
+  };
 
   // Get base path for GitHub Pages
   const getBasePath = () => {
@@ -199,23 +213,45 @@ export default function Home() {
     allDataRef.current[monthKey] = buildMonthPayload(
       bankAccounts,
       reservedCash,
-      income,
+      incomeMin,
+      incomeMax,
       target,
       automaticPayments,
       creditPayments,
+      projectedBalanceMax,
     );
-  }, [currentMonth, bankAccounts, reservedCash, income, target, automaticPayments, creditPayments]);
+  }, [currentMonth, bankAccounts, reservedCash, incomeMin, incomeMax, target, automaticPayments, creditPayments, projectedBalanceMax]);
 
   const runAutoCascade = useCallback(() => {
-    if (!isViewingCurrentCalendarMonth(currentMonth)) return;
-
     persistCurrentMonthDraft();
     allDataRef.current[INSTALLMENT_PLANS_KEY] = installmentPlans;
     syncInstallmentPlansAcrossAllData(allDataRef.current);
     const allData = { ...allDataRef.current };
     cascadeBalanceToFutureMonths(allData);
     allDataRef.current = allData;
-  }, [currentMonth, isViewingCurrentCalendarMonth, persistCurrentMonthDraft, installmentPlans]);
+
+    // Cascade gelecek ayları güncelledi; görüntülenen ayı state'e geri yaz
+    if (currentMonth) {
+      const monthKey = getMonthKey(currentMonth);
+      const monthData = allData[monthKey];
+      if (monthData) {
+        const accounts = migrateMonthData(monthData);
+        const projectedMaxValue = monthData.projectedBalanceMax != null
+          ? round2(monthData.projectedBalanceMax)
+          : null;
+        const nextBalance = round2(accounts.reduce((sum, account) => sum + account.amount, 0));
+        const prevBalance = round2(bankAccounts.reduce((sum, account) => sum + account.amount, 0));
+        const prevProjected = projectedBalanceMax != null ? round2(projectedBalanceMax) : null;
+
+        if (nextBalance !== prevBalance || projectedMaxValue !== prevProjected) {
+          // State sync effect'i tekrar cascade tetiklemesin
+          skipAutoCascadeRef.current = true;
+          setBankAccounts(accounts);
+          setProjectedBalanceMax(projectedMaxValue);
+        }
+      }
+    }
+  }, [currentMonth, persistCurrentMonthDraft, installmentPlans, bankAccounts, projectedBalanceMax]);
 
   // Save data - GitHub Actions ile otomatik commit
   // CORS nedeniyle browser'dan direkt GitHub API çağrısı çalışmaz
@@ -280,8 +316,12 @@ export default function Home() {
     console.log('Loading month data for:', monthKey);
 
     try {
-      if (!serverDataLoadedRef.current) {
+      const isFirstServerLoad = !serverDataLoadedRef.current;
+      if (isFirstServerLoad) {
         await loadAllData();
+        // İlk yüklemede gelir aralıklarından min/max devreden zincirini kur
+        syncInstallmentPlansAcrossAllData(allDataRef.current);
+        cascadeBalanceToFutureMonths(allDataRef.current);
       }
 
       const allData = allDataRef.current;
@@ -296,21 +336,25 @@ export default function Home() {
 
       const accounts = migrateMonthData(monthData);
       const reservedCashValue = monthData.reservedCash ?? monthData.cash ?? 0;
-      const incomeValue = monthData.income || 0;
+      const incomeRange = getIncomeRange(monthData);
       const targetValue = monthData.target || 0;
+      const projectedMaxValue = monthData.projectedBalanceMax != null
+        ? round2(monthData.projectedBalanceMax)
+        : null;
       let automatic = monthData.automaticPayments || [];
       const credit = monthData.creditPayments || [];
       const plans = allData[INSTALLMENT_PLANS_KEY] || [];
 
-      const monthPayload = {
-        bankAccounts: accounts,
-        balance: getBalanceTotal(accounts),
-        reservedCash: reservedCashValue,
-        income: incomeValue,
-        target: targetValue,
-        automaticPayments: automatic,
-        creditPayments: credit,
-      };
+      const monthPayload = buildMonthPayload(
+        accounts,
+        reservedCashValue,
+        incomeRange.min,
+        incomeRange.max,
+        targetValue,
+        automatic,
+        credit,
+        projectedMaxValue,
+      );
 
       if (monthHasUserData(monthPayload)) {
         automatic = applyInstallmentPlansToMonth(automatic, plans, monthKey, true);
@@ -324,7 +368,9 @@ export default function Home() {
 
       setBankAccounts(accounts);
       setReservedCash(reservedCashValue);
-      setIncome(incomeValue);
+      setIncomeMin(incomeRange.min);
+      setIncomeMax(incomeRange.max);
+      setProjectedBalanceMax(projectedMaxValue);
       setTarget(targetValue);
       setAutomaticPayments(automatic);
       setCreditPayments(credit);
@@ -335,7 +381,9 @@ export default function Home() {
       console.error('Error loading data:', err);
       setBankAccounts([]);
       setReservedCash(0);
-      setIncome(0);
+      setIncomeMin(0);
+      setIncomeMax(0);
+      setProjectedBalanceMax(null);
       setTarget(0);
       setAutomaticPayments([]);
       setCreditPayments([]);
@@ -438,15 +486,16 @@ export default function Home() {
     const monthKey = getMonthKey(currentMonth);
     if (loadedMonthKeyRef.current !== monthKey) return;
 
-    const monthPayload = {
+    const monthPayload = buildMonthPayload(
       bankAccounts,
-      balance: getBalanceTotal(bankAccounts),
       reservedCash,
-      income,
+      incomeMin,
+      incomeMax,
       target,
       automaticPayments,
       creditPayments,
-    };
+      projectedBalanceMax,
+    );
 
     if (!monthHasUserData(monthPayload)) {
       const stripped = applyInstallmentPlansToMonth(automaticPayments, installmentPlans, monthKey, false);
@@ -455,10 +504,12 @@ export default function Home() {
         allDataRef.current[monthKey] = buildMonthPayload(
           bankAccounts,
           reservedCash,
-          income,
+          incomeMin,
+          incomeMax,
           target,
           stripped,
           creditPayments,
+          projectedBalanceMax,
         );
       }
       return;
@@ -470,16 +521,20 @@ export default function Home() {
       allDataRef.current[monthKey] = buildMonthPayload(
         bankAccounts,
         reservedCash,
-        income,
+        incomeMin,
+        incomeMax,
         target,
         synced,
         creditPayments,
+        projectedBalanceMax,
       );
     }
   }, [
     bankAccounts,
     reservedCash,
-    income,
+    incomeMin,
+    incomeMax,
+    projectedBalanceMax,
     target,
     creditPayments,
     installmentPlans,
@@ -488,9 +543,9 @@ export default function Home() {
     automaticPayments,
   ]);
 
-  // Current ayda değişiklik olunca gelecek aylara otomatik devret
+  // Herhangi bir ayda değişiklik olunca takvim ayından itibaren min/max zincirini güncelle
   useEffect(() => {
-    if (!isAuthenticated || !isLoaded || !isViewingCurrentCalendarMonth(currentMonth)) return;
+    if (!isAuthenticated || !isLoaded || !currentMonth) return;
 
     if (skipAutoCascadeRef.current) {
       skipAutoCascadeRef.current = false;
@@ -501,14 +556,14 @@ export default function Home() {
   }, [
     bankAccounts,
     reservedCash,
-    income,
+    incomeMin,
+    incomeMax,
     target,
     automaticPayments,
     creditPayments,
     isAuthenticated,
     isLoaded,
     currentMonth,
-    isViewingCurrentCalendarMonth,
     runAutoCascade,
   ]);
 
@@ -729,13 +784,18 @@ export default function Home() {
     }
   };
 
-  const handleTransferToNextMonth = async (amount) => {
+  const handleTransferToNextMonth = async (amountMin, amountMax = amountMin) => {
     const nextMonthDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
     const nextMonthKey = getMonthKey(nextMonthDate);
     const currentMonthName = months[currentMonth.getMonth()];
     const nextMonthName = months[nextMonthDate.getMonth()];
+    const minAmount = round2(amountMin);
+    const maxAmount = round2(amountMax);
+    const amountLabel = minAmount === maxAmount
+      ? `${minAmount.toFixed(2).replace('.', ',')} ₺`
+      : `${minAmount.toFixed(2).replace('.', ',')} – ${maxAmount.toFixed(2).replace('.', ',')} ₺ (min aktarılır)`;
 
-    if (window.confirm(`${currentMonthName}'dan kalan ${amount.toFixed(2).replace('.', ',')} ₺'yi ${nextMonthName} ayının banka bakiyesine aktarmak istiyor musunuz?`)) {
+    if (window.confirm(`${currentMonthName}'dan kalan ${amountLabel}'yi ${nextMonthName} ayına aktarmak istiyor musunuz?`)) {
       try {
         persistCurrentMonthDraft();
         const allData = allDataRef.current;
@@ -743,25 +803,17 @@ export default function Home() {
           balance: 0,
           bankAccounts: [],
           income: 0,
+          incomeMin: 0,
+          incomeMax: 0,
           target: 0,
           automaticPayments: [],
           creditPayments: [],
         };
 
-        const transferredAccounts = [{
-          id: Date.now() + Math.random(),
-          name: 'Devreden Bakiye',
-          amount,
-        }];
-
-        allData[nextMonthKey] = {
-          ...nextMonthData,
-          bankAccounts: transferredAccounts,
-          balance: amount,
-        };
+        allData[nextMonthKey] = applyDevredenBakiye(nextMonthData, minAmount, maxAmount);
         allDataRef.current = allData;
 
-        alert(`${amount.toFixed(2).replace('.', ',')} ₺ ${nextMonthName} ayına aktarıldı. Kaydet butonuna basarak commit edin.`);
+        alert(`${amountLabel} ${nextMonthName} ayına aktarıldı. Kaydet butonuna basarak commit edin.`);
       } catch (err) {
         console.error('Error transferring balance:', err);
       }
@@ -780,11 +832,12 @@ export default function Home() {
         const sourceData = allData[fromKey];
 
         if (sourceData) {
+          const incomeRange = getIncomeRange(sourceData);
           const copiedData = {
             bankAccounts: [],
             balance: 0,
             reservedCash: 0,
-            income: sourceData.income,
+            ...buildIncomeFields(incomeRange.min, incomeRange.max),
             target: sourceData.target || 0,
             automaticPayments: sourceData.automaticPayments.map(p => ({
               ...p,
@@ -801,7 +854,9 @@ export default function Home() {
 
           setBankAccounts([]);
           setReservedCash(0);
-          setIncome(copiedData.income || 0);
+          setIncomeMin(incomeRange.min);
+          setIncomeMax(incomeRange.max);
+          setProjectedBalanceMax(null);
           setTarget(copiedData.target || 0);
           setAutomaticPayments(copiedData.automaticPayments || []);
           setCreditPayments(copiedData.creditPayments || []);
@@ -810,7 +865,7 @@ export default function Home() {
             balance: 0,
             bankAccounts: [],
             reservedCash: 0,
-            income: 0,
+            ...buildIncomeFields(0, 0),
             target: 0,
             automaticPayments: [],
             creditPayments: [],
@@ -829,7 +884,9 @@ export default function Home() {
     if (window.confirm(`${months[currentMonth.getMonth()]} ${currentMonth.getFullYear()} verilerini silmek istediğinizden emin misiniz?`)) {
       setBankAccounts([]);
       setReservedCash(0);
-      setIncome(0);
+      setIncomeMin(0);
+      setIncomeMax(0);
+      setProjectedBalanceMax(null);
       setTarget(0);
       setAutomaticPayments([]);
       setCreditPayments([]);
@@ -938,7 +995,7 @@ export default function Home() {
     bankAccounts,
     balance,
     reservedCash,
-    income,
+    ...buildIncomeFields(incomeMin, incomeMax),
     target,
     automaticPayments,
     creditPayments,
@@ -1038,9 +1095,17 @@ export default function Home() {
       )}
 
       <div className="input-grid">
-        <BalanceInput bankAccounts={bankAccounts} onChange={setBankAccounts} />
+        <BalanceInput
+          bankAccounts={bankAccounts}
+          onChange={setBankAccounts}
+          projectedBalanceMax={projectedBalanceMax}
+        />
         <CashInput value={reservedCash} onChange={setReservedCash} />
-        <IncomeInput value={income} onChange={setIncome} />
+        <IncomeInput
+          incomeMin={incomeMin}
+          incomeMax={incomeMax}
+          onChange={handleIncomeRangeChange}
+        />
         <TargetInput value={target} onChange={setTarget} />
       </div>
 
@@ -1070,8 +1135,10 @@ export default function Home() {
       <div style={{ marginTop: '32px' }}>
         <Summary
           balance={balance}
+          balanceMax={projectedBalanceMax}
           reservedCash={reservedCash}
-          income={income}
+          incomeMin={incomeMin}
+          incomeMax={incomeMax}
           target={target}
           automaticPayments={automaticPayments}
           creditPayments={creditPayments}

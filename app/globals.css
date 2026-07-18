@@ -749,6 +749,10 @@ body {
   color: var(--danger);
 }
 
+.remaining-balance-value.mixed {
+  color: var(--warning);
+}
+
 .remaining-balance-note {
   font-size: 0.875rem;
   color: var(--text-muted);
@@ -884,6 +888,16 @@ body {
 
 .income-input-card {
   border-color: rgba(34, 197, 94, 0.3);
+}
+
+.income-range-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.income-range-row .input-group {
+  margin-bottom: 0;
 }
 
 .target-input-card {

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { normalizeIncomeRange } from '../lib/incomeRange';
 
 const formatNumber = (num) => {
   if (num === 0) return '';
@@ -13,36 +14,49 @@ const formatNumber = (num) => {
 };
 
 const parseNumber = (str) => {
-  const normalized = str.replace(/\./g, '').replace(',', '.');
+  const normalized = String(str || '').replace(/\./g, '').replace(',', '.');
   return parseFloat(normalized) || 0;
 };
 
-export default function IncomeInput({ value, onChange }) {
-  const [inputValue, setInputValue] = useState('');
+const sanitizeAmountInput = (raw) => {
+  let value = raw.replace(/[^\d.,]/g, '');
+  const parts = value.split(',');
+  if (parts.length > 2) {
+    value = `${parts[0]},${parts.slice(1).join('')}`;
+  }
+  if (parts.length === 2 && parts[1].length > 2) {
+    value = `${parts[0]},${parts[1].slice(0, 2)}`;
+  }
+  return value;
+};
+
+export default function IncomeInput({ incomeMin, incomeMax, onChange }) {
+  const [minValue, setMinValue] = useState('');
+  const [maxValue, setMaxValue] = useState('');
 
   useEffect(() => {
-    setInputValue(value ? formatNumber(value) : '');
-  }, [value]);
+    const range = normalizeIncomeRange(incomeMin, incomeMax);
+    setMinValue(range.min ? formatNumber(range.min) : '');
+    setMaxValue(range.max ? formatNumber(range.max) : '');
+  }, [incomeMin, incomeMax]);
 
-  const handleChange = (e) => {
-    let raw = e.target.value;
-    raw = raw.replace(/[^\d.,]/g, '');
-    
-    const parts = raw.split(',');
-    if (parts.length > 2) {
-      raw = parts[0] + ',' + parts.slice(1).join('');
-    }
-    if (parts.length === 2 && parts[1].length > 2) {
-      raw = parts[0] + ',' + parts[1].slice(0, 2);
-    }
-    
-    setInputValue(raw);
-    onChange(parseNumber(raw));
+  const handleMinChange = (e) => {
+    const raw = sanitizeAmountInput(e.target.value);
+    setMinValue(raw);
+    onChange({ min: parseNumber(raw), max: parseNumber(maxValue) });
+  };
+
+  const handleMaxChange = (e) => {
+    const raw = sanitizeAmountInput(e.target.value);
+    setMaxValue(raw);
+    onChange({ min: parseNumber(minValue), max: parseNumber(raw) });
   };
 
   const handleBlur = () => {
-    const num = parseNumber(inputValue);
-    setInputValue(num ? formatNumber(num) : '');
+    const range = normalizeIncomeRange(parseNumber(minValue), parseNumber(maxValue));
+    setMinValue(range.min ? formatNumber(range.min) : '');
+    setMaxValue(range.max ? formatNumber(range.max) : '');
+    onChange(range);
   };
 
   return (
@@ -53,25 +67,44 @@ export default function IncomeInput({ value, onChange }) {
         </svg>
         Gelecek Ay Geliri
       </div>
-      <div className="input-group">
-        <label>Beklenen Maaş / Gelir</label>
-        <div className="input-currency">
-          <input
-            type="text"
-            inputMode="decimal"
-            autoComplete="off"
-            className="input"
-            placeholder="0"
-            value={inputValue}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            style={{ borderColor: 'rgba(34, 197, 94, 0.3)' }}
-          />
-          <span className="currency">₺</span>
+      <div className="income-range-row">
+        <div className="input-group">
+          <label>Min</label>
+          <div className="input-currency">
+            <input
+              type="text"
+              inputMode="decimal"
+              autoComplete="off"
+              className="input"
+              placeholder="0"
+              value={minValue}
+              onChange={handleMinChange}
+              onBlur={handleBlur}
+              style={{ borderColor: 'rgba(34, 197, 94, 0.3)' }}
+            />
+            <span className="currency">₺</span>
+          </div>
+        </div>
+        <div className="input-group">
+          <label>Max</label>
+          <div className="input-currency">
+            <input
+              type="text"
+              inputMode="decimal"
+              autoComplete="off"
+              className="input"
+              placeholder="0"
+              value={maxValue}
+              onChange={handleMaxChange}
+              onBlur={handleBlur}
+              style={{ borderColor: 'rgba(34, 197, 94, 0.3)' }}
+            />
+            <span className="currency">₺</span>
+          </div>
         </div>
       </div>
       <p className="input-grid-card-note">
-        Bir sonraki ayın başında gelecek maaş/gelir miktarı
+        Beklenen maaş/gelir aralığı. Aynı değer girersen tek rakam gibi çalışır.
       </p>
     </div>
   );

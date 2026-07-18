@@ -27,7 +27,7 @@ const formatInputNumber = (num) => {
   return `${formattedInt},${decPart}`;
 };
 
-export default function BalanceInput({ bankAccounts, onChange }) {
+export default function BalanceInput({ bankAccounts, onChange, projectedBalanceMax = null }) {
   const [showModal, setShowModal] = useState(false);
   const [editingAccount, setEditingAccount] = useState(null);
   const [formData, setFormData] = useState({ name: '', amount: '' });
@@ -35,6 +35,8 @@ export default function BalanceInput({ bankAccounts, onChange }) {
   const total = bankAccounts.reduce((sum, account) => sum + account.amount, 0);
   const round2 = (num) => Math.round(num * 100) / 100;
   const totalRounded = round2(total);
+  const maxRounded = projectedBalanceMax != null ? round2(projectedBalanceMax) : totalRounded;
+  const hasBalanceRange = maxRounded !== totalRounded;
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -124,16 +126,22 @@ export default function BalanceInput({ bankAccounts, onChange }) {
         </div>
 
         <div className="input-group">
-          <label>Toplam Bakiye</label>
-          <div className="balance-card-amount-display">{formatNumber(totalRounded)} ₺</div>
+          <label>{hasBalanceRange ? 'Devreden Bakiye (min – max)' : 'Toplam Bakiye'}</label>
+          <div className="balance-card-amount-display">
+            {hasBalanceRange
+              ? `${formatNumber(Math.min(totalRounded, maxRounded))} – ${formatNumber(Math.max(totalRounded, maxRounded))} ₺`
+              : `${formatNumber(totalRounded)} ₺`}
+          </div>
         </div>
 
         <p className="input-grid-card-note">
           {bankAccounts.length === 0
             ? 'Banka hesaplarınızı eklemek için tıklayın'
-            : bankAccounts.length === 1
-              ? `${bankAccounts[0].name} · Düzenlemek için tıklayın`
-              : `${bankAccounts[0].name} (+${bankAccounts.length - 1} hesap daha) · Düzenlemek için tıklayın`}
+            : hasBalanceRange
+              ? 'Min = muhafazakâr senaryo · Max = iyimser senaryo · Düzenlemek için tıklayın'
+              : bankAccounts.length === 1
+                ? `${bankAccounts[0].name} · Düzenlemek için tıklayın`
+                : `${bankAccounts[0].name} (+${bankAccounts.length - 1} hesap daha) · Düzenlemek için tıklayın`}
         </p>
       </div>
 
