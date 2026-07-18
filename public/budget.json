@@ -162,39 +162,42 @@
         "name": "Garanti Kredi Kartı Borç",
         "amount": 40395.59,
         "type": "credit",
-        "statementAmount": 39079.55,
-        "provisionAmount": 1316.04
+        "dueDate": "2026-08-04"
       },
       {
         "id": 1780245705264,
         "name": "Albaraka Kredi Kartı Borç",
         "amount": 7251.05,
-        "type": "credit"
+        "type": "credit",
+        "dueDate": "2026-08-04"
       },
       {
         "id": 1783490782856,
         "name": "Ziraat Kredi Kartı Borç",
         "amount": 4042.27,
-        "type": "credit"
+        "type": "credit",
+        "dueDate": "2026-08-13"
       },
       {
         "id": 1783888162897,
         "name": "PS5 V",
         "amount": 5410.88,
-        "type": "credit"
+        "type": "credit",
+        "dueDate": "2026-08-03"
       },
       {
         "id": 1783888165513,
         "name": "Ayakkabı Taksit III",
         "amount": 1498.5,
-        "type": "credit"
+        "type": "credit",
+        "dueDate": "2026-08-05"
       }
     ]
   },
   "2026-10": {
     "bankAccounts": [
       {
-        "id": 1784400375337.1257,
+        "id": 1784402731621.7969,
         "name": "Devreden Bakiye",
         "amount": 118668.94
       }
@@ -268,7 +271,7 @@
   "2026-08": {
     "bankAccounts": [
       {
-        "id": 1784400375337.2852,
+        "id": 1784402731621.1597,
         "name": "Devreden Bakiye",
         "amount": 202828.18
       }
@@ -342,7 +345,7 @@
   "2027-02": {
     "bankAccounts": [
       {
-        "id": 1784400375337.1836,
+        "id": 1784402731621.896,
         "name": "Devreden Bakiye",
         "amount": 5931.13
       }
@@ -392,7 +395,7 @@
   "2026-09": {
     "bankAccounts": [
       {
-        "id": 1784400375337.5884,
+        "id": 1784402731621.3528,
         "name": "Devreden Bakiye",
         "amount": 160748.56
       }
@@ -466,7 +469,7 @@
   "2026-11": {
     "bankAccounts": [
       {
-        "id": 1784400375337.422,
+        "id": 1784402731621.0188,
         "name": "Devreden Bakiye",
         "amount": 76589.32
       }
@@ -534,7 +537,7 @@
   "2026-12": {
     "bankAccounts": [
       {
-        "id": 1784400375337.8943,
+        "id": 1784402731621.3848,
         "name": "Devreden Bakiye",
         "amount": 32436.68
       }
@@ -590,7 +593,7 @@
   "2027-01": {
     "bankAccounts": [
       {
-        "id": 1784400375337.358,
+        "id": 1784402731621.8174,
         "name": "Devreden Bakiye",
         "amount": 519.37
       }
@@ -640,7 +643,7 @@
   "2027-03": {
     "bankAccounts": [
       {
-        "id": 1784400375337.183,
+        "id": 1784402731621.7659,
         "name": "Devreden Bakiye",
         "amount": 11342.89
       }
