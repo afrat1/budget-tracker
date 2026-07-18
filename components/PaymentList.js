@@ -6,9 +6,17 @@ const emptyPaymentForm = () => ({
   name: '',
   amount: '',
   provisionAmount: '',
+  dueDate: '',
 });
 
 const round2 = (num) => Math.round(num * 100) / 100;
+
+const formatDueDateLabel = (dueDate) => {
+  if (!dueDate) return null;
+  const [year, month, day] = dueDate.split('-').map(Number);
+  if (!year || !month || !day) return dueDate;
+  return `${String(day).padStart(2, '0')}.${String(month).padStart(2, '0')}.${year}`;
+};
 
 export default function PaymentList({ payments, onAdd, onDelete, onEdit, onReorder, onCopyToNextMonth, onMoveToOther, type }) {
   const [showModal, setShowModal] = useState(false);
@@ -70,7 +78,7 @@ export default function PaymentList({ payments, onAdd, onDelete, onEdit, onReord
     return round2((payment.amount || 0) - (payment.provisionAmount || 0));
   };
 
-  const buildCreditPaymentPayload = (payment, name, statementAmount, provisionAmount) => {
+  const buildCreditPaymentPayload = (payment, name, statementAmount, provisionAmount, dueDate) => {
     const total = round2(statementAmount + provisionAmount);
     const payload = {
       ...payment,
@@ -86,6 +94,12 @@ export default function PaymentList({ payments, onAdd, onDelete, onEdit, onReord
       delete payload.provisionAmount;
     }
 
+    if (dueDate) {
+      payload.dueDate = dueDate;
+    } else {
+      delete payload.dueDate;
+    }
+
     return payload;
   };
 
@@ -93,6 +107,7 @@ export default function PaymentList({ payments, onAdd, onDelete, onEdit, onReord
     e.preventDefault();
     const statementAmount = parseNumber(newPayment.amount);
     const provisionAmount = type === 'credit' ? parseNumber(newPayment.provisionAmount) : 0;
+    const dueDate = type === 'credit' ? (newPayment.dueDate || '') : '';
     const totalAmount = type === 'credit'
       ? round2(statementAmount + provisionAmount)
       : statementAmount;
@@ -101,7 +116,13 @@ export default function PaymentList({ payments, onAdd, onDelete, onEdit, onReord
 
     if (editingPayment) {
       if (type === 'credit') {
-        onEdit(buildCreditPaymentPayload(editingPayment, newPayment.name, statementAmount, provisionAmount));
+        onEdit(buildCreditPaymentPayload(
+          editingPayment,
+          newPayment.name,
+          statementAmount,
+          provisionAmount,
+          dueDate,
+        ));
       } else {
         onEdit({
           ...editingPayment,
@@ -112,7 +133,7 @@ export default function PaymentList({ payments, onAdd, onDelete, onEdit, onReord
     } else if (type === 'credit') {
       onAdd({
         id: Date.now(),
-        ...buildCreditPaymentPayload({}, newPayment.name, statementAmount, provisionAmount),
+        ...buildCreditPaymentPayload({}, newPayment.name, statementAmount, provisionAmount, dueDate),
         type,
       });
     } else {
@@ -144,12 +165,14 @@ export default function PaymentList({ payments, onAdd, onDelete, onEdit, onReord
         name: payment.name,
         amount: statementAmount > 0 ? formatNumber(statementAmount) : '',
         provisionAmount: provisionAmount > 0 ? formatNumber(provisionAmount) : '',
+        dueDate: payment.dueDate || '',
       });
     } else {
       setNewPayment({
         name: payment.name,
         amount: formatNumber(payment.amount),
         provisionAmount: '',
+        dueDate: '',
       });
     }
     setShowModal(true);
@@ -196,6 +219,9 @@ export default function PaymentList({ payments, onAdd, onDelete, onEdit, onReord
                       : type === 'credit' && (payment.provisionAmount || 0) > 0
                         ? `Ekstre ${formatNumber(getCreditStatementAmount(payment))} ₺ + provizyon ${formatNumber(payment.provisionAmount)} ₺`
                         : (type === 'automatic' ? 'Otomatik ödeme' : 'Kredi taksiti')}
+                    {type === 'credit' && payment.dueDate && (
+                      <> · Son ödeme {formatDueDateLabel(payment.dueDate)}</>
+                    )}
                   </span>
                 </div>
                 <span className="payment-item-amount">-{formatNumber(payment.amount)} ₺</span>
@@ -331,6 +357,17 @@ export default function PaymentList({ payments, onAdd, onDelete, onEdit, onReord
                 </div>
               )}
               {type === 'credit' && (
+                <div className="input-group">
+                  <label>Son Ödeme Tarihi <span className="input-optional">(opsiyonel)</span></label>
+                  <input
+                    type="date"
+                    className="input"
+                    value={newPayment.dueDate}
+                    onChange={(e) => setNewPayment({ ...newPayment, dueDate: e.target.value })}
+                  />
+                </div>
+              )}
+              {type === 'credit' && (
                 <div className="payment-modal-total">
                   <span>Toplam</span>
                   <span className="payment-modal-total-value">{formatNumber(modalTotalAmount)} ₺</span>
@@ -341,7 +378,8 @@ export default function PaymentList({ payments, onAdd, onDelete, onEdit, onReord
                 className="btn btn-success btn-full"
                 style={{ marginTop: '8px' }}
                 disabled={!newPayment.name || modalTotalAmount <= 0}
-              >                {editingPayment ? 'Güncelle' : 'Kaydet'}
+              >
+                {editingPayment ? 'Güncelle' : 'Kaydet'}
               </button>
             </form>
           </div>

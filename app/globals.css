@@ -329,6 +329,12 @@ body {
   margin-bottom: 8px;
 }
 
+.input-optional {
+  font-weight: 400;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
 .input {
   width: 100%;
   padding: 14px 16px;
