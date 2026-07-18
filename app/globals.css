@@ -961,6 +961,25 @@ body {
   color: var(--accent-primary);
 }
 
+.payment-modal-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.payment-modal-total-value {
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: var(--danger);
+}
+
 @media (max-width: 768px) {
   .input-grid {
     grid-template-columns: 1fr;

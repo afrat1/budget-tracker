@@ -2,11 +2,18 @@
 
 import { useState } from 'react';
 
+const emptyPaymentForm = () => ({
+  name: '',
+  amount: '',
+  provisionAmount: '',
+});
+
+const round2 = (num) => Math.round(num * 100) / 100;
+
 export default function PaymentList({ payments, onAdd, onDelete, onEdit, onReorder, onCopyToNextMonth, onMoveToOther, type }) {
   const [showModal, setShowModal] = useState(false);
   const [editingPayment, setEditingPayment] = useState(null);
-  const [newPayment, setNewPayment] = useState({ name: '', amount: '' });
-
+  const [newPayment, setNewPayment] = useState(emptyPaymentForm());
   const typeConfig = {
     automatic: {
       title: 'Otomatik Ödemeler',
@@ -42,69 +49,117 @@ export default function PaymentList({ payments, onAdd, onDelete, onEdit, onReord
   };
 
   const parseNumber = (str) => {
-    const normalized = str.replace(/\./g, '').replace(',', '.');
+    const normalized = String(str || '').replace(/\./g, '').replace(',', '.');
     return parseFloat(normalized) || 0;
+  };
+
+  const sanitizeAmountInput = (raw) => {
+    let value = raw.replace(/[^\d.,]/g, '');
+    const parts = value.split(',');
+    if (parts.length > 2) {
+      value = `${parts[0]},${parts.slice(1).join('')}`;
+    }
+    if (parts.length === 2 && parts[1].length > 2) {
+      value = `${parts[0]},${parts[1].slice(0, 2)}`;
+    }
+    return value;
+  };
+
+  const getCreditStatementAmount = (payment) => {
+    if (payment.statementAmount != null) return payment.statementAmount;
+    return round2((payment.amount || 0) - (payment.provisionAmount || 0));
+  };
+
+  const buildCreditPaymentPayload = (payment, name, statementAmount, provisionAmount) => {
+    const total = round2(statementAmount + provisionAmount);
+    const payload = {
+      ...payment,
+      name,
+      amount: total,
+    };
+
+    if (provisionAmount > 0) {
+      payload.statementAmount = round2(statementAmount);
+      payload.provisionAmount = round2(provisionAmount);
+    } else {
+      delete payload.statementAmount;
+      delete payload.provisionAmount;
+    }
+
+    return payload;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (newPayment.name && newPayment.amount) {
-      if (editingPayment) {
-        // Edit mode
+    const statementAmount = parseNumber(newPayment.amount);
+    const provisionAmount = type === 'credit' ? parseNumber(newPayment.provisionAmount) : 0;
+    const totalAmount = type === 'credit'
+      ? round2(statementAmount + provisionAmount)
+      : statementAmount;
+
+    if (!newPayment.name || totalAmount <= 0) return;
+
+    if (editingPayment) {
+      if (type === 'credit') {
+        onEdit(buildCreditPaymentPayload(editingPayment, newPayment.name, statementAmount, provisionAmount));
+      } else {
         onEdit({
           ...editingPayment,
           name: newPayment.name,
-          amount: parseNumber(newPayment.amount),
-        });
-      } else {
-        // Add mode
-        onAdd({
-          id: Date.now(),
-          name: newPayment.name,
-          amount: parseNumber(newPayment.amount),
-          type,
+          amount: totalAmount,
         });
       }
-      handleCloseModal();
+    } else if (type === 'credit') {
+      onAdd({
+        id: Date.now(),
+        ...buildCreditPaymentPayload({}, newPayment.name, statementAmount, provisionAmount),
+        type,
+      });
+    } else {
+      onAdd({
+        id: Date.now(),
+        name: newPayment.name,
+        amount: totalAmount,
+        type,
+      });
     }
+    handleCloseModal();
   };
 
-  const handleAmountChange = (e) => {
-    let raw = e.target.value;
-    raw = raw.replace(/[^\d.,]/g, '');
-    
-    const parts = raw.split(',');
-    if (parts.length > 2) {
-      raw = parts[0] + ',' + parts.slice(1).join('');
-    }
-    if (parts.length === 2 && parts[1].length > 2) {
-      raw = parts[0] + ',' + parts[1].slice(0, 2);
-    }
-    
-    setNewPayment({ ...newPayment, amount: raw });
+  const handleAmountChange = (field) => (e) => {
+    setNewPayment({ ...newPayment, [field]: sanitizeAmountInput(e.target.value) });
   };
-
   const handleOpenAdd = () => {
     setEditingPayment(null);
-    setNewPayment({ name: '', amount: '' });
+    setNewPayment(emptyPaymentForm());
     setShowModal(true);
   };
 
   const handleOpenEdit = (payment) => {
     setEditingPayment(payment);
-    setNewPayment({ 
-      name: payment.name, 
-      amount: formatNumber(payment.amount) 
-    });
+    if (type === 'credit') {
+      const provisionAmount = payment.provisionAmount || 0;
+      const statementAmount = getCreditStatementAmount(payment);
+      setNewPayment({
+        name: payment.name,
+        amount: statementAmount > 0 ? formatNumber(statementAmount) : '',
+        provisionAmount: provisionAmount > 0 ? formatNumber(provisionAmount) : '',
+      });
+    } else {
+      setNewPayment({
+        name: payment.name,
+        amount: formatNumber(payment.amount),
+        provisionAmount: '',
+      });
+    }
     setShowModal(true);
   };
 
   const handleCloseModal = () => {
     setShowModal(false);
     setEditingPayment(null);
-    setNewPayment({ name: '', amount: '' });
+    setNewPayment(emptyPaymentForm());
   };
-
   const handleMoveToOther = (payment) => {
     if (!onMoveToOther) return;
     if (window.confirm(`"${payment.name}" ödemesini ${moveToOtherLabel.toLowerCase()} istiyor musunuz?`)) {
@@ -113,7 +168,11 @@ export default function PaymentList({ payments, onAdd, onDelete, onEdit, onReord
   };
 
   const totalPayments = payments.reduce((sum, p) => sum + p.amount, 0);
-
+  const modalStatementAmount = parseNumber(newPayment.amount);
+  const modalProvisionAmount = type === 'credit' ? parseNumber(newPayment.provisionAmount) : 0;
+  const modalTotalAmount = type === 'credit'
+    ? round2(modalStatementAmount + modalProvisionAmount)
+    : modalStatementAmount;
   return (
     <>
       <div className="card">
@@ -134,7 +193,9 @@ export default function PaymentList({ payments, onAdd, onDelete, onEdit, onReord
                   <span className="payment-item-type">
                     {payment.installmentPlanId
                       ? 'Taksit planı · otomatik ödeme'
-                      : (type === 'automatic' ? 'Otomatik ödeme' : 'Kredi taksiti')}
+                      : type === 'credit' && (payment.provisionAmount || 0) > 0
+                        ? `Ekstre ${formatNumber(getCreditStatementAmount(payment))} ₺ + provizyon ${formatNumber(payment.provisionAmount)} ₺`
+                        : (type === 'automatic' ? 'Otomatik ödeme' : 'Kredi taksiti')}
                   </span>
                 </div>
                 <span className="payment-item-amount">-{formatNumber(payment.amount)} ₺</span>
@@ -238,7 +299,7 @@ export default function PaymentList({ payments, onAdd, onDelete, onEdit, onReord
                 />
               </div>
               <div className="input-group">
-                <label>Aylık Tutar</label>
+                <label>{type === 'credit' ? 'Ekstre / Borç Tutarı' : 'Aylık Tutar'}</label>
                 <div className="input-currency">
                   <input
                     type="text"
@@ -247,13 +308,40 @@ export default function PaymentList({ payments, onAdd, onDelete, onEdit, onReord
                     className="input"
                     placeholder="0"
                     value={newPayment.amount}
-                    onChange={handleAmountChange}
+                    onChange={handleAmountChange('amount')}
                   />
                   <span className="currency">₺</span>
                 </div>
               </div>
-              <button type="submit" className="btn btn-success btn-full" style={{ marginTop: '8px' }}>
-                {editingPayment ? 'Güncelle' : 'Kaydet'}
+              {type === 'credit' && (
+                <div className="input-group">
+                  <label>Provizyon</label>
+                  <div className="input-currency">
+                    <input
+                      type="text"
+                      inputMode="decimal"
+                      autoComplete="off"
+                      className="input"
+                      placeholder="0"
+                      value={newPayment.provisionAmount}
+                      onChange={handleAmountChange('provisionAmount')}
+                    />
+                    <span className="currency">₺</span>
+                  </div>
+                </div>
+              )}
+              {type === 'credit' && (
+                <div className="payment-modal-total">
+                  <span>Toplam</span>
+                  <span className="payment-modal-total-value">{formatNumber(modalTotalAmount)} ₺</span>
+                </div>
+              )}
+              <button
+                type="submit"
+                className="btn btn-success btn-full"
+                style={{ marginTop: '8px' }}
+                disabled={!newPayment.name || modalTotalAmount <= 0}
+              >                {editingPayment ? 'Güncelle' : 'Kaydet'}
               </button>
             </form>
           </div>
