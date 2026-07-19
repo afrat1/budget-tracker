@@ -197,12 +197,12 @@
   "2026-10": {
     "bankAccounts": [
       {
-        "id": 1784402731621.7969,
+        "id": 1784445576376.2659,
         "name": "Devreden Bakiye",
-        "amount": 118668.94
+        "amount": 101668.94
       }
     ],
-    "balance": 118668.94,
+    "balance": 101668.94,
     "reservedCash": 0,
     "incomeMin": 86000,
     "incomeMax": 93000,
@@ -238,6 +238,12 @@
         "name": "Provizyon Taksit III",
         "amount": 10500,
         "installmentPlanId": 1784400055957
+      },
+      {
+        "id": "installment-1784445535330-2026-10",
+        "name": "Toefl III",
+        "amount": 8500,
+        "installmentPlanId": 1784445535330
       }
     ],
     "creditPayments": [
@@ -266,12 +272,12 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 139668.94
+    "projectedBalanceMax": 122668.94
   },
   "2026-08": {
     "bankAccounts": [
       {
-        "id": 1784402731621.1597,
+        "id": 1784445576376.8528,
         "name": "Devreden Bakiye",
         "amount": 202828.18
       }
@@ -312,6 +318,12 @@
         "name": "Provizyon Taksit I",
         "amount": 10500,
         "installmentPlanId": 1784400055957
+      },
+      {
+        "id": "installment-1784445535330-2026-08",
+        "name": "Toefl I",
+        "amount": 8500,
+        "installmentPlanId": 1784445535330
       }
     ],
     "creditPayments": [
@@ -345,12 +357,12 @@
   "2027-02": {
     "bankAccounts": [
       {
-        "id": 1784402731621.896,
+        "id": 1784445576376.2598,
         "name": "Devreden Bakiye",
-        "amount": 5931.13
+        "amount": -45068.87
       }
     ],
-    "balance": 5931.13,
+    "balance": -45068.87,
     "reservedCash": 0,
     "incomeMin": 120000,
     "incomeMax": 130000,
@@ -390,17 +402,17 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 57931.13
+    "projectedBalanceMax": 6931.13
   },
   "2026-09": {
     "bankAccounts": [
       {
-        "id": 1784402731621.3528,
+        "id": 1784445576376.4316,
         "name": "Devreden Bakiye",
-        "amount": 160748.56
+        "amount": 152248.56
       }
     ],
-    "balance": 160748.56,
+    "balance": 152248.56,
     "reservedCash": 0,
     "incomeMin": 86000,
     "incomeMax": 93000,
@@ -436,6 +448,12 @@
         "name": "Provizyon Taksit II",
         "amount": 10500,
         "installmentPlanId": 1784400055957
+      },
+      {
+        "id": "installment-1784445535330-2026-09",
+        "name": "Toefl II",
+        "amount": 8500,
+        "installmentPlanId": 1784445535330
       }
     ],
     "creditPayments": [
@@ -464,17 +482,17 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 174748.56
+    "projectedBalanceMax": 166248.56
   },
   "2026-11": {
     "bankAccounts": [
       {
-        "id": 1784402731621.0188,
+        "id": 1784445576376.0388,
         "name": "Devreden Bakiye",
-        "amount": 76589.32
+        "amount": 51089.32
       }
     ],
-    "balance": 76589.32,
+    "balance": 51089.32,
     "reservedCash": 0,
     "incomeMin": 86000,
     "incomeMax": 93000,
@@ -510,6 +528,12 @@
         "name": "Provizyon Taksit IV",
         "amount": 10500,
         "installmentPlanId": 1784400055957
+      },
+      {
+        "id": "installment-1784445535330-2026-11",
+        "name": "Toefl IV",
+        "amount": 8500,
+        "installmentPlanId": 1784445535330
       }
     ],
     "creditPayments": [
@@ -532,17 +556,17 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 104589.32
+    "projectedBalanceMax": 79089.32
   },
   "2026-12": {
     "bankAccounts": [
       {
-        "id": 1784402731621.3848,
+        "id": 1784445576376.0703,
         "name": "Devreden Bakiye",
-        "amount": 32436.68
+        "amount": -1563.32
       }
     ],
-    "balance": 32436.68,
+    "balance": -1563.32,
     "reservedCash": 0,
     "incomeMin": 86000,
     "incomeMax": 93000,
@@ -572,6 +596,12 @@
         "name": "Katılımevim VI",
         "amount": 70588.24,
         "installmentPlanId": 1784057435407
+      },
+      {
+        "id": "installment-1784445535330-2026-12",
+        "name": "Toefl V",
+        "amount": 8500,
+        "installmentPlanId": 1784445535330
       }
     ],
     "creditPayments": [
@@ -588,17 +618,17 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 67436.68
+    "projectedBalanceMax": 33436.68
   },
   "2027-01": {
     "bankAccounts": [
       {
-        "id": 1784402731621.8174,
+        "id": 1784445576376.716,
         "name": "Devreden Bakiye",
-        "amount": 519.37
+        "amount": -41980.63
       }
     ],
-    "balance": 519.37,
+    "balance": -41980.63,
     "reservedCash": 0,
     "incomeMin": 120000,
     "incomeMax": 130000,
@@ -628,6 +658,12 @@
         "name": "Katılımevim VII",
         "amount": 70588.24,
         "installmentPlanId": 1784057435407
+      },
+      {
+        "id": "installment-1784445535330-2027-01",
+        "name": "Toefl VI",
+        "amount": 8500,
+        "installmentPlanId": 1784445535330
       }
     ],
     "creditPayments": [
@@ -638,17 +674,17 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 42519.37
+    "projectedBalanceMax": 19.37
   },
   "2027-03": {
     "bankAccounts": [
       {
-        "id": 1784402731621.7659,
+        "id": 1784445576376.5122,
         "name": "Devreden Bakiye",
-        "amount": 11342.89
+        "amount": -39657.11
       }
     ],
-    "balance": 11342.89,
+    "balance": -39657.11,
     "reservedCash": 0,
     "incomeMin": 120000,
     "incomeMax": 130000,
@@ -682,7 +718,7 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 73342.89
+    "projectedBalanceMax": 22342.89
   },
   "2027-04": {
     "bankAccounts": [],
@@ -709,6 +745,13 @@
       "monthlyAmount": 10500,
       "startMonth": "2026-08",
       "totalMonths": 4
+    },
+    {
+      "id": 1784445535330,
+      "name": "Toefl",
+      "monthlyAmount": 8500,
+      "startMonth": "2026-08",
+      "totalMonths": 6
     }
   ]
 }
