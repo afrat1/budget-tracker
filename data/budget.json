@@ -174,9 +174,11 @@
       {
         "id": 1783490782856,
         "name": "Ziraat Kredi Kartı Borç",
-        "amount": 4042.27,
+        "amount": 5842.27,
         "type": "credit",
-        "dueDate": "2026-08-13"
+        "dueDate": "2026-08-13",
+        "statementAmount": 4042.27,
+        "provisionAmount": 1800
       },
       {
         "id": 1783888162897,
@@ -197,12 +199,12 @@
   "2026-10": {
     "bankAccounts": [
       {
-        "id": 1784446776672.5623,
+        "id": 1784448014401.0146,
         "name": "Devreden Bakiye",
-        "amount": 105316.02
+        "amount": 103516.02
       }
     ],
-    "balance": 105316.02,
+    "balance": 103516.02,
     "reservedCash": 0,
     "incomeMin": 86000,
     "incomeMax": 93000,
@@ -266,17 +268,17 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 126316.02
+    "projectedBalanceMax": 124516.02
   },
   "2026-08": {
     "bankAccounts": [
       {
-        "id": 1784446776672.0916,
+        "id": 1784448014401.5208,
         "name": "Devreden Bakiye",
-        "amount": 173710.54
+        "amount": 171910.54
       }
     ],
-    "balance": 173710.54,
+    "balance": 171910.54,
     "reservedCash": 0,
     "incomeMin": 86000,
     "incomeMax": 93000,
@@ -340,17 +342,17 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 180710.54
+    "projectedBalanceMax": 178910.54
   },
   "2027-02": {
     "bankAccounts": [
       {
-        "id": 1784446776672.0747,
+        "id": 1784448014402.4214,
         "name": "Devreden Bakiye",
-        "amount": 3107.65
+        "amount": 1307.65
       }
     ],
-    "balance": 3107.65,
+    "balance": 1307.65,
     "reservedCash": 0,
     "incomeMin": 120000,
     "incomeMax": 140000,
@@ -390,17 +392,17 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 65107.65
+    "projectedBalanceMax": 63307.65
   },
   "2026-09": {
     "bankAccounts": [
       {
-        "id": 1784446776672.078,
+        "id": 1784448014401.1526,
         "name": "Devreden Bakiye",
-        "amount": 139513.28
+        "amount": 137713.28
       }
     ],
-    "balance": 139513.28,
+    "balance": 137713.28,
     "reservedCash": 0,
     "incomeMin": 86000,
     "incomeMax": 93000,
@@ -464,17 +466,17 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 153513.28
+    "projectedBalanceMax": 151713.28
   },
   "2026-11": {
     "bankAccounts": [
       {
-        "id": 1784446776672.1023,
+        "id": 1784448014401.4797,
         "name": "Devreden Bakiye",
-        "amount": 71118.76
+        "amount": 69318.76
       }
     ],
-    "balance": 71118.76,
+    "balance": 69318.76,
     "reservedCash": 0,
     "incomeMin": 86000,
     "incomeMax": 93000,
@@ -532,17 +534,17 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 99118.76
+    "projectedBalanceMax": 97318.76
   },
   "2026-12": {
     "bankAccounts": [
       {
-        "id": 1784446776672.0781,
+        "id": 1784448014402.996,
         "name": "Devreden Bakiye",
-        "amount": 34848.48
+        "amount": 33048.48
       }
     ],
-    "balance": 34848.48,
+    "balance": 33048.48,
     "reservedCash": 0,
     "incomeMin": 86000,
     "incomeMax": 93000,
@@ -594,17 +596,17 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 69848.48
+    "projectedBalanceMax": 68048.48
   },
   "2027-01": {
     "bankAccounts": [
       {
-        "id": 1784446776672.295,
+        "id": 1784448014402.5718,
         "name": "Devreden Bakiye",
-        "amount": 313.53
+        "amount": -1486.47
       }
     ],
-    "balance": 313.53,
+    "balance": -1486.47,
     "reservedCash": 0,
     "incomeMin": 120000,
     "incomeMax": 140000,
@@ -650,17 +652,17 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 42313.53
+    "projectedBalanceMax": 40513.53
   },
   "2027-03": {
     "bankAccounts": [
       {
-        "id": 1784446776672.1462,
+        "id": 1784448014402.913,
         "name": "Devreden Bakiye",
-        "amount": 14401.77
+        "amount": 12601.77
       }
     ],
-    "balance": 14401.77,
+    "balance": 12601.77,
     "reservedCash": 0,
     "incomeMin": 120000,
     "incomeMax": 140000,
@@ -694,7 +696,7 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 96401.77
+    "projectedBalanceMax": 94601.77
   },
   "2027-04": {
     "bankAccounts": [],
