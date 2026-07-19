@@ -199,7 +199,7 @@
   "2026-10": {
     "bankAccounts": [
       {
-        "id": 1784462232373.101,
+        "id": 1784474868592.5762,
         "name": "Devreden Bakiye",
         "amount": 103116.03
       }
@@ -273,7 +273,7 @@
   "2026-08": {
     "bankAccounts": [
       {
-        "id": 1784462232373.2993,
+        "id": 1784474868592.0085,
         "name": "Devreden Bakiye",
         "amount": 171510.55
       }
@@ -347,7 +347,7 @@
   "2027-02": {
     "bankAccounts": [
       {
-        "id": 1784462232373.75,
+        "id": 1784474868592.5303,
         "name": "Devreden Bakiye",
         "amount": 907.66
       }
@@ -397,7 +397,7 @@
   "2026-09": {
     "bankAccounts": [
       {
-        "id": 1784462232373.8896,
+        "id": 1784474868592.8464,
         "name": "Devreden Bakiye",
         "amount": 137313.29
       }
@@ -471,7 +471,7 @@
   "2026-11": {
     "bankAccounts": [
       {
-        "id": 1784462232373.7617,
+        "id": 1784474868592.4272,
         "name": "Devreden Bakiye",
         "amount": 68918.77
       }
@@ -539,7 +539,7 @@
   "2026-12": {
     "bankAccounts": [
       {
-        "id": 1784462232373.2563,
+        "id": 1784474868592.5002,
         "name": "Devreden Bakiye",
         "amount": 32648.49
       }
@@ -601,7 +601,7 @@
   "2027-01": {
     "bankAccounts": [
       {
-        "id": 1784462232373.8064,
+        "id": 1784474868592.9395,
         "name": "Devreden Bakiye",
         "amount": -1886.46
       }
@@ -657,7 +657,7 @@
   "2027-03": {
     "bankAccounts": [
       {
-        "id": 1784462232373.416,
+        "id": 1784474868592.4255,
         "name": "Devreden Bakiye",
         "amount": 12201.78
       }
@@ -690,7 +690,7 @@
     ],
     "creditPayments": [
       {
-        "id": 1783978027387.203,
+        "id": 1784474707112,
         "name": "Tahmini Harcama",
         "amount": 20000,
         "type": "credit"
@@ -699,15 +699,48 @@
     "projectedBalanceMax": 94201.78
   },
   "2027-04": {
-    "bankAccounts": [],
-    "balance": 0,
+    "bankAccounts": [
+      {
+        "id": 1784474868592.63,
+        "name": "Devreden Bakiye",
+        "amount": 25495.9
+      }
+    ],
+    "balance": 25495.9,
     "reservedCash": 0,
-    "incomeMin": 0,
-    "incomeMax": 0,
-    "income": 0,
+    "incomeMin": 120000,
+    "incomeMax": 140000,
+    "income": 140000,
     "target": 0,
-    "automaticPayments": [],
-    "creditPayments": []
+    "automaticPayments": [
+      {
+        "id": 1784474826200,
+        "name": "Ev Kirası",
+        "amount": 20000,
+        "type": "automatic"
+      },
+      {
+        "id": 1784474849816,
+        "name": "Otomatik Faturalar (Silinecek)",
+        "amount": 2000,
+        "type": "automatic"
+      },
+      {
+        "id": "installment-1784057435407-2027-04",
+        "name": "Katılımevim X",
+        "amount": 64705.88,
+        "installmentPlanId": 1784057435407
+      }
+    ],
+    "creditPayments": [
+      {
+        "id": 1784474746690,
+        "name": "Tahmini Harcama",
+        "amount": 20000,
+        "type": "credit"
+      }
+    ],
+    "projectedBalanceMax": 127495.9
   },
   "installmentPlans": [
     {
@@ -724,5 +757,60 @@
       "startMonth": "2026-08",
       "totalMonths": 6
     }
-  ]
+  ],
+  "2027-05": {
+    "bankAccounts": [
+      {
+        "id": 1784474868592.132,
+        "name": "Devreden Bakiye",
+        "amount": 38790.02
+      }
+    ],
+    "balance": 38790.02,
+    "reservedCash": 0,
+    "incomeMin": 120000,
+    "incomeMax": 140000,
+    "income": 140000,
+    "target": 0,
+    "automaticPayments": [
+      {
+        "id": 1784474834172,
+        "name": "Ev Kirası ",
+        "amount": 20000,
+        "type": "automatic"
+      },
+      {
+        "id": 1784474857110,
+        "name": "Otomatik Faturalar (Silinecek)",
+        "amount": 2000,
+        "type": "automatic"
+      },
+      {
+        "id": "installment-1784057435407-2027-05",
+        "name": "Katılımevim XI",
+        "amount": 64705.88,
+        "installmentPlanId": 1784057435407
+      }
+    ],
+    "creditPayments": [
+      {
+        "id": 1784474732214.046,
+        "name": "Tahmini Harcama",
+        "amount": 20000,
+        "type": "credit"
+      }
+    ],
+    "projectedBalanceMax": 160790.02
+  },
+  "2027-06": {
+    "bankAccounts": [],
+    "balance": 0,
+    "reservedCash": 0,
+    "incomeMin": 0,
+    "incomeMax": 0,
+    "income": 0,
+    "target": 0,
+    "automaticPayments": [],
+    "creditPayments": []
+  }
 }
