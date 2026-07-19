@@ -140,7 +140,7 @@
       {
         "id": 1783888172946,
         "name": "Katılımevim Provizyon",
-        "amount": 42000,
+        "amount": 77000,
         "type": "automatic"
       },
       {
@@ -152,7 +152,7 @@
       {
         "id": "installment-1784057435407-2026-07",
         "name": "Katılımevim I",
-        "amount": 70588.24,
+        "amount": 64705.88,
         "installmentPlanId": 1784057435407
       }
     ],
@@ -197,12 +197,12 @@
   "2026-10": {
     "bankAccounts": [
       {
-        "id": 1784445576376.2659,
+        "id": 1784446036165.8242,
         "name": "Devreden Bakiye",
-        "amount": 101668.94
+        "amount": 105316.02
       }
     ],
-    "balance": 101668.94,
+    "balance": 105316.02,
     "reservedCash": 0,
     "incomeMin": 86000,
     "incomeMax": 93000,
@@ -230,14 +230,8 @@
       {
         "id": "installment-1784057435407-2026-10",
         "name": "Katılımevim IV",
-        "amount": 70588.24,
+        "amount": 64705.88,
         "installmentPlanId": 1784057435407
-      },
-      {
-        "id": "installment-1784400055957-2026-10",
-        "name": "Provizyon Taksit III",
-        "amount": 10500,
-        "installmentPlanId": 1784400055957
       },
       {
         "id": "installment-1784445535330-2026-10",
@@ -272,17 +266,17 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 122668.94
+    "projectedBalanceMax": 126316.02
   },
   "2026-08": {
     "bankAccounts": [
       {
-        "id": 1784445576376.8528,
+        "id": 1784446036165.9255,
         "name": "Devreden Bakiye",
-        "amount": 202828.18
+        "amount": 173710.54
       }
     ],
-    "balance": 202828.18,
+    "balance": 173710.54,
     "reservedCash": 0,
     "incomeMin": 86000,
     "incomeMax": 93000,
@@ -310,14 +304,8 @@
       {
         "id": "installment-1784057435407-2026-08",
         "name": "Katılımevim II",
-        "amount": 70588.24,
+        "amount": 64705.88,
         "installmentPlanId": 1784057435407
-      },
-      {
-        "id": "installment-1784400055957-2026-08",
-        "name": "Provizyon Taksit I",
-        "amount": 10500,
-        "installmentPlanId": 1784400055957
       },
       {
         "id": "installment-1784445535330-2026-08",
@@ -352,17 +340,17 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 209828.18
+    "projectedBalanceMax": 180710.54
   },
   "2027-02": {
     "bankAccounts": [
       {
-        "id": 1784445576376.2598,
+        "id": 1784446036165.7114,
         "name": "Devreden Bakiye",
-        "amount": -45068.87
+        "amount": 3107.65
       }
     ],
-    "balance": -45068.87,
+    "balance": 3107.65,
     "reservedCash": 0,
     "incomeMin": 120000,
     "incomeMax": 130000,
@@ -390,7 +378,7 @@
       {
         "id": "installment-1784057435407-2027-02",
         "name": "Katılımevim VIII",
-        "amount": 70588.24,
+        "amount": 64705.88,
         "installmentPlanId": 1784057435407
       }
     ],
@@ -402,17 +390,17 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 6931.13
+    "projectedBalanceMax": 55107.65
   },
   "2026-09": {
     "bankAccounts": [
       {
-        "id": 1784445576376.4316,
+        "id": 1784446036165.373,
         "name": "Devreden Bakiye",
-        "amount": 152248.56
+        "amount": 139513.28
       }
     ],
-    "balance": 152248.56,
+    "balance": 139513.28,
     "reservedCash": 0,
     "incomeMin": 86000,
     "incomeMax": 93000,
@@ -440,14 +428,8 @@
       {
         "id": "installment-1784057435407-2026-09",
         "name": "Katılımevim III",
-        "amount": 70588.24,
+        "amount": 64705.88,
         "installmentPlanId": 1784057435407
-      },
-      {
-        "id": "installment-1784400055957-2026-09",
-        "name": "Provizyon Taksit II",
-        "amount": 10500,
-        "installmentPlanId": 1784400055957
       },
       {
         "id": "installment-1784445535330-2026-09",
@@ -482,17 +464,17 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 166248.56
+    "projectedBalanceMax": 153513.28
   },
   "2026-11": {
     "bankAccounts": [
       {
-        "id": 1784445576376.0388,
+        "id": 1784446036165.1333,
         "name": "Devreden Bakiye",
-        "amount": 51089.32
+        "amount": 71118.76
       }
     ],
-    "balance": 51089.32,
+    "balance": 71118.76,
     "reservedCash": 0,
     "incomeMin": 86000,
     "incomeMax": 93000,
@@ -520,14 +502,8 @@
       {
         "id": "installment-1784057435407-2026-11",
         "name": "Katılımevim V",
-        "amount": 70588.24,
+        "amount": 64705.88,
         "installmentPlanId": 1784057435407
-      },
-      {
-        "id": "installment-1784400055957-2026-11",
-        "name": "Provizyon Taksit IV",
-        "amount": 10500,
-        "installmentPlanId": 1784400055957
       },
       {
         "id": "installment-1784445535330-2026-11",
@@ -556,17 +532,17 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 79089.32
+    "projectedBalanceMax": 99118.76
   },
   "2026-12": {
     "bankAccounts": [
       {
-        "id": 1784445576376.0703,
+        "id": 1784446036165.5981,
         "name": "Devreden Bakiye",
-        "amount": -1563.32
+        "amount": 34848.48
       }
     ],
-    "balance": -1563.32,
+    "balance": 34848.48,
     "reservedCash": 0,
     "incomeMin": 86000,
     "incomeMax": 93000,
@@ -594,7 +570,7 @@
       {
         "id": "installment-1784057435407-2026-12",
         "name": "Katılımevim VI",
-        "amount": 70588.24,
+        "amount": 64705.88,
         "installmentPlanId": 1784057435407
       },
       {
@@ -618,17 +594,17 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 33436.68
+    "projectedBalanceMax": 69848.48
   },
   "2027-01": {
     "bankAccounts": [
       {
-        "id": 1784445576376.716,
+        "id": 1784446036165.8535,
         "name": "Devreden Bakiye",
-        "amount": -41980.63
+        "amount": 313.53
       }
     ],
-    "balance": -41980.63,
+    "balance": 313.53,
     "reservedCash": 0,
     "incomeMin": 120000,
     "incomeMax": 130000,
@@ -656,7 +632,7 @@
       {
         "id": "installment-1784057435407-2027-01",
         "name": "Katılımevim VII",
-        "amount": 70588.24,
+        "amount": 64705.88,
         "installmentPlanId": 1784057435407
       },
       {
@@ -674,17 +650,17 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 19.37
+    "projectedBalanceMax": 42313.53
   },
   "2027-03": {
     "bankAccounts": [
       {
-        "id": 1784445576376.5122,
+        "id": 1784446036165.1467,
         "name": "Devreden Bakiye",
-        "amount": -39657.11
+        "amount": 14401.77
       }
     ],
-    "balance": -39657.11,
+    "balance": 14401.77,
     "reservedCash": 0,
     "incomeMin": 120000,
     "incomeMax": 130000,
@@ -706,7 +682,7 @@
       {
         "id": "installment-1784057435407-2027-03",
         "name": "Katılımevim IX",
-        "amount": 70588.24,
+        "amount": 64705.88,
         "installmentPlanId": 1784057435407
       }
     ],
@@ -718,7 +694,7 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 22342.89
+    "projectedBalanceMax": 76401.77
   },
   "2027-04": {
     "bankAccounts": [],
@@ -735,16 +711,9 @@
     {
       "id": 1784057435407,
       "name": "Katılımevim",
-      "monthlyAmount": 70588.24,
+      "monthlyAmount": 64705.88,
       "startMonth": "2026-07",
       "totalMonths": 17
-    },
-    {
-      "id": 1784400055957,
-      "name": "Provizyon Taksit",
-      "monthlyAmount": 10500,
-      "startMonth": "2026-08",
-      "totalMonths": 4
     },
     {
       "id": 1784445535330,
