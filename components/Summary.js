@@ -1,6 +1,7 @@
 'use client';
 
 import { formatMoneyRange, hasIncomeRange, normalizeIncomeRange } from '../lib/incomeRange';
+import MoneyRangeDisplay from './MoneyRangeDisplay';
 
 export default function Summary({
   balance,
@@ -25,7 +26,7 @@ export default function Summary({
   };
 
   const round2 = (num) => Math.round(num * 100) / 100;
-  const formatSigned = (num) => `${num >= 0 ? '' : '-'}${formatNumber(num)}`;
+  const formatSigned = (num) => `${num >= 0 ? '' : '−'}${formatNumber(num)}`;
 
   const incomeRange = normalizeIncomeRange(incomeMin, incomeMax);
   const balanceMin = round2(balance || 0);
@@ -79,23 +80,27 @@ export default function Summary({
         <div className="summary-item">
           <div className="summary-item-label">Banka Bakiyesi</div>
           <div className="summary-item-value income">
-            {showBalanceRange
-              ? formatMoneyRange(balanceLo, balanceHiNorm, formatNumber)
-              : `${formatNumber(balanceLo)} ₺`}
+            {showBalanceRange ? (
+              <MoneyRangeDisplay min={balanceLo} max={balanceHiNorm} formatNumber={formatNumber} size="sm" />
+            ) : (
+              `${formatNumber(balanceLo)} ₺`
+            )}
           </div>
         </div>
         {reservedCash > 0 && (
           <div className="summary-item">
             <div className="summary-item-label">Ayrılan Nakit</div>
-            <div className="summary-item-value expense">-{formatNumber(reservedCash)} ₺</div>
+            <div className="summary-item-value expense">−{formatNumber(reservedCash)} ₺</div>
           </div>
         )}
         <div className="summary-item">
           <div className="summary-item-label">Gelecek Gelir</div>
           <div className="summary-item-value" style={{ color: 'var(--success)' }}>
-            +{showIncomeRange
-              ? formatMoneyRange(incomeRange.min, incomeRange.max, formatNumber)
-              : `${formatNumber(incomeRange.max)} ₺`}
+            {showIncomeRange ? (
+              <MoneyRangeDisplay min={incomeRange.min} max={incomeRange.max} formatNumber={formatNumber} size="sm" />
+            ) : (
+              `+${formatNumber(incomeRange.max)} ₺`
+            )}
           </div>
         </div>
         <div className="summary-item">
@@ -120,9 +125,11 @@ export default function Summary({
         <div style={{ flex: 1, padding: '16px', background: 'rgba(34, 197, 94, 0.1)', borderRadius: '12px', border: '1px solid rgba(34, 197, 94, 0.2)', minWidth: 0 }}>
           <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '4px' }}>Toplam Kullanılabilir</div>
           <div style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--success)' }}>
-            {availableMin === availableMax
-              ? `${formatNumber(availableMin)} ₺`
-              : formatMoneyRange(availableMin, availableMax, formatNumber)}
+            {availableMin === availableMax ? (
+              `${formatNumber(availableMin)} ₺`
+            ) : (
+              <MoneyRangeDisplay min={availableMin} max={availableMax} formatNumber={formatNumber} size="sm" />
+            )}
           </div>
         </div>
       </div>
@@ -134,13 +141,16 @@ export default function Summary({
           {nextMonthName} {nextMonthYear} Ödemeler Sonrası Kalan Para
         </div>
         <div className={`remaining-balance-value ${remainingClass}`}>
-          {showRemainingRange
-            ? `${formatSigned(remainingLo)} – ${formatSigned(remainingHi)} ₺`
-            : `${formatSigned(remainingLo)} ₺`}
+          <MoneyRangeDisplay
+            min={remainingLo}
+            max={remainingHi}
+            formatNumber={formatNumber}
+            size="lg"
+          />
         </div>
         <div className="remaining-balance-note">
           {showRemainingRange
-            ? 'Min senaryo ← düşük gelir/devreden · Max senaryo ← yüksek gelir/devreden'
+            ? 'Min ve max ayrı kutularda · eksi tutarlar kırmızı'
             : `Banka bakiyesi + gelecek gelir${reservedCash > 0 ? ' − ayrılan nakit' : ''} − tüm ödemeler`}
         </div>
         {remainingLo > 0 && onTransferToNextMonth && (
@@ -175,14 +185,18 @@ export default function Summary({
               <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginBottom: '8px' }}>
                 {spendableMin >= 0 ? 'Ek Harcama Yapabilirsiniz' : 'Hedef İçin Eksik'}
               </div>
-              <div style={{
-                fontSize: showSpendableRange ? '1.5rem' : '2rem',
-                fontWeight: 800,
-                color: spendableMin >= 0 ? 'var(--accent-secondary)' : 'var(--danger)',
-              }}>
-                {showSpendableRange
-                  ? `${formatSigned(spendableMin)} – ${formatSigned(spendableMax)} ₺`
-                  : `${formatSigned(spendableMin)} ₺`}
+              <div style={{ marginTop: '4px' }}>
+                {showSpendableRange ? (
+                  <MoneyRangeDisplay min={spendableMin} max={spendableMax} formatNumber={formatNumber} size="md" />
+                ) : (
+                  <span style={{
+                    fontSize: '2rem',
+                    fontWeight: 800,
+                    color: spendableMin >= 0 ? 'var(--accent-secondary)' : 'var(--danger)',
+                  }}>
+                    {formatSigned(spendableMin)} ₺
+                  </span>
+                )}
               </div>
               <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '8px' }}>
                 {spendableMin >= 0

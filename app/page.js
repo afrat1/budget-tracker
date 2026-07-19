@@ -791,9 +791,13 @@ export default function Home() {
     const nextMonthName = months[nextMonthDate.getMonth()];
     const minAmount = round2(amountMin);
     const maxAmount = round2(amountMax);
+    const formatConfirmAmount = (n) => {
+      const fixed = Math.abs(n).toFixed(2).replace('.', ',');
+      return n < 0 ? `−${fixed}` : fixed;
+    };
     const amountLabel = minAmount === maxAmount
-      ? `${minAmount.toFixed(2).replace('.', ',')} ₺`
-      : `${minAmount.toFixed(2).replace('.', ',')} – ${maxAmount.toFixed(2).replace('.', ',')} ₺ (min aktarılır)`;
+      ? `${formatConfirmAmount(minAmount)} ₺`
+      : `min ${formatConfirmAmount(minAmount)} ₺ · max ${formatConfirmAmount(maxAmount)} ₺ (min aktarılır)`;
 
     if (window.confirm(`${currentMonthName}'dan kalan ${amountLabel}'yi ${nextMonthName} ayına aktarmak istiyor musunuz?`)) {
       try {

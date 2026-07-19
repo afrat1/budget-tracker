@@ -759,6 +759,113 @@ body {
   color: var(--warning);
 }
 
+/* Min / Max range display — no dash between amounts */
+.money-range {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.money-range-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 0;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+}
+
+.money-range-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.money-range-value {
+  font-weight: 800;
+  line-height: 1.15;
+  font-variant-numeric: tabular-nums;
+}
+
+.money-range-item.is-positive .money-range-value {
+  color: var(--success);
+}
+
+.money-range-item.is-negative .money-range-value {
+  color: var(--danger);
+}
+
+.money-range-sm .money-range-item {
+  padding: 6px 10px;
+}
+
+.money-range-sm .money-range-value {
+  font-size: 0.95rem;
+}
+
+.money-range-md .money-range-value {
+  font-size: 1.35rem;
+}
+
+.money-range-lg .money-range-value {
+  font-size: 1.75rem;
+}
+
+.money-range-single {
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.money-range-single.is-positive {
+  color: var(--success);
+}
+
+.money-range-single.is-negative {
+  color: var(--danger);
+}
+
+.money-range-single.money-range-lg {
+  font-size: 2.5rem;
+}
+
+.money-range-single.money-range-md {
+  font-size: 1.35rem;
+}
+
+.money-range-single.money-range-sm {
+  font-size: 1rem;
+}
+
+.balance-card-amount-display .money-range {
+  justify-content: flex-start;
+}
+
+.balance-card-amount-display .money-range-item {
+  flex: 1;
+}
+
+.remaining-balance .money-range {
+  margin: 8px 0 4px;
+}
+
+@media (max-width: 768px) {
+  .money-range-lg .money-range-value {
+    font-size: 1.35rem;
+  }
+
+  .money-range-single.money-range-lg {
+    font-size: 1.75rem;
+  }
+}
+
 .remaining-balance-note {
   font-size: 0.875rem;
   color: var(--text-muted);

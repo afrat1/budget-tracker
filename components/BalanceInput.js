@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import MoneyRangeDisplay from './MoneyRangeDisplay';
 
 const formatNumber = (num) => {
   if (num === 0) return '0';
@@ -154,11 +155,18 @@ export default function BalanceInput({ bankAccounts, onChange, projectedBalanceM
         </div>
 
         <div className="input-group">
-          <label>{hasBalanceRange ? 'Devreden Bakiye (min – max)' : 'Toplam Bakiye'}</label>
+          <label>{hasBalanceRange ? 'Devreden Bakiye' : 'Toplam Bakiye'}</label>
           <div className="balance-card-amount-display">
-            {hasBalanceRange
-              ? `${formatNumber(Math.min(totalRounded, maxRounded))} – ${formatNumber(Math.max(totalRounded, maxRounded))} ₺`
-              : `${formatNumber(totalRounded)} ₺`}
+            {hasBalanceRange ? (
+              <MoneyRangeDisplay
+                min={Math.min(totalRounded, maxRounded)}
+                max={Math.max(totalRounded, maxRounded)}
+                formatNumber={formatNumber}
+                size="sm"
+              />
+            ) : (
+              `${formatNumber(totalRounded)} ₺`
+            )}
           </div>
         </div>
 
