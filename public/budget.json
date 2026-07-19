@@ -176,9 +176,7 @@
         "name": "Ziraat Kredi Kartı Borç",
         "amount": 5842.27,
         "type": "credit",
-        "dueDate": "2026-08-13",
-        "statementAmount": 4042.27,
-        "provisionAmount": 1800
+        "dueDate": "2026-08-13"
       },
       {
         "id": 1783888162897,
@@ -199,7 +197,7 @@
   "2026-10": {
     "bankAccounts": [
       {
-        "id": 1784448014401.0146,
+        "id": 1784448299157.8157,
         "name": "Devreden Bakiye",
         "amount": 103516.02
       }
@@ -273,7 +271,7 @@
   "2026-08": {
     "bankAccounts": [
       {
-        "id": 1784448014401.5208,
+        "id": 1784448299157.016,
         "name": "Devreden Bakiye",
         "amount": 171910.54
       }
@@ -347,7 +345,7 @@
   "2027-02": {
     "bankAccounts": [
       {
-        "id": 1784448014402.4214,
+        "id": 1784448299157.3877,
         "name": "Devreden Bakiye",
         "amount": 1307.65
       }
@@ -397,7 +395,7 @@
   "2026-09": {
     "bankAccounts": [
       {
-        "id": 1784448014401.1526,
+        "id": 1784448299157.3928,
         "name": "Devreden Bakiye",
         "amount": 137713.28
       }
@@ -471,7 +469,7 @@
   "2026-11": {
     "bankAccounts": [
       {
-        "id": 1784448014401.4797,
+        "id": 1784448299157.6824,
         "name": "Devreden Bakiye",
         "amount": 69318.76
       }
@@ -539,7 +537,7 @@
   "2026-12": {
     "bankAccounts": [
       {
-        "id": 1784448014402.996,
+        "id": 1784448299157.723,
         "name": "Devreden Bakiye",
         "amount": 33048.48
       }
@@ -601,7 +599,7 @@
   "2027-01": {
     "bankAccounts": [
       {
-        "id": 1784448014402.5718,
+        "id": 1784448299157.019,
         "name": "Devreden Bakiye",
         "amount": -1486.47
       }
@@ -657,7 +655,7 @@
   "2027-03": {
     "bankAccounts": [
       {
-        "id": 1784448014402.913,
+        "id": 1784448299157.7593,
         "name": "Devreden Bakiye",
         "amount": 12601.77
       }
