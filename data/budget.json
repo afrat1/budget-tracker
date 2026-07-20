@@ -174,11 +174,11 @@
       {
         "id": 1783490782856,
         "name": "Ziraat Kredi Kartı Borç",
-        "amount": 6242.26,
+        "amount": 6845.75,
         "type": "credit",
         "dueDate": "2026-08-13",
-        "statementAmount": 5842.27,
-        "provisionAmount": 399.99
+        "statementAmount": 6590.75,
+        "provisionAmount": 255
       },
       {
         "id": 1783888162897,
@@ -199,12 +199,12 @@
   "2026-10": {
     "bankAccounts": [
       {
-        "id": 1784487688003.0798,
+        "id": 1784578947335.2852,
         "name": "Devreden Bakiye",
-        "amount": 40097.02
+        "amount": 39493.53
       }
     ],
-    "balance": 40097.02,
+    "balance": 39493.53,
     "reservedCash": 0,
     "incomeMin": 86000,
     "incomeMax": 93000,
@@ -262,17 +262,17 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 61097.02
+    "projectedBalanceMax": 60493.53
   },
   "2026-08": {
     "bankAccounts": [
       {
-        "id": 1784487688003.4414,
+        "id": 1784578947335.5874,
         "name": "Devreden Bakiye",
-        "amount": 167491.54
+        "amount": 166888.05
       }
     ],
-    "balance": 167491.54,
+    "balance": 166888.05,
     "reservedCash": 0,
     "incomeMin": 86000,
     "incomeMax": 93000,
@@ -336,17 +336,17 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 174491.54
+    "projectedBalanceMax": 173888.05
   },
   "2027-02": {
     "bankAccounts": [
       {
-        "id": 1784487688003.4539,
+        "id": 1784578947335.811,
         "name": "Devreden Bakiye",
-        "amount": -28111.35
+        "amount": -28714.84
       }
     ],
-    "balance": -28111.35,
+    "balance": -28714.84,
     "reservedCash": 0,
     "incomeMin": 120000,
     "incomeMax": 140000,
@@ -386,17 +386,17 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 33888.65
+    "projectedBalanceMax": 33285.16
   },
   "2026-09": {
     "bankAccounts": [
       {
-        "id": 1784487688003.0989,
+        "id": 1784578947335.818,
         "name": "Devreden Bakiye",
-        "amount": 65794.28
+        "amount": 65190.79
       }
     ],
-    "balance": 65794.28,
+    "balance": 65190.79,
     "reservedCash": 0,
     "incomeMin": 86000,
     "incomeMax": 93000,
@@ -454,17 +454,17 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 79794.28
+    "projectedBalanceMax": 79190.79
   },
   "2026-11": {
     "bankAccounts": [
       {
-        "id": 1784487688003.4353,
+        "id": 1784578947335.753,
         "name": "Devreden Bakiye",
-        "amount": 14399.76
+        "amount": 13796.27
       }
     ],
-    "balance": 14399.76,
+    "balance": 13796.27,
     "reservedCash": 0,
     "incomeMin": 86000,
     "incomeMax": 93000,
@@ -516,17 +516,17 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 42399.76
+    "projectedBalanceMax": 41796.27
   },
   "2026-12": {
     "bankAccounts": [
       {
-        "id": 1784487688003.3628,
+        "id": 1784578947335.6978,
         "name": "Devreden Bakiye",
-        "amount": -13370.52
+        "amount": -13974.01
       }
     ],
-    "balance": -13370.52,
+    "balance": -13974.01,
     "reservedCash": 0,
     "incomeMin": 86000,
     "incomeMax": 93000,
@@ -572,17 +572,17 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 21629.48
+    "projectedBalanceMax": 21025.99
   },
   "2027-01": {
     "bankAccounts": [
       {
-        "id": 1784487688003.8525,
+        "id": 1784578947335.0095,
         "name": "Devreden Bakiye",
-        "amount": -39405.47
+        "amount": -40008.96
       }
     ],
-    "balance": -39405.47,
+    "balance": -40008.96,
     "reservedCash": 0,
     "incomeMin": 120000,
     "incomeMax": 140000,
@@ -622,17 +622,17 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 2594.53
+    "projectedBalanceMax": 1991.04
   },
   "2027-03": {
     "bankAccounts": [
       {
-        "id": 1784487688003.38,
+        "id": 1784578947335.8396,
         "name": "Devreden Bakiye",
-        "amount": -16817.23
+        "amount": -17420.72
       }
     ],
-    "balance": -16817.23,
+    "balance": -17420.72,
     "reservedCash": 0,
     "incomeMin": 120000,
     "incomeMax": 140000,
@@ -666,17 +666,17 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 65182.77
+    "projectedBalanceMax": 64579.28
   },
   "2027-04": {
     "bankAccounts": [
       {
-        "id": 1784487688003.2832,
+        "id": 1784578947335.7764,
         "name": "Devreden Bakiye",
-        "amount": -3523.11
+        "amount": -4126.6
       }
     ],
-    "balance": -3523.11,
+    "balance": -4126.6,
     "reservedCash": 0,
     "incomeMin": 120000,
     "incomeMax": 140000,
@@ -710,7 +710,7 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 98476.89
+    "projectedBalanceMax": 97873.4
   },
   "installmentPlans": [
     {
@@ -724,12 +724,12 @@
   "2027-05": {
     "bankAccounts": [
       {
-        "id": 1784487688003.8008,
+        "id": 1784578947335.7761,
         "name": "Devreden Bakiye",
-        "amount": 9771.01
+        "amount": 9167.52
       }
     ],
-    "balance": 9771.01,
+    "balance": 9167.52,
     "reservedCash": 0,
     "incomeMin": 120000,
     "incomeMax": 140000,
@@ -763,7 +763,7 @@
         "type": "credit"
       }
     ],
-    "projectedBalanceMax": 131771.01
+    "projectedBalanceMax": 131167.52
   },
   "2027-06": {
     "bankAccounts": [],
