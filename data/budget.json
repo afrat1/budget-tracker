@@ -126,7 +126,7 @@
     ],
     "balance": 298090.53,
     "reservedCash": 0,
-    "incomeMin": 86000,
+    "incomeMin": 88000,
     "incomeMax": 93000,
     "income": 93000,
     "target": 0,
@@ -197,14 +197,14 @@
   "2026-10": {
     "bankAccounts": [
       {
-        "id": 1784791236218.8813,
+        "id": 1784792573640.1423,
         "name": "Devreden Bakiye",
-        "amount": 40468.44
+        "amount": 46468.44
       }
     ],
-    "balance": 40468.44,
+    "balance": 46468.44,
     "reservedCash": 0,
-    "incomeMin": 86000,
+    "incomeMin": 88000,
     "incomeMax": 93000,
     "income": 93000,
     "target": 0,
@@ -265,14 +265,14 @@
   "2026-08": {
     "bankAccounts": [
       {
-        "id": 1784791236218.2808,
+        "id": 1784792573640.2688,
         "name": "Devreden Bakiye",
-        "amount": 147862.96
+        "amount": 149862.96
       }
     ],
-    "balance": 147862.96,
+    "balance": 149862.96,
     "reservedCash": 0,
-    "incomeMin": 86000,
+    "incomeMin": 88000,
     "incomeMax": 93000,
     "income": 93000,
     "target": 0,
@@ -339,12 +339,12 @@
   "2027-02": {
     "bankAccounts": [
       {
-        "id": 1784791236219.247,
+        "id": 1784792573640.7668,
         "name": "Devreden Bakiye",
-        "amount": -17739.93
+        "amount": -5739.93
       }
     ],
-    "balance": -17739.93,
+    "balance": -5739.93,
     "reservedCash": 0,
     "incomeMin": 130000,
     "incomeMax": 140000,
@@ -389,14 +389,14 @@
   "2026-09": {
     "bankAccounts": [
       {
-        "id": 1784791236218.8403,
+        "id": 1784792573640.405,
         "name": "Devreden Bakiye",
-        "amount": 66165.7
+        "amount": 70165.7
       }
     ],
-    "balance": 66165.7,
+    "balance": 70165.7,
     "reservedCash": 0,
-    "incomeMin": 86000,
+    "incomeMin": 88000,
     "incomeMax": 93000,
     "income": 93000,
     "target": 0,
@@ -457,14 +457,14 @@
   "2026-11": {
     "bankAccounts": [
       {
-        "id": 1784791236218.7046,
+        "id": 1784792573640.981,
         "name": "Devreden Bakiye",
-        "amount": 14771.18
+        "amount": 22771.18
       }
     ],
-    "balance": 14771.18,
+    "balance": 22771.18,
     "reservedCash": 0,
-    "incomeMin": 86000,
+    "incomeMin": 88000,
     "incomeMax": 93000,
     "income": 93000,
     "target": 0,
@@ -519,14 +519,14 @@
   "2026-12": {
     "bankAccounts": [
       {
-        "id": 1784791236218.0598,
+        "id": 1784792573640.3936,
         "name": "Devreden Bakiye",
-        "amount": -12999.1
+        "amount": -2999.1
       }
     ],
-    "balance": -12999.1,
+    "balance": -2999.1,
     "reservedCash": 0,
-    "incomeMin": 86000,
+    "incomeMin": 88000,
     "incomeMax": 93000,
     "income": 93000,
     "target": 0,
@@ -575,12 +575,12 @@
   "2027-01": {
     "bankAccounts": [
       {
-        "id": 1784791236218.9805,
+        "id": 1784792573640.8203,
         "name": "Devreden Bakiye",
-        "amount": -39034.05
+        "amount": -27034.05
       }
     ],
-    "balance": -39034.05,
+    "balance": -27034.05,
     "reservedCash": 0,
     "incomeMin": 130000,
     "incomeMax": 140000,
@@ -625,12 +625,12 @@
   "2027-03": {
     "bankAccounts": [
       {
-        "id": 1784791236219.5793,
+        "id": 1784792573640.5962,
         "name": "Devreden Bakiye",
-        "amount": 3554.19
+        "amount": 15554.19
       }
     ],
-    "balance": 3554.19,
+    "balance": 15554.19,
     "reservedCash": 0,
     "incomeMin": 130000,
     "incomeMax": 140000,
@@ -669,12 +669,12 @@
   "2027-04": {
     "bankAccounts": [
       {
-        "id": 1784791236219.513,
+        "id": 1784792573640.148,
         "name": "Devreden Bakiye",
-        "amount": 26848.31
+        "amount": 38848.31
       }
     ],
-    "balance": 26848.31,
+    "balance": 38848.31,
     "reservedCash": 0,
     "incomeMin": 130000,
     "incomeMax": 140000,
@@ -722,12 +722,12 @@
   "2027-05": {
     "bankAccounts": [
       {
-        "id": 1784791236219.4778,
+        "id": 1784792573640.6445,
         "name": "Devreden Bakiye",
-        "amount": 50142.43
+        "amount": 62142.43
       }
     ],
-    "balance": 50142.43,
+    "balance": 62142.43,
     "reservedCash": 0,
     "incomeMin": 130000,
     "incomeMax": 140000,
